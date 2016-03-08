@@ -12,26 +12,21 @@
 
 
 
-
-
 (defvar Init 
 	(&& 
+
+		(!! (-P- partFixed))
+		(!! (-P- partTaken))
+		(somf (-P- partFixed))
 		
+	   	(-A- i actions-indexes
+		   			 ([=] (-V- actions i 1) 0)
+	   	)
 
-	   (lasts ([=](-V- ARM1) L_1) 10)
-	   (lasts ([=](-V- ARM2) L_2) 10)
-	   (withinf_ee ([=](-V- Body_Part 8) L_5) 10)
-		
 
-	   
-	    ; (-A- i actions-indexes
-		   ; 			(somf ([=] (-V- actions i 1) done))
-	   	; )
-
-		 ; ([=] (-V- actions 1 1) 0)
-	   	; (-A- i actions-indexes
-		   ; 			 ([=] (-V- actions i 1) 0)
-	   	; )
+		   	(-A- i actions-indexes
+			   			 (somf ([=] (-V- actions i 1) 5))
+		   	)
  	)
 )
 
@@ -39,38 +34,41 @@
  	(yesterday
  		(&&
  			Init
+ 			
+
 
  			;;Operator 
- 			; *Operator_Body*
+ 			*Operator_Body*
 
  	
 
- 			; ;;Robot
+ 			;;Robot
  			 
- 			;  *Robot_Structure*
+ 			 *Robot_Structure*
+
  			 
+		 ; ;	(-A- i parts_indexes
+ 		
+	 			;;Task
+	    		(alwf *ActionInit*)
+	    		(alwf *SeqAction*)
 
- 			;;Task
-    		(alwf *ActionInit*)
-    		(alwf *SeqAction*)
-
-    			;;Loop
-		   		(alwf *Action1*)
-		   		(alwf *Action2*)
-		   		(alwf *Action3*)
-		   		(alwf *Action4*)
-		   		(alwf *Action5*)
-		   		
+	    			;;Loop
+			   		(alwf *Action1*)
+			   		(alwf *Action2*)
+			   		(alwf *Action3*)
+			   		(alwf *Action4*)
+			   		(alwf *Action5*)
+			   		(alwf *Action6*)
+			   		
 
 		   		(alwf *LoopManager*)
-		   		(alwf *Action12*)
-		   		(alwf *Action13*)
-		   		(alwf *Action14*)
-
-	 		
-	  )
- 	)
- )
+		   		(alwf *ActionBeforeLast*)
+		   		(alwf *ActionLast*)
+	   		)	
+		  )
+	 	)
+	 
 
 
 

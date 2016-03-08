@@ -52,7 +52,7 @@
  		 ; Initialization of priority
  			 (-A- i actions-indexes
  			 	(&& 
- 			 		 ([=] (-V- actions i 0) i)
+ 			 		 ([=] (-V- actions i 0) (- (+ 7 (* 7 jigs)) i))
 
 	    
  		;;;;; 	 	 ([=] (-V- actions 14 0) 1) ;;;;;;;
@@ -73,16 +73,17 @@
 		 	 	 ([=] (-V- actions 2 3) operator)
 		 	 	 ([=] (-V- actions 3 3) operator)
 		 	 	 ([=] (-V- actions 4 3) operator)
-		 	 	 ([=] (-V- actions 5 3) robot)
-		 	 	 ([=] (-V- actions 6 3) operator)
-		 	     ([=] (-V- actions 7 3) robot)
-	    	     ([=] (-V- actions 8 3) robot)
-		 	 	 ([=] (-V- actions 9 3) robot)
+		 	 	 ([=] (-V- actions 5 3) operator)
+		 	 	 ([=] (-V- actions 6 3) robot)
+		 	 	 ([=] (-V- actions 7 3) operator)
+		 	     ([=] (-V- actions 8 3) robot)
+	    	     ([=] (-V- actions 9 3) robot)
 		 	 	 ([=] (-V- actions 10 3) robot)
-		 	 	 ([=] (-V- actions 11 3) operator)
+		 	 	 ([=] (-V- actions 11 3) robot)
 		 	 	 ([=] (-V- actions 12 3) operator)
-		 	 	 ([=] (-V- actions 13 3) robot)
-	 	 		 ([=] (-V- actions 14 3) operator)
+		 	 	 ([=] (-V- actions 13 3) operator)
+		 	 	 
+	 	 		
 	 	 	 )
 		)	 	 
 	)
@@ -205,7 +206,7 @@
 	      		(->
 	      			(&& 
 	      				([=] (-V- actions i 1) waiting)
-	      				(-E- j actions-indexes 
+	      				(-A- j actions-indexes 
 	      					(&& 
 	      						([=] (-V- actions j 1) waiting)
 	      						([!=] j i)
@@ -267,6 +268,25 @@
 	      		)
 
 
+
+	      		;;if an action is waiting but has higher priority that executing ones, it should start right away
+	      		(->
+	      			(&& 
+	      				([=] (-V- actions i 1) waiting)
+	      				(-E- j actions-indexes 
+	      					(&& 
+	      						(|| ([=] (-V- actions j 1) executing) ([=] (-V- actions j 1) parallel-executing))
+	      						([!=] j i)
+		      				  	([>=] (-V- actions i 0) (-V- actions j 0))
+		      				  	)
+		      				  )
+	      				)
+	      			;(&&
+	      				(next ([=] (-V- actions i 1) parallel-executing))
+	      			;	(next ([=] (-V- actions j 1) parallel-executing))
+      				;)
+	      		)
+
 	      		(->
 	      			([=] (-V- actions i 1) parallel-executing)
 	      			(-E- j actions-indexes
@@ -327,7 +347,7 @@
 
  		(<->
  			(-P- Action1_Post)
- 			([=](-V- Body_Part 8) L_5)
+ 			([=](-V- Body_part 7) L_5)
 		)
 
 		(<->
@@ -381,7 +401,8 @@
 		(<->
 	 		(-P- Action2_Pre) 
 	 		(&& 
-	 			([=](-V- Body_Part 8) L_5)
+	 			([=] (-V- actions 1 1) done)
+	 			([=](-V- Body_Part 7) L_5)
 	 			([=](-V- ARM1) (yesterday(-V- ARM1)))
 	 			([=](-V- ARM2) (yesterday(-V- ARM2)))
  			)
@@ -451,6 +472,7 @@
 		(<->
 	 		(-P- Action3_Pre) 
 			(&& 
+				([=] (-V- actions 2 1) done)
 				([=](-V- ARM1) (yesterday(-V- ARM1)))
 	 			([=](-V- ARM2) (yesterday(-V- ARM2)))
 				(-P- partTaken)
@@ -462,7 +484,7 @@
  		(<->
  			(-P- Action3_Post)
  			(&& 
-				([=](-V- Body_Part 8) L_6)	
+				([=](-V- Body_part 7) L_6)	
 				([=](-V- ARM1) (yesterday(-V- ARM1)))
 	 			([=](-V- ARM2) (yesterday(-V- ARM2)))
 				(-P- partTaken)
@@ -527,7 +549,8 @@
 		(<->
 	 		(-P- Action4_Pre) 
 	 		(&& 
-				([=](-V- Body_Part 8) L_6)	
+	 			([=] (-V- actions 3 1) done)
+				([=](-V- Body_Part 7) L_6)	
 				([=](-V- ARM1) (yesterday(-V- ARM1)))
 	 			([=](-V- ARM2) (yesterday(-V- ARM2)))
 				(-P- partTaken)
@@ -538,10 +561,10 @@
  		(<->
  			(-P- Action4_Post)
  			(&& 
-				([=](-V- Body_Part 8) L_6)	
+				([=](-V- Body_Part 7) L_6)	
 				([=](-V- ARM1) (yesterday(-V- ARM1)))
 	 			([=](-V- ARM2) (yesterday(-V- ARM2)))
-				(-P- partFixed)
+				; (-P- partFixed)
 	 		)
 		)
 
@@ -592,15 +615,94 @@
 	 )
  )
 
-;;5. robot moves from home to stone/ operator holds the part
-(defconstant *Action5* 
+
+;;5. Operator holding the part
+(defconstant *Action5*
+
+	(&&
+
+		 	(<->
+		 		(-P- Action5_Pre) 
+		 		(&&
+		 			([=](-V- Body_Part 7) L_6)	
+					; (-P- partFixed)
+		 			([=](-V- End_Eff_B) L_6)
+		 			; (!!(-P- partHold))
+	 			)
+		 		
+	 		)
+
+	 		(<->
+	 			(-P- Action5_Post)
+	 			(!!(-P- partFixed))
+			)
+
+			(<->
+				(-P- Action5_SafetyPro)
+				(&&
+		 			([=](-V- Body_Part 7) L_6)	
+					; (-P- partFixed)
+		 			([=](-V- End_Eff_B) L_6)
+	 			)
+			)
+
+			(->
+				(&& (yesterday (|| ([=] (-V- actions 5 1) executing) ([=] (-V- actions 5 1) parallel-executing))) (!! (-P- Action5_SafetyPro)))
+				(until_ie ([=] (-V- actions 5 1) pause)(-P- Action5_SafetyPro))
+
+			);;;its in contrast with this
+			
+			(->
+				(&& (yesterday ([=] (-V- actions 5 1) pause)) (-P- Action5_SafetyPro))
+				(|| ([=] (-V- actions 5 1) executing) ([=] (-V- actions 5 1) parallel-executing))
+			)
+
+			
+		 	(->
+				(&& ([=] (-V- actions 5 1) waiting) (yesterday([=] (-V- actions 5 1) notstarted)))
+				(yesterday (-P- Action5_Pre))
+			)
+
+			(Alwf
+				(->
+					(|| 
+						([=] (-V- actions 5 1) executing)
+						([=] (-V- actions 5 1) parallel-executing)
+					)
+					(-P- Action5_SafetyPro)
+				)
+			)
+
+			(alwf
+				(<->
+					(-P- partFixed)
+					(|| 
+						([=] (-V- actions 5 1) executing)
+						([=] (-V- actions 5 1) parallel-executing)
+					)
+				)
+			)
+
+;;;;;;;;;;;;;;;;;;problem is here, action5 executing and partfixed should be basically one thing
+
+			(->
+				(&& ([=] (-V- actions 5 1) done) (yesterday (|| ([=] (-V- actions 5 1) executing) ([=](-V- actions 5 1) parallel-executing))))
+				(-P- Action5_Post)
+		 	)
+
+		 )
+)
+
+;;6. robot moves from home to stone/ operator holds the part
+(defconstant *Action6* 
 	(&&
 
 
 		(<->
-	 		(-P- Action5_Pre) 
+	 		(-P- Action6_Pre) 
 			(&& 
-				([=](-V- Body_Part 8) L_6)	
+				([=] (-V- actions 5 1) executing)
+				([=](-V- Body_Part 7) L_6)	
 				(-P- partFixed)
 	 		)
 	
@@ -608,9 +710,9 @@
  		)
 
  		(<->
- 			(-P- Action5_Post)
+ 			(-P- Action6_Post)
  			(&& 
-				([=](-V- Body_Part 8) L_6)	
+				([=](-V- Body_part 7) L_6)	
 				(-P- partFixed)
 				([=](-V- ARM1) (yesterday(-V- ARM1)))
 	 			([=](-V- ARM2) (yesterday(-V- ARM2)))
@@ -620,73 +722,69 @@
 		)
 
 		(<->
-			(-P- Action5_SafetyPro)
+			(-P- Action6_SafetyPro)
 			(&&
-				([=](-V- Body_Part 8) L_6)	
+				([=](-V- Body_Part 7) L_6)	
 				(-P- partFixed)
 
 				(-A- i body_indexes 
 					(->  ; no part allowed on pallet except hand
-						([!=] i 6)
+						([!=] i 7)
 						([!=](-V- Body_Part i) L_6)
 					)
 				)
 			)
-					
-
 		)
 
 		(->
-			(&& (yesterday (|| ([=] (-V- actions 5 1) executing) ([=] (-V- actions 5 1) parallel-executing))) (!! (-P- Action5_SafetyPro)))
-			(until_ie ([=] (-V- actions 5 1) pause)(-P- Action5_SafetyPro))
+			(&& (yesterday (|| ([=] (-V- actions 6 1) executing) ([=] (-V- actions 6 1) parallel-executing))) (!! (-P- Action6_SafetyPro)))
+			(until_ie ([=] (-V- actions 6 1) pause)(-P- Action6_SafetyPro))
 
 		)
 		
 		(->
-			(&& (yesterday ([=] (-V- actions 5 1) pause)) (-P- Action5_SafetyPro))
-			(|| ([=] (-V- actions 5 1) executing) ([=] (-V- actions 5 1) parallel-executing))
+			(&& (yesterday ([=] (-V- actions 6 1) pause)) (-P- Action6_SafetyPro))
+			(|| ([=] (-V- actions 6 1) executing) ([=] (-V- actions 6 1) parallel-executing))
 		)
 
 		;;
 
 		(->
-			(&& ([=] (-V- actions 5 1) waiting) (yesterday([=] (-V- actions 5 1) notstarted)))
-			(yesterday (-P- Action5_Pre))
+			(&& ([=] (-V- actions 6 1) waiting) (yesterday([=] (-V- actions 6 1) notstarted)))
+			(yesterday (-P- Action6_Pre))
 		)
 
 		(Alwf
 			(->
 				(|| 
-					([=] (-V- actions 5 1) executing)
-					([=] (-V- actions 5 1) parallel-executing)
+					([=] (-V- actions 6 1) executing)
+					([=] (-V- actions 6 1) parallel-executing)
 				)
-				(-P- Action5_SafetyPro)
+				(-P- Action6_SafetyPro)
 			)
 		)	
 
 
 		(->
-			(&& ([=] (-V- actions 5 1) done) (yesterday (|| ([=] (-V- actions 5 1) executing)([=] (-V- actions 5 1) executing))))
-			(-P- Action5_SafetyPro)
+			(&& ([=] (-V- actions 6 1) done) (yesterday (|| ([=] (-V- actions 6 1) executing)([=] (-V- actions 6 1) executing))))
+			(-P- Action6_SafetyPro)
 
 	 	)
 	 )
  )
 
-;6.operator prepares a jig
-(defun Action6(i) 
+;;7.operator prepares a jig
+(defun Action7(i) 
 	(&&
 		  
 
-		(defvar j (+ (* i 6) 6))
-
-
-
 		(<->
-	 		(-P- Action6_Pre) 
+	 		(-P- Action7_Pre) 
 	 		(||
 	 			(&& 
-					([=](-V- Body_Part 8) L_6)	
+	 				([=] (-V- actions (- i 1) 1) done)
+	 				([=] (-V- actions 6 1) done)
+					([=](-V- Body_part 7) L_6)	
 					(-P- partFixed)
 					([=](-V- ARM1) (yesterday(-V- ARM1)))
 		 			([=](-V- ARM2) (yesterday(-V- ARM2)))
@@ -694,7 +792,8 @@
 		 		)
 
 		 		(&& 
-					([=](-V- Body_Part 8) L_6)	
+		 			; ([=] (-V- actions (- i 1) 1) done)
+					([=](-V- Body_part 7) L_6)	
 					(-P- partFixed)
 					([=](-V- ARM1) (yesterday(-V- ARM1)))
 		 			([=](-V- ARM2) (yesterday(-V- ARM2)))
@@ -706,9 +805,9 @@
  		)
 
  		(<->
- 			(-P- Action6_Post)
+ 			(-P- Action7_Post)
  			(&& 
-				([=](-V- Body_Part 8) L_6)	
+				([=](-V- Body_part 7) L_6)	
 				(-P- partFixed)
 				([=](-V- ARM1) (yesterday(-V- ARM1)))
 	 			([=](-V- ARM2) (yesterday(-V- ARM2)))
@@ -723,22 +822,22 @@
 
 		(<->
 			(-P- preparedjig)
-			(&& ([=](-V- actions j 1) done) (!! ([=](-V- actions (+ (* i 6) 8) 1) done)))
-			)
+			(&& ([=](-V- actions i 1) done) (!! ([=](-V- actions (+ i 3) 1) done)))
+		)
 
 		(<->
-			(-P- Action6_SafetyPro)
+			(-P- Action7_SafetyPro)
 			(&&
-				([=](-V- Body_Part 8) L_6)	
+				([=](-V- Body_part 7) L_6)	
 				(-P- partFixed)
 				([=](-V- ARM1) (yesterday(-V- ARM1)))
 	 			([=](-V- ARM2) (yesterday(-V- ARM2)))
 	 			([=](-V- End_Eff_B) L_6)
-	 			(!! ([=] (-V- actions (+ (* i 6) 7) 1) executing))
-	 			(-A- i body_indexes 
+	 			(!! ([=] (-V- actions (+ i 1) 1) executing))
+	 			(-A- j body_indexes 
 					(->  ; no part allowed on pallet except hand
-						([!=] i 6)
-						([!=](-V- Body_Part i) L_6)
+						([!=] j 7)
+						([!=](-V- Body_Part j) L_6)
 					)
 				)
 			)
@@ -746,46 +845,45 @@
 
 
 		(->
-			(&& (yesterday (|| ([=] (-V- actions j 1) executing) ([=] (-V- actions j 1) parallel-executing))) (!! (-P- Action6_SafetyPro)))
-			(until_ie ([=] (-V- actions j 1) pause)(-P- Action6_SafetyPro))
+			(&& (yesterday (|| ([=] (-V- actions i 1) executing) ([=] (-V- actions i 1) parallel-executing))) (!! (-P- Action7_SafetyPro)))
+			(until_ie ([=] (-V- actions i 1) pause)(-P- Action7_SafetyPro))
 
 		)
 		
 		(->
-			(&& (yesterday ([=] (-V- actions j 1) pause)) (-P- Action6_SafetyPro))
-			(|| ([=] (-V- actions j 1) executing) ([=] (-V- actions j 1) parallel-executing))
+			(&& (yesterday ([=] (-V- actions i 1) pause)) (-P- Action7_SafetyPro))
+			(|| ([=] (-V- actions i 1) executing) ([=] (-V- actions i 1) parallel-executing))
 		)
 
-		;;
+		; ;;
 
 		(->
-			(&& ([=] (-V- actions j 1) waiting) (yesterday([=] (-V- actions j 1) notstarted)))
-			(yesterday (-P- Action6_Pre))
+			(&& ([=] (-V- actions i 1) waiting) (yesterday([=] (-V- actions i 1) notstarted)))
+			(yesterday (-P- Action7_Pre))
 		)
 		
 		(Alwf
 			(->
 				(|| 
-					([=] (-V- actions j 1) executing)
-					([=] (-V- actions j 1) parallel-executing)
+					([=] (-V- actions i 1) executing)
+					([=] (-V- actions i 1) parallel-executing)
 				)
-				(-P- Action6_SafetyPro)
+				(-P- Action7_SafetyPro)
 			)
 		)	
 		
 	 )
 )
 
-;; 7. robot moves toward stone/ operator holds the part
-(defun Action7(i)
+;; 8. robot moves toward stone/ operator holds the part
+(defun Action8(i)
 	(&&
-		  
-		(defvar j (+ (* i 6) 7))
 		
 		(<->
-	 		(-P- Action7_Pre) 
+	 		(-P- Action8_Pre) 
 	 		(&& 
-		 		([=](-V- Body_Part 8) L_6)	
+	 			; ([=] (-V- actions (- i 1) 1) done)
+		 		([=](-V- Body_part 7) L_6)	
 				(-P- partFixed)
 	 			([=](-V- End_Eff_B) L_6)
 	 			(-P- preparedjig)
@@ -793,16 +891,16 @@
  		)
 
  		(<->
- 			(-P- Action7_Post)
+ 			(-P- Action8_Post)
  			(&&
- 				([=](-V- Body_Part 8) L_6)	
+ 				([=](-V- Body_part 7) L_6)	
 				(-P- partFixed)
 	 			([=](-V- End_Eff_B) L_6)
-	 			(!! ([=] (-V- actions (+ (* i 6) 7) 1) executing))
-	 			(-A- i body_indexes 
+	 			; (!! ([=] (-V- actions (+ i 1) executing))
+	 			(-A- j body_indexes 
 					(->  ; no part allowed on pallet except hand
-						([!=] i 6)
-						([!=](-V- Body_Part i) L_6)
+						([!=] j 7)
+						([!=](-V- Body_Part j) L_6)
 					)
 				)
 				(-P- ScrewDriveReady)
@@ -811,16 +909,16 @@
 		)
  			
 		(<->
-			(-P- Action7_SafetyPro)
+			(-P- Action8_SafetyPro)
 			(&&
-				([=](-V- Body_Part 8) L_6)	
+				([=](-V- Body_part 7) L_6)	
 				(-P- partFixed)
 	 			([=](-V- End_Eff_B) L_6)
 	 			(-P- preparedjig)
-	 			(-A- i body_indexes 
+	 			(-A- j body_indexes 
 					(->  ; no part allowed on pallet except hand
-						([!=] i 6)
-						([!=](-V- Body_Part i) L_6)
+						([!=] j 7)
+						([!=](-V- Body_Part j) L_6)
 					)
 				)
 			)
@@ -828,14 +926,14 @@
 		)
 
 		(->
-			(&& (yesterday (|| ([=] (-V- actions j 1) executing) ([=] (-V- actions j 1) parallel-executing))) (!! (-P- Action7_SafetyPro)))
-			(until_ie ([=] (-V- actions j 1) pause) (-P- Action7_SafetyPro))
+			(&& (yesterday (|| ([=] (-V- actions i 1) executing) ([=] (-V- actions i 1) parallel-executing))) (!! (-P- Action8_SafetyPro)))
+			(until_ie ([=] (-V- actions i 1) pause) (-P- Action8_SafetyPro))
 
 		)
 		
 		(->
-			(&& (yesterday ([=] (-V- actions j 1) pause)) (-P- Action7_SafetyPro))
-			(|| ([=] (-V- actions j 1) executing) ([=] (-V- actions j 1) parallel-executing))
+			(&& (yesterday ([=] (-V- actions i 1) pause)) (-P- Action8_SafetyPro))
+			(|| ([=] (-V- actions i 1) executing) ([=] (-V- actions i 1) parallel-executing))
 		)
 
 		;;
@@ -843,40 +941,40 @@
 		(Alwf
 			(->
 				(|| 
-					([=] (-V- actions j 1) executing)
-					([=] (-V- actions j 1) parallel-executing)
+					([=] (-V- actions i 1) executing)
+					([=] (-V- actions i 1) parallel-executing)
 				)
-				(-P- Action7_SafetyPro)
+				(-P- Action8_SafetyPro)
 			)
 		)
 	 	
 		(->
-			(&& ([=] (-V- actions j 1) done) (yesterday (|| ([=] (-V- actions j 1) executing)([=] (-V- actions j 1) executing))))
-			(-P- Action7_Post)
+			(&& ([=] (-V- actions i 1) done) (yesterday (|| ([=] (-V- actions i 1) executing)([=] (-V- actions i 1) executing))))
+			(-P- Action8_Post)
 	 	)
 
 	 )
 )
 
-;;8. robot screws the prepared jig of a part/ operator holds the part
-(defun Action8(i) 
+;;9. robot screws the prepared jig of a part/ operator holds the part
+(defun Action9(i) 
 	(&&
 		  
-		(defvar j (+ (* i 6) 8))
+		
 
 		(<->
-	 		(-P- Action8_Pre) 
+	 		(-P- Action9_Pre) 
 	 		(&& 
 	 			(-P- preparedjig)
-
-	 			([=](-V- Body_Part 8) L_6)	
+	 			; ([=] (-V- actions (- i 1) 1) done)
+	 			([=](-V- Body_part 7) L_6)	
 				(-P- partFixed)
 	 			([=](-V- End_Eff_B) L_6)
 	 		
-	 			(-A- i body_indexes 
+	 			(-A- j body_indexes 
 					(->  ; no part allowed on pallet except hand
-						([!=] i 6)
-						([!=](-V- Body_Part i) L_6)
+						([!=] j 7)
+						([!=](-V- Body_Part j) L_6)
 					)
 				)
 	 			(-P- ScrewDriveReady)
@@ -887,132 +985,129 @@
 
  		(<->
  			(-P- ScrewDriveReady)
- 			(&& ([=] (-V- actions (+ (* i 6) 7) 1) done) (!!([=] (-V- actions j 1) done)))
+ 			(&& ([=] (-V- actions (- i 1) 1) done) (!!([=] (-V- actions i 1) done)))
  			)
 
  		
 
  		(<->
- 			(-P- Action8_Post)
- 			(&&
-				([=](-V- Body_Part 8) L_6)	
-				(-P- partFixed)
-	 			([=](-V- End_Eff_B) L_6)
-	 		
-	 			(-A- i body_indexes 
-					(->  ; no part allowed on pallet except hand
-						([!=] i 6)
-						([!=](-V- Body_Part i) L_6)
-					)
-				)
-				(defvar jigs (1- jigs))
-			)
- 			
-		)
-
-		(<->
-			(-P- Action8_SafetyPro)
-			
-			(&&
-				([=](-V- Body_Part 8) L_6)	
-				(-P- partFixed)
-	 			([=](-V- End_Eff_B) L_6)
-	 		
-	 			(-A- i body_indexes 
-					(->  ; no part allowed on pallet except hand
-						([!=] i 6)
-						([!=](-V- Body_Part i) L_6)
-					)
-				)
-			)
-		)
-
-		(->
-			(&& (yesterday (|| ([=] (-V- actions j 1) executing) ([=] (-V- actions j 1) parallel-executing))) (!! (-P- Action8_SafetyPro)))
-			(until_ie ([=] (-V- actions j 1) pause)(-P- Action8_SafetyPro))
-
-		)
-		
-		(->
-			(&& (yesterday ([=] (-V- actions 8 1) pause)) (-P- Action8_SafetyPro))
-			(|| ([=] (-V- actions j 1) executing) ([=] (-V- actions j 1) parallel-executing))
-		)
-
-		;;
-
-		(->
-			(&& ([=] (-V- actions j 1) waiting) (yesterday([=] (-V- actions j 1) notstarted)))
-			(yesterday (-P- Action8_Pre))
-		)
-
-		
-
-		(Alwf
-			(->
-				(|| 
-					([=] (-V- actions j 1) executing)
-					([=] (-V- actions j 1) parallel-executing)
-				)
-				(-P- Action8_SafetyPro)
-			)
-		)
-
-	 
-
-	 )
- )
-
-;;9. robot moves backward from the stone/ operator holds the part
-(defun Action9(i) 
-	(&&
-		  
-		(defvar j (+ (* i 6) 9))
-
-		(<->
-	 		(-P- Action9_Pre) 
-	 		(&&
-				([=](-V- Body_Part 8) L_6)	
-				(-P- partFixed)
-	 			([=](-V- End_Eff_B) L_6)
-	 		
-	 			(-A- i body_indexes 
-					(->  ; no part allowed on pallet except hand
-						([!=] i 6)
-						([!=](-V- Body_Part i) L_6)
-					)
-				)
-			)
-
- 		)
-
- 		(<->
  			(-P- Action9_Post)
  			(&&
-				([=](-V- Body_Part 8) L_6)	
+				([=](-V- Body_part 7) L_6)	
 				(-P- partFixed)
 	 			([=](-V- End_Eff_B) L_6)
 	 		
-	 			(-A- i body_indexes 
+	 			(-A- j body_indexes 
 					(->  ; no part allowed on pallet except hand
-						([!=] i 6)
-						([!=](-V- Body_Part i) L_6)
+						([!=] j 7)
+						([!=](-V- Body_Part j) L_6)
 					)
 				)
+				
 			)
  			
 		)
 
 		(<->
 			(-P- Action9_SafetyPro)
+			
 			(&&
-				([=](-V- Body_Part 8) L_6)	
+				([=](-V- Body_part 7) L_6)	
 				(-P- partFixed)
 	 			([=](-V- End_Eff_B) L_6)
 	 		
-	 			(-A- i body_indexes 
+	 			(-A- j body_indexes 
 					(->  ; no part allowed on pallet except hand
-						([!=] i 6)
-						([!=](-V- Body_Part i) L_6)
+						([!=] j 7)
+						([!=](-V- Body_Part j) L_6)
+					)
+				)
+			)
+		)
+
+		(->
+			(&& (yesterday (|| ([=] (-V- actions i 1) executing) ([=] (-V- actions i 1) parallel-executing))) (!! (-P- Action9_SafetyPro)))
+			(until_ie ([=] (-V- actions i 1) pause)(-P- Action9_SafetyPro))
+
+		)
+		
+		(->
+			(&& (yesterday ([=] (-V- actions i 1) pause)) (-P- Action9_SafetyPro))
+			(|| ([=] (-V- actions i 1) executing) ([=] (-V- actions i 1) parallel-executing))
+		)
+
+		
+
+		(->
+			(&& ([=] (-V- actions i 1) waiting) (yesterday([=] (-V- actions i 1) notstarted)))
+			(yesterday (-P- Action9_Pre))
+		)
+
+		
+
+		(Alwf
+			(->
+				(|| 
+					([=] (-V- actions i 1) executing)
+					([=] (-V- actions i 1) parallel-executing)
+				)
+				(-P- Action9_SafetyPro)
+			)
+		)
+	 )
+ )
+
+;;10. robot moves backward from the stone/ operator holds the part
+(defun Action10(i) 
+	(&&
+		  
+		
+		(<->
+	 		(-P- Action10_Pre) 
+	 		(&&
+	 			; ([=] (-V- actions (- i 1) 1) done)
+				([=](-V- Body_Part 7) L_6)	
+				(-P- partFixed)
+	 			([=](-V- End_Eff_B) L_6)
+	 		
+	 			(-A- j body_indexes 
+					(->  ; no part allowed on pallet except hand
+						([!=] j 7)
+						([!=](-V- Body_Part j) L_6)
+					)
+				)
+			)
+
+ 		)
+
+ 		(<->
+ 			(-P- Action10_Post)
+ 			(&&
+				([=](-V- Body_Part 7) L_6)	
+				(-P- partFixed)
+	 			([=](-V- End_Eff_B) L_6)
+	 		
+	 			(-A- j body_indexes 
+					(->  ; no part allowed on pallet except hand
+						([!=] j 7)
+						([!=](-V- Body_Part j) L_6)
+					)
+				)
+			)
+ 			
+		)
+
+		(<->
+			(-P- Action10_SafetyPro)
+			(&&
+				([=](-V- Body_Part 7) L_6)	
+				(-P- partFixed)
+	 			([=](-V- End_Eff_B) L_6)
+	 		
+	 			(-A- j body_indexes 
+					(->  ; no part allowed on pallet except hand
+						([!=] j 7)
+						([!=](-V- Body_Part j) L_6)
 					)
 				)
 			)
@@ -1020,62 +1115,64 @@
 		)
 
 		(->
-			(&& (yesterday (|| ([=] (-V- actions j 1) executing) ([=] (-V- actions j 1) parallel-executing))) (!! (-P- Action9_SafetyPro)))
-			(until_ie ([=] (-V- actions j 1) pause)(-P- Action9_SafetyPro))
+			(&& (yesterday (|| ([=] (-V- actions i 1) executing) ([=] (-V- actions i 1) parallel-executing))) (!! (-P- Action10_SafetyPro)))
+			(until_ie ([=] (-V- actions i 1) pause)(-P- Action10_SafetyPro))
 
 		)
 		
 		(->
-			(&& (yesterday ([=] (-V- actions j 1) pause)) (-P- Action9_SafetyPro))
-			(|| ([=] (-V- actions j 1) executing) ([=] (-V- actions j 1) parallel-executing))
+			(&& (yesterday ([=] (-V- actions i 1) pause)) (-P- Action10_SafetyPro))
+			(|| ([=] (-V- actions i 1) executing) ([=] (-V- actions i 1) parallel-executing))
 		)
 
 		;;
 
 		(->
-			(&& ([=] (-V- actions j 1) waiting) (yesterday([=] (-V- actions j 1) notstarted)))
-			(yesterday (-P- Action9_Pre))
+			(&& ([=] (-V- actions i 1) waiting) (yesterday([=] (-V- actions i 1) notstarted)))
+			(yesterday (-P- Action10_Pre))
 			
 		)
 
 		(Alwf
 			(->
 				(|| 
-					([=] (-V- actions j 1) executing)
-					([=] (-V- actions j 1) parallel-executing)
+					([=] (-V- actions i 1) executing)
+					([=] (-V- actions i 1) parallel-executing)
 					
 				)
-				(-P- Action9_SafetyPro)
+				(-P- Action10_SafetyPro)
 			)
 		)
 
 	 	;;
 		(->
-			(&& ([=] (-V- actions j 1) done) (yesterday (|| ([=] (-V- actions j 1) executing)([=] (-V- actions j 1) executing))))
-			(-P- Action9_Post)
+			(&& ([=] (-V- actions i 1) done) (yesterday (|| ([=] (-V- actions i 1) executing)([=] (-V- actions i 1) executing))))
+			(-P- Action10_Post)
 
 	 	)
 	)
  )
 
-;;10. robot checks the number of jigs/ operator holds the part
-(defun Action10(i) 
+;;11. robot checks the number of jigs/ operator holds the part
+(defun Action11(i) 
 	(&&
 
 		  
-		(defvar j (+ (* i 6) 10))
+		
 
 		(<->
-	 		(-P- Action10_Pre) 
+	 		(-P- Action11_Pre) 
 	 		(&&
-				([=](-V- Body_Part 8) L_6)	
+	 			; ([=] (-V- actions (- i 1) 1) done)
+
+				([=](-V- Body_Part 7) L_6)	
 				(-P- partFixed)
 	 			([=](-V- End_Eff_B) L_6)
 	 		
-	 			(-A- i body_indexes 
+	 			(-A- j body_indexes 
 					(->  ; no part allowed on pallet except hand
-						([!=] i 6)
-						([!=](-V- Body_Part i) L_6)
+						([!=] j 7)
+						([!=](-V- Body_Part j) L_6)
 					)
 				)
 			)
@@ -1085,16 +1182,16 @@
 
 
  		(<->
- 			(-P- Action10_Post)
+ 			(-P- Action11_Post)
  			(&&
-				([=](-V- Body_Part 8) L_6)	
+				([=](-V- Body_Part 7) L_6)	
 				(-P- partFixed)
 	 			([=](-V- End_Eff_B) L_6)
 	 		
-	 			(-A- i body_indexes 
+	 			(-A- j body_indexes 
 					(->  ; no part allowed on pallet except hand
-						([!=] i 6)
-						([!=](-V- Body_Part i) L_6)
+						([!=] j 7)
+						([!=](-V- Body_Part j) L_6)
 					)
 				)
 			)
@@ -1103,16 +1200,16 @@
 		)
 
 		(<->
-			(-P- Action10_SafetyPro)
+			(-P- Action11_SafetyPro)
 			(&&
-				([=](-V- Body_Part 8) L_6)	
+				([=](-V- Body_Part 7) L_6)	
 				(-P- partFixed)
 	 			([=](-V- End_Eff_B) L_6)
 	 		
-	 			(-A- i body_indexes 
+	 			(-A- j body_indexes 
 					(->  ; no part allowed on pallet except hand
-						([!=] i 6)
-						([!=](-V- Body_Part i) L_6)
+						([!=] j 7)
+						([!=](-V- Body_Part j) L_6)
 					)
 				)
 			)		
@@ -1120,60 +1217,58 @@
 		)
 
 		(->
-			(&& (yesterday (|| ([=] (-V- actions j 1) executing) ([=] (-V- actions j 1) parallel-executing))) (!! (-P- Action10_SafetyPro)))
-			(until_ie ([=] (-V- actions j 1) pause)(-P- Action10_SafetyPro))
+			(&& (yesterday (|| ([=] (-V- actions i 1) executing) ([=] (-V- actions i 1) parallel-executing))) (!! (-P- Action11_SafetyPro)))
+			(until_ie ([=] (-V- actions i 1) pause)(-P- Action11_SafetyPro))
 
 		)
 		
 		(->
-			(&& (yesterday ([=] (-V- actions j 1) pause)) (-P- Action10_SafetyPro))
-			(|| ([=] (-V- actions j 1) executing) ([=] (-V- actions j 1) parallel-executing))
+			(&& (yesterday ([=] (-V- actions i 1) pause)) (-P- Action11_SafetyPro))
+			(|| ([=] (-V- actions i 1) executing) ([=] (-V- actions i 1) parallel-executing))
 		)
 
 		;;
 
+
 		(->
-			(&& ([=] (-V- actions j 1) waiting) (yesterday([=] (-V- actions j 1) notstarted)))
-			(yesterday (-P- Action10_Pre))
+			(&& ([=] (-V- actions i 1) waiting) (yesterday([=] (-V- actions i 1) notstarted)))
+			(yesterday (-P- Action11_Pre))
 		)
 
 		(Alwf
 			(->
 				(|| 
-					([=] (-V- actions j 1) executing)
-					([=] (-V- actions j 1) parallel-executing)
+					([=] (-V- actions i 1) executing)
+					([=] (-V- actions i 1) parallel-executing)
 					
 				)
-				(-P- Action10_SafetyPro)
+				(-P- Action11_SafetyPro)
 			)
 		)
-		
-	 	
+
 	 )
 )
 
-;11. go back to action6
-(defun Action11(i)
+;12. go back to action6
+(defun Action12(i)
 
 	(&&
 
-		(defvar j (+ (* i 6) 11))
-
 		(<->
 
-	 		(-P- Action11_Pre) 
+	 		(-P- Action12_Pre) 
 	 		(&&
-	 			([>] jigs 0)
-				([=](-V- Body_Part 8) L_6)	
+	 			; ([>=] i 0)
+				([=](-V- Body_Part 7) L_6)	
 				(-P- partFixed)
 	 			([=](-V- End_Eff_B) L_6)
 	 			([=](-V- ARM1) (yesterday(-V- ARM1)))
 	 			([=](-V- ARM2) (yesterday(-V- ARM2)))
 	 		
-	 			(-A- i body_indexes 
+	 			(-A- j body_indexes 
 					(->  ; no part allowed on pallet except hand
-						([!=] i 6)
-						([!=](-V- Body_Part i) L_6)
+						([!=] j 7)
+						([!=](-V- Body_Part j) L_6)
 					)
 				)
 			)
@@ -1181,25 +1276,27 @@
  		)
 
 		(<->
-	 		(-P- Action11_Post) 
+	 		(-P- Action12_Post) 
 	 		(next (-P- NewIteration))
 	 		
 
  		)
 
- 		)
 	)
-;;12. else operator releases the part and moves back
-(defconstant *Action12* 
+)
+
+
+;;13. else operator releases the part and moves back
+(defconstant *ActionBeforeLast* 
 	 (&&
 
 	
 
  		(<->
- 			(-P- Action12_Post)
+ 			(-P- ActionBeforeLast_Post)
  			(&& 
  				([=] jigs 0)
-				
+				([=] (-V- actions (+ (* (- jigs 1) 6) 12) 1) done)
 				(!! (-P- partTaken))
 				(!! (-P- partHold))
 				(-A- i body_indexes 
@@ -1220,7 +1317,7 @@
 	 	; 	)
 
 		(<->
-			(-P- Action12_SafetyPro)
+			(-P- ActionBeforeLast_SafetyPro)
 			(&&
 				([=](-V- ARM1) (yesterday(-V- ARM1)))
 	 			([=](-V- ARM2) (yesterday(-V- ARM2)))
@@ -1230,55 +1327,58 @@
 		)
 
 		(->
-			(&& (yesterday (|| ([=] (-V- actions 12 1) executing) ([=] (-V- actions 12 1) parallel-executing))) (!! (-P- Action12_SafetyPro)))
-			(until_ie ([=] (-V- actions 12 1) pause)(-P- Action12_SafetyPro))
+			(&& (yesterday (|| ([=] (-V- actions (- (+ 7 (* 7 jigs)) 1) 1) executing) ([=] (-V- actions (- (+ 7 (* 7 jigs)) 1) 1) parallel-executing))) (!! (-P- ActionBeforeLast_SafetyPro)))
+			(until_ie ([=] (-V- actions (- (+ 7 (* 7 jigs)) 1) 1) pause) (-P- ActionBeforeLast_SafetyPro))
 
 		)
 		
 		(->
-			(&& (yesterday ([=] (-V- actions 12 1) pause)) (-P- Action12_SafetyPro))
-			(|| ([=] (-V- actions 12 1) executing) ([=] (-V- actions 12 1) parallel-executing))
+			(&& (yesterday ([=] (-V- actions (- (+ 7 (* 7 jigs)) 1) 1) pause)) (-P- ActionBeforeLast_SafetyPro))
+			(|| ([=] (-V- actions (- (+ 7 (* 7 jigs)) 1) 1) executing) ([=] (-V- actions (- (+ 7 (* 7 jigs)) 1) 1) parallel-executing))
 		)
 
-		;;
+		; ;;
 
 		(Alwf
 			(->
 				(|| 
-					([=] (-V- actions 12 1) executing)
-					([=] (-V- actions 12 1) parallel-executing)
+					([=] (-V- actions (- (+ 7 (* 7 jigs)) 1) 1) executing)
+					([=] (-V- actions (- (+ 7 (* 7 jigs)) 1) 1) parallel-executing)
 				)
-				(-P- Action12_SafetyPro)
+				(-P- ActionBeforeLast_SafetyPro)
 			)
 		)
 	 	
 		(->
-			(&& ([=] (-V- actions 12 1) done) (yesterday (|| ([=] (-V- actions 12 1) executing)([=] (-V- actions 12 1) executing))))
-			(-P- Action12_Post)
+			(&& ([=] (-V- actions (- (+ 7 (* 7 jigs)) 1) 1) done) (yesterday (|| ([=] (-V- actions (- (+ 7 (* 7 jigs)) 1) 1) executing)([=] (-V- actions (- (+ 7 (* 7 jigs)) 1) 1) executing))))
+			(-P- ActionBeforeLast_Post)
 	 	)
  	)
 )
 
-;;13. robot moves from stone to the home
-(defconstant *Action13* 
+;;14. robot moves from stone to the home
+(defconstant *ActionLast* 
 	(&&
 
 
 		(<->
-	 		(-P- Action13_Pre) 
-	 		(-P- Action12_Post)
+	 		(-P- ActionLast_Pre) 
+	 		(&&
+	 			([=] (-V- actions (+ (* (- jigs 1) 6) 13) 1) done)
+		 		(-P- Action12_Post)
+	 		)
 
  		)
 
 
  		(<->
-	 		(-P- Action13_SafetyPro) 
+	 		(-P- ActionLast_SafetyPro) 
 	 		(-P- Action12_Post)
 
  		)
 
  		(<->
- 			(-P- Action13_Post)
+ 			(-P- ActionLast_Post)
 				(&& 
 					([=](-V- ARM1) L_1)
  					([=](-V- ARM2) L_2)
@@ -1288,28 +1388,28 @@
 		)
 
 		(<->
-			(-P- Action13_SafetyPro)
-			(until_ii (&& (!! (-P- partTaken)) (!! (-P- partHold)) (!! ([=] (-V- opZone) 4))) ([=] (-V- actions 13 1) done))
+			(-P- ActionLast_SafetyPro)
+			(-P- Action12_Post)
 
 		)
 
 		(->
-			(&& (yesterday (|| ([=] (-V- actions 13 1) executing) ([=] (-V- actions 13 1) parallel-executing))) (!! (-P- Action13_SafetyPro)))
-			(until_ie ([=] (-V- actions 13 1) pause)(-P- Action13_SafetyPro))
+			(&& (yesterday (|| ([=] (-V- actions (+ (* (- jigs 1) 6) 13) 1) executing) ([=] (-V- actions (+ (* (- jigs 1) 6) 13) 1) parallel-executing))) (!! (-P- ActionLast_SafetyPro)))
+			(until_ie ([=] (-V- actions (+ (* (- jigs 1) 6) 13) 1) pause)(-P- ActionLast_SafetyPro))
 
 		)
 		
 		(->
-			(&& (yesterday ([=] (-V- actions 13 1) pause)) (-P- Action13_SafetyPro))
-			(|| ([=] (-V- actions 13 1) executing) ([=] (-V- actions 13 1) parallel-executing))
+			(&& (yesterday ([=] (-V- actions (+ (* (- jigs 1) 6) 13) 1) pause)) (-P- ActionLast_SafetyPro))
+			(|| ([=] (-V- actions (+ (* (- jigs 1) 6) 13) 1) executing) ([=] (-V- actions (+ (* (- jigs 1) 6) 13) 1) parallel-executing))
 		)
 
 		;;
 
 
 		(->
-			(&& ([=] (-V- actions 13 1) waiting) (yesterday([=] (-V- actions 13 1) notstarted)))
-			(yesterday (-P- Action13_Pre))
+			(&& ([=] (-V- actions (+ (* (- jigs 1) 6) 13) 1) waiting) (yesterday([=] (-V- actions (+ (* (- jigs 1) 6) 13) 1) notstarted)))
+			(yesterday ([=] (-V- actions (+ (* (- jigs 1) 6) 11) 1) done))
 		)
 
 		
@@ -1317,117 +1417,40 @@
 		(Alwf
 			(->
 				(|| 
-					([=] (-V- actions 13 1) executing)
-					([=] (-V- actions 13 1) parallel-executing)
+					([=] (-V- actions (+ (* (- jigs 1) 6) 13) 1) executing)
+					([=] (-V- actions (+ (* (- jigs 1) 6) 13) 1)  parallel-executing)
 					
 				)
-				(-P- Action13_SafetyPro)
+				(-P- ActionLast_SafetyPro)
 			)
 		)
 
 	 	(->
-			(&& ([=] (-V- actions 13 1) done) (yesterday (|| ([=] (-V- actions 13 1) executing)([=] (-V- actions 13 1) executing))))
-			(-P- Action13_Post)
+			(&& ([=] (-V- actions (+ (* (- jigs 1) 6) 13) 1) done) (yesterday (|| ([=] (-V- actions (+ (* (- jigs 1) 6) 13) 1) executing)([=] (-V- actions (+ (* (- jigs 1) 6) 13) 1) executing))))
+			(-P- ActionLast_Post)
 		)
  	)
 )
 
-;;14. Operator holding the part
-(defconstant *Action14*
-
-	(&&
-
-		 	(<->
-		 		(-P- Action14_Pre) 
-		 		(&&
-		 			([=](-V- Body_Part 8) L_6)	
-					(-P- partFixed)
-		 			([=](-V- End_Eff_B) L_6)
-		 			(!!(-P- partHold))
-	 			)
-		 		
-	 		)
-
-	 		(<->
-	 			(-P- Action14_Post)
-	 			(!!(-P- partFixed))
-			)
-
-			(<->
-				(-P- Action14_SafetyPro)
-				(&&
-		 			([=](-V- Body_Part 8) L_6)	
-					(-P- partFixed)
-		 			([=](-V- End_Eff_B) L_6)
-	 			)
-			)
-
-			(->
-				(&& (yesterday (|| ([=] (-V- actions 14 1) executing) ([=] (-V- actions 14 1) parallel-executing))) (!! (-P- Action14_SafetyPro)))
-				(until_ie ([=] (-V- actions 14 1) pause)(-P- Action1_SafetyPro))
-
-			)
-			
-			(->
-				(&& (yesterday ([=] (-V- actions 14 1) pause)) (-P- Action14_SafetyPro))
-				(|| ([=] (-V- actions 14 1) executing) ([=] (-V- actions 14 1) parallel-executing))
-			)
-
-			;;;
-		 	(->
-				(&& ([=] (-V- actions 14 1) waiting) (yesterday([=] (-V- actions 14 1) notstarted)))
-				(yesterday (-P- Action14_Pre))
-			)
-
-			(Alwf
-				(->
-					(|| 
-						([=] (-V- actions 14 1) executing)
-						([=] (-V- actions 14 1) parallel-executing)
-					)
-					(-P- Action14_SafetyPro)
-				)
-			)
-
-			(alwf 
-				(<->
-					(-P- partFixed)
-					([=] (-V- actions 14 1) executing)
-					)
-				)
-
-			(->
-				(&& ([=] (-V- actions 14 1) done) (yesterday (|| ([=] (-V- actions 14 1) executing) ([=](-V- actions 14 1) parallel-executing))))
-				(-P- Action14_Post)
-		 	)
-
-		 )
-
-)
 
 
 (defconstant *LoopManager*
 
 	(&&
-		; (setq iteration_index 0)
+	
 		(-A- k jigs_indexes
-
-			;(->
-				;([<=] iteration_index jigs)
+			
 				(&& 
-					(Action6 k)
-					(Action7 k)
-					(Action8 k)
-					(Action9 k)
-					(Action10 k)
-					(Action11 k)
+					(Action7 (+  (* k 6) 7))
+					(Action8 (+  (* k 6) 8))
+					(Action9 (+  (* k 6) 9))
+					(Action10 (+  (* k 6) 10))
+					(Action11 (+  (* k 6) 11))
+					(Action12 (+  (* k 6) 12))
 					; (setq iteration_index (1+ iteration_index))
 				)
-			;)
+			)
 		)
 	)
-)
-
-
 
 
