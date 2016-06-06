@@ -1,14 +1,26 @@
+<<<<<<< HEAD
 (asdf:operate 'asdf:load-op 'ae2sbvzot)
+=======
+(asdf:operate 'asdf:load-op 'ae2bvzot)
+>>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 (use-package :trio-utils)
 (defvar TSPACE 50)
 
 (load "L.lisp")
+<<<<<<< HEAD
 (load "R.lisp")
 (load "O.lisp")
 (load "Task-nop.lisp")
 (load "RRM.lisp")
 (load "Hazards.lisp")
 (load "Properties.lisp")
+=======
+(load "O.lisp")
+(load "R.lisp")
+(load "Task-nop.lisp")
+(load "RRM.lisp")
+(load "Hazards.lisp")
+>>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 
 
 
@@ -46,9 +58,15 @@
 	   ; 	 	)
    	;  	)
 	   	 
+<<<<<<< HEAD
 	   	 (somf (&& ([!=](-V- Body_Part_pos head) L_1) ([=] (-V- actions 6 1) executing)))
 	   	 (somf (&& ([!=](-V- Body_Part_pos head) L_1) ([=] (-V- actions 7 1) executing)))
 	   	 (somf (&& ([!=](-V- Body_Part_pos belly) L_1) ([=] (-V- actions 8 1) executing)))
+=======
+	   	 (somf (&& ([!=](-V- Body_Part head) L_1) ([=] (-V- actions 6 1) executing)))
+	   	 (somf (&& ([!=](-V- Body_Part head) L_1) ([=] (-V- actions 7 1) executing)))
+	   	 (somf (&& ([!=](-V- Body_Part belly) L_1) ([=] (-V- actions 8 1) executing)))
+>>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 
 
 		(alwf 
@@ -71,6 +89,7 @@
  		(&&
  			Init
 
+<<<<<<< HEAD
  			; ;;Layout
  			;  *adjacencies*
 
@@ -87,6 +106,19 @@
 
  		
  			;;Task
+=======
+ 			;;Operator 
+ 			*Operator_Body*
+
+ 			;;Robot		 
+ 			*Robot_Structure*
+
+ 			; ;;Hazards
+ 			 (alwf Hazards)
+ 			; ; ; (alwf riskEstimation)
+ 		
+ 			; ; ;;Task
+>>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
     		(alwf *ActionInit*)
     		(alwf *SeqAction*)
 	   		(alwf *Action1*)
@@ -125,10 +157,17 @@
 
 
 
+<<<<<<< HEAD
 (ae2sbvzot:zot TSPACE 
 	(&&
 		*sys*
 		; (!! noHazard)
+=======
+(ae2bvzot:zot TSPACE 
+	(&&
+		*sys*
+	
+>>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 		
 	)
  )

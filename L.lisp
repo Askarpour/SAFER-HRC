@@ -5,7 +5,13 @@
 		; (define-tvar roZone *int*)
 		; (define-tvar opZone *int*)
 
+<<<<<<< HEAD
 	;We divide the layout into 11 regions and name them by L_i
+=======
+	;We divide the layout into 9 regions and name them by L_i
+	;L_6 is pallet and L_4 is bin
+	;robot mainely moves in L_1,2,3,4,5,6 and doesnt arrive to L_7,8,9
+>>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 		(defvar L_1 1)
 		(defvar L_2 2)
 		(defvar L_3_a 3)
@@ -17,6 +23,7 @@
 		(defvar L_5_b 9)
 		(defvar L_6 10)
 		(defvar L_7 11)
+<<<<<<< HEAD
 
 		;adjacent (x , y) means x and y are neighbors
 ; (define-var adjacency *int* *int*)
@@ -63,3 +70,9 @@
 					)
 				1 0)
 			)
+=======
+		
+
+
+
+>>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2

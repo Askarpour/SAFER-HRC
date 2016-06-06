@@ -47,7 +47,11 @@
 
 			(-E- j body_indexes
 										
+<<<<<<< HEAD
 				(|| ([=](-V- Body_Part_pos j) (-V- End_Eff_F_Position)) ([=](-V- Body_Part_pos j) (-V- LINK1_Position)) ([=](-V- Body_Part_pos j) (-V- LINK2_Position)))
+=======
+				(|| ([=](-V- Body_Part j) (-V- End_Eff_F)) ([=](-V- Body_Part j) (-V- LINK1_Position)) ([=](-V- Body_Part j) (-V- LINK2_Position)))
+>>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 			)
 		)
 
@@ -58,7 +62,11 @@
 
 			(-E- j body_indexes
 										
+<<<<<<< HEAD
 				(|| ([=](-V- Body_Part_pos j) (-V- End_Eff_F_Position)) ([=](-V- Body_Part_pos j) (-V- LINK1_Position)) ([=](-V- Body_Part_pos j) (-V- LINK2_Position)))
+=======
+				(|| ([=](-V- Body_Part j) (-V- End_Eff_F)) ([=](-V- Body_Part j) (-V- LINK1_Position)) ([=](-V- Body_Part j) (-V- LINK2_Position)))
+>>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 			)
 		)
 		
@@ -71,7 +79,11 @@
 					(&&
 						
 					
+<<<<<<< HEAD
 						([=](-V- Body_Part_pos j) (-V- End_Eff_F_Position))
+=======
+						([=](-V- Body_Part j) (-V- End_Eff_F))
+>>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 						(|| ([=] j Head) ([=] j Shoulders) ([=] j Neck))
 					)
 						
@@ -89,7 +101,11 @@
 					(&&
 						
 					
+<<<<<<< HEAD
 						([=](-V- Body_Part_pos j) (-V- End_Eff_F_Position))
+=======
+						([=](-V- Body_Part j) (-V- End_Eff_F))
+>>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 						(|| ([=] j Chest) ([=] j Belly) ([=] j Pelvis))
 					)
 						
@@ -106,7 +122,11 @@
 				(-E- j body_indexes
 					(&&
 					
+<<<<<<< HEAD
 						([=](-V- Body_Part_pos j) (-V- End_Eff_F_Position))
+=======
+						([=](-V- Body_Part j) (-V- End_Eff_F))
+>>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 						(|| ([=] j Upper_Arm) ([=] j Hand) ([=] j Lower_Arm))
 					)
 						
@@ -120,18 +140,30 @@
 
 		(->
 			([=] (-V- hazards 1 0) 1)
+<<<<<<< HEAD
 			(moveback (-V- End_Eff_F_Position) ([=] (-V- hazards 1 0) 1))
+=======
+			(moveback (-V- End_Eff_F) ([=] (-V- hazards 1 0) 1))
+>>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 
 			; (until_ee rrm_End_Eff_F_Move_Back ([=] (-V- hazards 1 0) 0))
 		)
 		(->
 			([=] (-V- hazards 2 0) 1)
+<<<<<<< HEAD
 			(moveback (-V- End_Eff_F_Position) ([=] (-V- hazards 2 0) 1))
+=======
+			(moveback (-V- End_Eff_F) ([=] (-V- hazards 2 0) 1))
+>>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 			; (until_ee rrm_End_Eff_F_Move_Back ([=] (-V- hazards 2 0) 0))
 		)
 		(->
 			([=] (-V- hazards 3 0) 1)
+<<<<<<< HEAD
 			(moveback (-V- End_Eff_F_Position) ([=] (-V- hazards 3 0) 1))
+=======
+			(moveback (-V- End_Eff_F) ([=] (-V- hazards 3 0) 1))
+>>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 			; (until_ee rrm_End_Eff_F_Move_Back ([=] (-V- hazards 3 0) 0))
 		)
 
@@ -142,7 +174,11 @@
 				(-P- hit)
 				(-E- j body_indexes
 					(&&
+<<<<<<< HEAD
 						([=](-V- Body_Part_pos j) (-V- LINK1_Position))
+=======
+						([=](-V- Body_Part j) (-V- LINK1_Position))
+>>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 							(|| ([=] j Head) ([=] j Shoulders) ([=] j Neck))
 						)
 				)
@@ -157,7 +193,11 @@
 				(-P- hit)
 				(-E- j body_indexes
 					(&&
+<<<<<<< HEAD
 						([=](-V- Body_Part_pos j) (-V- LINK1_Position))
+=======
+						([=](-V- Body_Part j) (-V- LINK1_Position))
+>>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 							(|| ([=] j Chest) ([=] j Belly) ([=] j Pelvis))
 						)
 				)
@@ -172,7 +212,11 @@
 				(-P- hit)
 				(-E- j body_indexes
 					(&&
+<<<<<<< HEAD
 						([=](-V- Body_Part_pos j) (-V- LINK1_Position))
+=======
+						([=](-V- Body_Part j) (-V- LINK1_Position))
+>>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 							(|| ([=] j Upper_Arm) ([=] j Hand) ([=] j Lower_Arm))
 						)
 				)
@@ -206,7 +250,11 @@
 				(-P- hit)
 				(-E- j body_indexes
 					(&&
+<<<<<<< HEAD
 						([=](-V- Body_Part_pos j) (-V- LINK2_Position))
+=======
+						([=](-V- Body_Part j) (-V- LINK2_Position))
+>>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 						(|| ([=] j Head) ([=] j Shoulders) ([=] j Neck))
 					)
 				)
@@ -221,7 +269,11 @@
 				(-P- hit)
 				(-E- j body_indexes
 					(&&
+<<<<<<< HEAD
 						([=](-V- Body_Part_pos j) (-V- LINK2_Position))
+=======
+						([=](-V- Body_Part j) (-V- LINK2_Position))
+>>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 						(|| ([=] j Chest) ([=] j Belly) ([=] j Pelvis))
 					)
 				)
@@ -235,7 +287,11 @@
 				(-P- hit)
 				(-E- j body_indexes
 					(&&
+<<<<<<< HEAD
 						([=](-V- Body_Part_pos j) (-V- LINK2_Position))
+=======
+						([=](-V- Body_Part j) (-V- LINK2_Position))
+>>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 						(||
 							 ([=] j Upper_Arm) 
 							 ; ([=] j Hand)
@@ -276,7 +332,11 @@
 			; (&&
 				(-E- j body_indexes
 					(&&
+<<<<<<< HEAD
 						([=](-V- Body_Part_pos j) (-V- LINK1_Position))
+=======
+						([=](-V- Body_Part j) (-V- LINK1_Position))
+>>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 						(!! ([=] (-V- LINK1_Position) L_6)) 
 						(|| ([=] j Head) ([=] j Shoulders) ([=] j Neck))
 
@@ -292,7 +352,11 @@
 			; (&&
 				(-E- j body_indexes
 					(&&
+<<<<<<< HEAD
 						([=](-V- Body_Part_pos j) (-V- LINK1_Position))
+=======
+						([=](-V- Body_Part j) (-V- LINK1_Position))
+>>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 						(!! ([=] (-V- LINK1_Position) L_6)) 
 						(|| ([=] j Chest) ([=] j Belly) ([=] j Pelvis))
 
@@ -308,7 +372,11 @@
 			; (&&
 				(-E- j body_indexes
 					(&&
+<<<<<<< HEAD
 						([=](-V- Body_Part_pos j) (-V- LINK1_Position))
+=======
+						([=](-V- Body_Part j) (-V- LINK1_Position))
+>>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 						(!! ([=] (-V- LINK1_Position) L_6)) 
 						(|| 
 							([=] j Upper_Arm) 
@@ -344,7 +412,11 @@
 				(-P- entangled)
 				(-E- j body_indexes
 					(&&
+<<<<<<< HEAD
 						([=](-V- Body_Part_pos j) (-V- LINK2_Position))
+=======
+						([=](-V- Body_Part j) (-V- LINK2_Position))
+>>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 						(!! ([=] (-V- LINK2_Position) L_6)) 
 						(|| ([=] j Head) ([=] j Shoulders) ([=] j Neck))
 						)
@@ -360,7 +432,11 @@
 				(-P- entangled)
 				(-E- j body_indexes
 					(&&
+<<<<<<< HEAD
 						([=](-V- Body_Part_pos j) (-V- LINK2_Position))
+=======
+						([=](-V- Body_Part j) (-V- LINK2_Position))
+>>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 						(!! ([=] (-V- LINK2_Position) L_6)) 
 						(|| ([=] j Chest) ([=] j Belly) ([=] j Pelvis))
 						)
@@ -376,7 +452,11 @@
 				(-P- entangled)
 				(-E- j body_indexes
 					(&&
+<<<<<<< HEAD
 						([=](-V- Body_Part_pos j) (-V- LINK2_Position))
+=======
+						([=](-V- Body_Part j) (-V- LINK2_Position))
+>>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 						(!! ([=] (-V- LINK2_Position) L_6)) 
 						(|| 
 							([=] j Upper_Arm)
