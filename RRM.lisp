@@ -64,11 +64,7 @@
 
 		([=] (next (-V- LINK1_Position)) (yesterday (-V- LINK1_Position)))
 		([=] (next (-V- LINK2_Position)) (yesterday (-V- LINK2_Position)))
-<<<<<<< HEAD
 		([=] (next (-V- End_Eff_F_Position)) (yesterday (-V- End_Eff_F_Position)))
-=======
-		([=] (next (-V- End_Eff_F)) (yesterday (-V- End_Eff_F)))
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 		(!! (-E- j actions-indexes
 		 	 (&&  ([=] (-V- actions j 3) robot) ([=] (-V- actions j 1) executing))
 
@@ -125,11 +121,7 @@
 	(&&
 
 		
-<<<<<<< HEAD
 			([=] (next (-V- End_Eff_F_Position)) (yesterday (-V- End_Eff_F_Position)))
-=======
-			([=] (next (-V- End_Eff_F)) (yesterday (-V- End_Eff_F)))
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 			(!! (-E- j actions-indexes
 		 	 (&&  ([=] (-V- actions j 3) robot) ([=] (-V- actions j 1) executing))
 
@@ -140,61 +132,6 @@
 )
 
 
-; ; (defconstant rrm_End_Eff_F_Spin
-; ; 	; //////////////////
-
-<<<<<<< HEAD
-=======
-; ; 		; ([=] (next (-V- End_Eff_F)) (yesterday (-V- End_Eff_F)))
-; ; )
-
-; (defun moveback(x y)
-; 	;;x the position variable
-; 	;;y hazard id
-; 		(->
-; 			([=] x L_1) 
-; 			(withinf_ee (&& ([=] x L_7) (!! y))  3)
-; 		)
-; 		(->
-; 			([=] x L_7) 
-; 			(withinf_ee (&& ([=] x L_2) (!! y)) 3)
-; 		)
-; 		(->
-; 			([=] x L_2) 
-; 			(withinf_ee (&& (|| ([=] x L_3_c) ([=] x L_4_a))(!! y))  3)
-; 		)
-; 		(->
-; 			([=] x L_3_a) 
-; 			(withinf_ee (&& ([=] x L_3_b) (!! y)) 3)
-; 		)
-; 		(->
-; 			([=] x L_3_b) 
-; 			(withinf_ee (&& (|| ([=] x L_3_a) ([=] x L_3_c)) (!! y))  3)
-; 		)
-; 		(->
-; 			([=] x L_3_c) 
-; 			(withinf_ee (&& ([=] x L_3_b)(!! y))  3)
-; 		)
-
-; 		(->
-; 			([=] x L_4_a) 
-; 			(withinf_ee (&& (|| ([=] x L_5_b) ([=] x L_4_b)) (!! y))  3)
-; 		)
-; 		(->
-; 			([=] x L_4_b) 
-; 			(withinf_ee (&& ([=] x L_4_a) (!! y))  3)
-; 		)
-; 		(->
-; 			([=] x L_5_a) 
-; 			(withinf_ee (&& ([=] x L_5_b) (!! y))  3)
-; 		)
-; 		(->
-; 			([=] x L_5_b) 
-; 			(withinf_ee (&& ([=] x L_4_a)(!! y))  3)
-; 		)
-; )
-
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 
 (defun moveback(x y)
 	;;x the position variable
@@ -221,11 +158,9 @@
 		)
 		(->
 			([=] x L_3_c) 
-<<<<<<< HEAD
+
 			(withinf_ee ([=] x L_3_b) 3)
-=======
-			(withinf_ee ([=] x L_3_b)  3)
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
+
 		)
 
 		(->
@@ -234,7 +169,6 @@
 		)
 		(->
 			([=] x L_4_b) 
-<<<<<<< HEAD
 			(withinf_ee ([=] x L_4_a) 3)
 		)
 		(->
@@ -244,16 +178,6 @@
 		(->
 			([=] x L_5_b) 
 			(withinf_ee ([=] x L_4_a) 3)
-=======
-			(withinf_ee ([=] x L_4_a)  3)
-		)
-		(->
-			([=] x L_5_a) 
-			(withinf_ee ([=] x L_5_b)  3)
-		)
-		(->
-			([=] x L_5_b) 
-			(withinf_ee ([=] x L_4_a)  3)
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
+
 		)
 )

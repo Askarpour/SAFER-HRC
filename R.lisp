@@ -23,17 +23,12 @@
 		(define-tvar LINK2_Position *int*)
 
 		;End_Eff_Front Point 
-<<<<<<< HEAD
+
 		(define-tvar End_Eff_F_Position *int*) 
 
 		;End_Eff_Back Point 
 		(define-tvar End_Eff_B_Position *int*) 
-=======
-		(define-tvar End_Eff_F *int*) 
 
-		;End_Eff_Back Point 
-		(define-tvar End_Eff_B *int*) 
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 
 		; ;End_Eff is facing the operator 
 		; (define-tvar End_Eff_facing_Operator *bool*)
@@ -47,13 +42,10 @@
 	(alw
 		(&&
 			
-<<<<<<< HEAD
+
 			([=](-V- End_Eff_F_Position) (-V- End_Eff_B_Position))
 			(&& ([>=] (-V- End_Eff_F_Position) L_1) ([<=] (-V- End_Eff_F_Position) L_7))
-=======
-			([=](-V- End_Eff_F) (-V- End_Eff_B))
-			(&& ([>=] (-V- End_Eff_F) L_1) ([<=] (-V- End_Eff_F) L_7))
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
+
 			(&& ([>=] (-V- LINK1_Position) L_1) ([<=] (-V- LINK1_Position) L_7))
 	        (&& ([>=] (-V- LINK2_Position) L_1) ([<=] (-V- LINK2_Position) L_7))
 			
@@ -61,11 +53,8 @@
 			;;end effector and link2 always in same area
 			(<->
 				(!! (&& ([=](-V- LINK2_Position) L_2) ([=](-V- LINK2_Position) L_7)))
-<<<<<<< HEAD
 				([=] (-V- End_Eff_B_Position) (-V- LINK2_Position))
-=======
-				([=] (-V- End_Eff_B) (-V- LINK2_Position))
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
+
 			)
 
 
@@ -73,7 +62,7 @@
 			(!! ([=](-V- LINK1_Position) L_1))
 			(!! ([=](-V- LINK1_Position) L_7))
 
-<<<<<<< HEAD
+
 
 			; (|| ([=] (-V- adjacency (-V- LINK1_Position) (-V- LINK2_Position)) 1) ([=] (-V- LINK1_Position) (-V- LINK2_Position)))
 			; (|| ([=] (-V- adjacency (-V- LINK1_Position) (next (-V- LINK1_Position))) 1) ([=] (-V- LINK1_Position) (next (-V- LINK1_Position))))
@@ -81,8 +70,7 @@
 
 
 
-=======
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
+
 			(->
 				([=](-V- LINK2_Position) L_1)
 				
@@ -95,11 +83,9 @@
 			(->
 				([=](-V- LINK2_Position) L_2)
 				(&&
-<<<<<<< HEAD
+
 					(|| ([=] (-V- End_Eff_B_Position) L_7) ([=] (-V- End_Eff_B_Position) L_2) )
-=======
-					(|| ([=] (-V- End_Eff_B) L_7) ([=] (-V- End_Eff_B) L_2) )
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
+
 					(next 
 						(&& 
 							(|| ([=](-V- LINK2_Position) L_7) ([=](-V- LINK2_Position) L_2)) 
@@ -124,11 +110,9 @@
 			(->
 				([=](-V- LINK2_Position) L_7)
 				(&&
-<<<<<<< HEAD
+
 					(|| ([=] (-V- End_Eff_B_Position) L_7) ([=] (-V- End_Eff_B_Position) L_1) )
-=======
-					(|| ([=] (-V- End_Eff_B) L_7) ([=] (-V- End_Eff_B) L_1) )
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
+
 					(next (|| ([=](-V- LINK2_Position) L_7) ([=](-V- LINK2_Position) L_1) ([=](-V- LINK2_Position) L_2) ([=](-V- LINK2_Position) L_3_c) ([=](-V- LINK2_Position) L_4_b) ([=](-V- LINK1_Position) L_2) ([=](-V- LINK1_Position) L_6)))
 
 				)
@@ -167,11 +151,9 @@
 			(->
 				([=](-V- LINK2_Position) L_3_a)
 				(&&
-<<<<<<< HEAD
+
 					 (|| ([=](-V- End_Eff_B_Position) L_3_a) ([=](-V- End_Eff_B_Position) L_3_b))
-=======
-					 (|| ([=](-V- End_Eff_B) L_3_a) ([=](-V- End_Eff_B) L_3_b))
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
+
 					(next (|| ([=](-V- LINK2_Position) L_3_a) ([=](-V- LINK2_Position) L_3_b) ([=](-V- LINK2_Position) L_6)))
 
 				)
@@ -180,11 +162,9 @@
 			(->
 				([=](-V- LINK2_Position) L_3_b)
 				(&&
-<<<<<<< HEAD
+
 					 (|| ([=](-V- End_Eff_B_Position) L_3_a) ([=](-V- End_Eff_B_Position) L_3_b) ([=](-V- End_Eff_B_Position) L_3_c))
-=======
-					 (|| ([=](-V- End_Eff_B) L_3_a) ([=](-V- End_Eff_B) L_3_b) ([=](-V- End_Eff_B) L_3_c))
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
+
 					(next (||([=](-V- LINK2_Position) L_3_a) ([=](-V- LINK2_Position) L_3_b) ([=](-V- LINK2_Position) L_3_c) ([=](-V- LINK2_Position) L_6)))
 
 				)
@@ -192,11 +172,8 @@
 			(->
 				([=](-V- LINK2_Position) L_3_c)
 				(&&
-<<<<<<< HEAD
 					 (|| ([=](-V- End_Eff_B_Position) L_1) ([=](-V- End_Eff_B_Position) L_7) ([=](-V- End_Eff_B_Position) L_3_b) ([=](-V- End_Eff_B_Position) L_3_c))
-=======
-					 (|| ([=](-V- End_Eff_B) L_1) ([=](-V- End_Eff_B) L_7) ([=](-V- End_Eff_B) L_3_b) ([=](-V- End_Eff_B) L_3_c))
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
+
 					(next (|| ([=](-V- LINK2_Position) L_7) ([=](-V- LINK2_Position) L_2) ([=](-V- LINK2_Position) L_3_a) ([=](-V- LINK2_Position) L_3_b) ([=](-V- LINK2_Position) L_3_c) ([=](-V- LINK2_Position) L_6)))
 
 				)
@@ -223,11 +200,9 @@
 			(->
 				([=](-V- LINK2_Position) L_4_a)
 				(&&
-<<<<<<< HEAD
+
 					 (|| ([=](-V- End_Eff_B_Position) L_4_a) ([=](-V- End_Eff_B_Position) L_4_b) ([=](-V- End_Eff_B_Position) L_5_b))
-=======
-					 (|| ([=](-V- End_Eff_B) L_4_a) ([=](-V- End_Eff_B) L_4_b) ([=](-V- End_Eff_B) L_5_b))
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
+
 					(next (|| ([=](-V- LINK2_Position) L_4_a) ([=](-V- LINK2_Position) L_4_b) ([=] (-V- LINK2_Position) L_5_a) ([=](-V- LINK2_Position) L_6)))
 
 				)
@@ -235,11 +210,9 @@
 			(->
 				([=](-V- LINK2_Position) L_4_b)
 				(&&
-<<<<<<< HEAD
+
 					 (|| ([=](-V- End_Eff_B_Position) L_4_a) ([=](-V- End_Eff_B_Position) L_4_b) ([=](-V- End_Eff_B_Position) L_7) ([=](-V- End_Eff_B_Position) L_1))
-=======
-					 (|| ([=](-V- End_Eff_B) L_4_a) ([=](-V- End_Eff_B) L_4_b) ([=](-V- End_Eff_B) L_7) ([=](-V- End_Eff_B) L_1))
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
+
 					(next (|| ([=](-V- LINK2_Position) L_1) ([=](-V- LINK2_Position) L_7) ([=](-V- LINK2_Position) L_2) ([=](-V- LINK2_Position) L_4_a) ([=](-V- LINK2_Position) L_4_b) ([=](-V- LINK2_Position) L_6)))
 
 				)
@@ -266,11 +239,9 @@
 			(->
 				([=] (-V- LINK2_Position) L_5_a)
 				(&&
-<<<<<<< HEAD
+
 					 (|| ([=](-V- End_Eff_B_Position) L_5_a) ([=](-V- End_Eff_B_Position) L_5_b))
-=======
-					 (|| ([=](-V- End_Eff_B) L_5_a) ([=](-V- End_Eff_B) L_5_b))
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
+
 					(next (|| ([=] (-V- LINK2_Position) L_5_a) ([=] (-V- LINK2_Position) L_5_b) ([=](-V- LINK2_Position) L_6)))
 
 				)
@@ -279,11 +250,9 @@
 			(->
 				([=] (-V- LINK2_Position) L_5_b)
 				(&&
-<<<<<<< HEAD
+
 					 (|| ([=](-V- End_Eff_B_Position) L_4_a) ([=](-V- End_Eff_B_Position) L_5_a) ([=](-V- End_Eff_B_Position) L_5_b))
-=======
-					 (|| ([=](-V- End_Eff_B) L_4_a) ([=](-V- End_Eff_B) L_5_a) ([=](-V- End_Eff_B) L_5_b))
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
+
 					(next (|| ([=](-V- LINK2_Position) L_4_a)  ([=] (-V- LINK2_Position) L_5_a) ([=] (-V- LINK2_Position) L_5_b) ([=](-V- LINK2_Position) L_6)))
 
 				)
@@ -297,11 +266,8 @@
 
 			(->
 				([=](-V- LINK2_Position) L_6)
-<<<<<<< HEAD
 				([=] (-V- End_Eff_B_Position) L_6)
-=======
-				([=] (-V- End_Eff_B) L_6)
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
+
 			)
 
 
@@ -321,11 +287,8 @@
 			(<->
 
 				(-P- End_Eff_Moving)
-<<<<<<< HEAD
 				(!!([=] (-V- End_Eff_B_Position) (yesterday (-V- End_Eff_B_Position))))
-=======
-				(!!([=] (-V- End_Eff_B) (yesterday (-V- End_Eff_B))))
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
+
 					
 			)
 

@@ -393,11 +393,8 @@
  			([=] (-V- Action_Post 1) 1)
  			(&&
  				; (!! (-P- End_Eff_facing_Operator))
-<<<<<<< HEAD
  				(|| ([=](-V- Body_Part_pos hand) L_5_a) ([=](-V- Body_Part_pos hand) L_5_b))
-=======
- 				(|| ([=](-V- Body_part hand) L_5_a) ([=](-V- Body_part hand) L_5_b))
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
+
  				(-P- Robot_Homing)
  			)
 		)
@@ -420,11 +417,7 @@
 	 		([=] (-V- Action_Pre 2) 1)
 	 		(&& 
 	 			([=] (-V- actions 1 1) done)
-<<<<<<< HEAD
 	 			(|| ([=](-V- Body_Part_pos hand) L_5_a) ([=](-V- Body_Part_pos hand) L_5_b))
-=======
-	 			(|| ([=](-V- Body_part hand) L_5_a) ([=](-V- Body_part hand) L_5_b))
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 	 			(-P- Robot_Homing)
 	 			; (!! (-P- End_Eff_facing_Operator))
  			)
@@ -472,11 +465,8 @@
  		(<->
  			([=] (-V- Action_Post 3) 1)
  			(&& 
-<<<<<<< HEAD
 				(|| ([=](-V- Body_Part_pos hand) L_7) ([=](-V- Body_Part_pos hand) L_1))	
-=======
-				(|| ([=](-V- Body_part hand) L_7) ([=](-V- Body_part hand) L_1))	
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
+
 				(-P- partTaken)
 				(-P- Robot_Homing)
 				; (!! (-P- End_Eff_facing_Operator))
@@ -504,11 +494,8 @@
 	 		([=] (-V- Action_Pre 4) 1)
 	 		(&& 
 	 			([=] (-V- actions 3 1) done)
-<<<<<<< HEAD
 				([=](-V- Body_Part_pos hand) L_1)	
-=======
-				([=](-V- Body_Part hand) L_1)	
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
+
 				(-P- partTaken)
 				(-P- Robot_Homing)
 				; (!! (-P- End_Eff_facing_Operator))
@@ -519,11 +506,8 @@
  		(<->
  			([=] (-V- Action_Post 4) 1)
  			(&& 
-<<<<<<< HEAD
 				([=](-V- Body_Part_pos hand) L_1)	
-=======
-				([=](-V- Body_Part hand) L_1)	
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
+
 				; (-P- partFixed)
 				(-P- partTaken)
 				(-P- Robot_Homing)
@@ -562,15 +546,10 @@
 	 		(&&
 	 			([=] (-V- actions 4 1) done)
 	 			(-P- partTaken)
-<<<<<<< HEAD
 	 			([=](-V- Body_Part_pos hand) L_1)	
 				; (-P- partFixed)
 	 			([=](-V- End_Eff_B_Position) L_1)
-=======
-	 			([=](-V- Body_Part hand) L_1)	
-				; (-P- partFixed)
-	 			([=](-V- End_Eff_B) L_1)
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
+
 	 			; (!! (-P- End_Eff_facing_Operator))
 	 			; (!!(-P- partHold))
  			)
@@ -586,11 +565,8 @@
 		(<->
 			([=] (-V- Action_SafetyPro 5) 1)
 			; (&&
-<<<<<<< HEAD
 	 			([=](-V- Body_Part_pos hand) L_1)	
-=======
-	 			([=](-V- Body_Part hand) L_1)	
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
+
 				; (-P- partFixed)
 	 			; ([=](-V- End_Eff_B) L_1)
  			; )
@@ -640,12 +616,8 @@
 				([=] (-V- actions 5 1) executing)
 				 ; ([=] (-V- actions 5 1) parallel-executing))
 
-<<<<<<< HEAD
 				([=](-V- Body_Part_pos hand) L_1)	
-=======
-				([=](-V- Body_Part hand) L_1)	
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
-				; (-P- partFixed)
+
 	 		)
 	
 
@@ -654,11 +626,9 @@
  		(<->
  			([=] (-V- Action_Post 6) 1)
  			(&& 
-<<<<<<< HEAD
+
 				; ([=](-V- Body_Part_pos hand) L_6)
-=======
-				; ([=](-V- Body_part hand) L_6)
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
+
 				; (|| 
 				([=] (-V- actions 5 1) executing) 
 				; ([=] (-V- actions 5 1) parallel-executing))
@@ -666,12 +636,8 @@
 				; (-P- partFixed)
 				(!! (-P- LINK1_Moving))
 				(!! (-P- LINK2_Moving))
-<<<<<<< HEAD
-	 			([=](-V- End_Eff_B_Position) L_1)
-=======
-	 			([=](-V- End_Eff_B) L_1)
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 
+	 			([=](-V- End_Eff_B_Position) L_1)
 
 	 		)	
 		)
@@ -679,11 +645,7 @@
 		(<->
 			([=] (-V- Action_SafetyPro 6) 1)
 			(&&
-<<<<<<< HEAD
 				([=](-V- Body_Part_pos hand) L_1)
-=======
-				([=](-V- Body_Part hand) L_1)
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 
 				; (|| 
 				([=] (-V- actions 5 1) executing) 
@@ -693,11 +655,8 @@
 				(-A- i body_indexes 
 					(->  ; no part allowed on pallet except hand
 						([!=] i hand)
-<<<<<<< HEAD
 						([!=](-V- Body_Part_pos i) L_1)
-=======
-						([!=](-V- Body_Part i) L_1)
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
+
 					)
 				)
 			)
@@ -722,19 +681,11 @@
 	 				([=] (-V- actions (- i 1) 1) done)
 	 				; (|| ([=] (-V- actions 5 1) executing) ([=] (-V- actions 5 1) parallel-executing))
 	 				([=] (-V- actions 5 1) executing)
-<<<<<<< HEAD
 					([=](-V- Body_Part_pos hand) L_1)	
 					; (-P- partFixed)
 					(!! (-P- LINK1_Moving))
 					(!! (-P- LINK2_Moving))
 		 			([=](-V- End_Eff_B_Position) L_1)
-=======
-					([=](-V- Body_part hand) L_1)	
-					; (-P- partFixed)
-					(!! (-P- LINK1_Moving))
-					(!! (-P- LINK2_Moving))
-		 			([=](-V- End_Eff_B) L_1)
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 		 		)
 		 		
  		)	
@@ -743,21 +694,13 @@
  			; (-P- Action7_Post)
  			([=] (-V- Action_Post i) 1)
  			(&& 
-<<<<<<< HEAD
 				([=](-V- Body_Part_pos hand) L_1)	
-=======
-				([=](-V- Body_part hand) L_1)	
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 				; (|| ([=] (-V- actions 5 1) executing) ([=] (-V- actions 5 1) parallel-executing))
 				([=] (-V- actions 5 1) executing)
 				; (-P- partFixed)
 				(!! (-P- LINK1_Moving))
 					(!! (-P- LINK2_Moving))
-<<<<<<< HEAD
 	 			([=](-V- End_Eff_B_Position) L_1)
-=======
-	 			([=](-V- End_Eff_B) L_1)
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 	 			(-P- preparedJig)
 	 			; (!! (-P- NewIteration))
 
@@ -769,30 +712,18 @@
 			([=] (-V- Action_SafetyPro i) 1)
 			; (-P- Action7_SafetyPro)
 			(&&
-<<<<<<< HEAD
 				([=](-V- Body_Part_pos hand) L_1)	
-=======
-				([=](-V- Body_part hand) L_1)	
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 				; (|| ([=] (-V- actions 5 1) executing) ([=] (-V- actions 5 1) parallel-executing))
 				([=] (-V- actions 5 1) executing)
 				; (-P- partFixed)
 				(!! (-P- LINK1_Moving))
 				(!! (-P- LINK2_Moving))
-<<<<<<< HEAD
 	 			([=](-V- End_Eff_B_Position) L_1)
-=======
-	 			([=](-V- End_Eff_B) L_1)
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 	 			; (!! ([=] (-V- actions (+ i 1) 1) executing))
 	 			(-A- j body_indexes 
 					(->  ; no part allowed on pallet except hand
 						([!=] j hand)
-<<<<<<< HEAD
 						([!=](-V- Body_Part_pos j) L_1)
-=======
-						([!=](-V- Body_Part j) L_1)
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 					)
 				)
 			)
@@ -818,15 +749,9 @@
 	 			([=] (-V- actions (- i 1) 1) done)
 	 			([=] (-V- actions 5 1) executing)
 	 			; (|| ([=] (-V- actions 5 1) executing) ([=] (-V- actions 5 1) parallel-executing))
-<<<<<<< HEAD
 		 		([=](-V- Body_Part_pos hand) L_1)	
 				; (-P- partFixed)
 	 			([=](-V- End_Eff_B_Position) L_1)
-=======
-		 		([=](-V- Body_part hand) L_1)	
-				; (-P- partFixed)
-	 			([=](-V- End_Eff_B) L_1)
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 	 			(-P- preparedjig)
  			)
  		)
@@ -834,26 +759,16 @@
  		(<->
  			([=] (-V- Action_Post i) 1)
  			(&&
-<<<<<<< HEAD
  				([=](-V- Body_Part_pos hand) L_1)	
 				; (-P- partFixed)
 	 			([=](-V- End_Eff_B_Position) L_1)
-=======
- 				([=](-V- Body_part hand) L_1)	
-				; (-P- partFixed)
-	 			([=](-V- End_Eff_B) L_1)
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 	 			([=] (-V- actions 5 1) executing)
 	 			;(|| ([=] (-V- actions 5 1) executing) ([=] (-V- actions 5 1) parallel-executing))
 	 			; (!! ([=] (-V- actions (+ i 1) executing))
 	 			(-A- j body_indexes 
 					(->  ; no part allowed on pallet except hand
 						([!=] j hand)
-<<<<<<< HEAD
 						([!=](-V- Body_Part_pos j) L_1)
-=======
-						([!=](-V- Body_Part j) L_1)
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 					)
 				)
 				; (-P- ScrewDriveReady)
@@ -864,26 +779,16 @@
 		(<->
 			([=] (-V- Action_SafetyPro i) 1)
 			(&&
-<<<<<<< HEAD
 				([=](-V- Body_Part_pos hand) L_1)	
 				; (-P- partFixed)
 	 			([=](-V- End_Eff_B_Position) L_1)
-=======
-				([=](-V- Body_part hand) L_1)	
-				; (-P- partFixed)
-	 			([=](-V- End_Eff_B) L_1)
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 	 			; (-P- preparedjig)
 	 			([=] (-V- actions 5 1) executing)
 	 			;(|| ([=] (-V- actions 5 1) executing) ([=] (-V- actions 5 1) parallel-executing))
 	 			(-A- j body_indexes 
 					(->  ; no part allowed on pallet except hand
 						([!=] j hand)
-<<<<<<< HEAD
 						([!=](-V- Body_Part_pos j) L_1)
-=======
-						([!=](-V- Body_Part j) L_1)
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 					)
 				)
 			)
@@ -908,24 +813,16 @@
 	 			
 	 			([=] (-V- actions 5 1) executing)
 	 			;(|| ([=] (-V- actions 5 1) executing) ([=] (-V- actions 5 1) parallel-executing))
-<<<<<<< HEAD
+
 	 			([=](-V- Body_Part_pos hand) L_1)	
 				; (-P- partFixed)
 	 			([=](-V- End_Eff_B_Position) L_1)
-=======
-	 			([=](-V- Body_part hand) L_1)	
-				; (-P- partFixed)
-	 			([=](-V- End_Eff_B) L_1)
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
+
 	 		
 	 			(-A- j body_indexes 
 					(->  ; no part allowed on pallet except hand
 						([!=] j hand)
-<<<<<<< HEAD
 						([!=](-V- Body_Part_pos j) L_1)
-=======
-						([!=](-V- Body_Part j) L_1)
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 					)
 				)
 	 			; (-P- ScrewDriveReady)
@@ -944,26 +841,16 @@
  		(<->
  			([=] (-V- Action_Post i) 1)
  			(&&
-<<<<<<< HEAD
 				([=](-V- Body_Part_pos hand) L_1)	
 				; (-P- partFixed)
 	 			([=](-V- End_Eff_B_Position) L_1)
-=======
-				([=](-V- Body_part hand) L_1)	
-				; (-P- partFixed)
-	 			([=](-V- End_Eff_B) L_1)
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 	 			([=] (-V- actions 5 1) executing)
 	 			;(|| ([=] (-V- actions 5 1) executing) ([=] (-V- actions 5 1) parallel-executing))
 	 		
 	 			(-A- j body_indexes 
 					(->  ; no part allowed on pallet except hand
 						([!=] j hand)
-<<<<<<< HEAD
 						([!=](-V- Body_Part_pos j) L_1)
-=======
-						([!=](-V- Body_Part j) L_1)
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 					)
 				)
 				
@@ -975,25 +862,15 @@
 			([=] (-V- Action_SafetyPro i) 1)
 			
 			(&&
-<<<<<<< HEAD
 				([=](-V- Body_Part_pos hand) L_1)	
 				; (-P- partFixed)
 	 			([=](-V- End_Eff_B_Position) L_1)
-=======
-				([=](-V- Body_part hand) L_1)	
-				; (-P- partFixed)
-	 			([=](-V- End_Eff_B) L_1)
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 	 			([=] (-V- actions 5 1) executing)
 	 			;(|| ([=] (-V- actions 5 1) executing) ([=] (-V- actions 5 1) parallel-executing))
 	 			(-A- j body_indexes 
 					(->  ; no part allowed on pallet except hand
 						([!=] j hand)
-<<<<<<< HEAD
 						([!=](-V- Body_Part_pos j) L_1)
-=======
-						([!=](-V- Body_Part j) L_1)
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 					)
 				)
 			)
@@ -1016,24 +893,15 @@
 	 			([=] (-V- actions (- i 1) 1) done)
 	 			([=] (-V- actions 5 1) executing)
 	 			;(|| ([=] (-V- actions 5 1) executing) ([=] (-V- actions 5 1) parallel-executing))
-<<<<<<< HEAD
+
 				([=](-V- Body_Part_pos hand) L_1)	
 				; (-P- partFixed)
 	 			([=](-V- End_Eff_B_Position) L_1)
-=======
-				([=](-V- Body_Part hand) L_1)	
-				; (-P- partFixed)
-	 			([=](-V- End_Eff_B) L_1)
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 	 		
 	 			(-A- j body_indexes 
 					(->  ; no part allowed on pallet except hand
 						([!=] j hand)
-<<<<<<< HEAD
 						([!=](-V- Body_Part_pos j) L_1)
-=======
-						([!=](-V- Body_Part j) L_1)
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 					)
 				)
 			)
@@ -1043,28 +911,16 @@
  		(<->
  			([=] (-V- Action_Post i) 1)
  			(&&
-<<<<<<< HEAD
 				([=](-V- Body_Part_pos hand) L_1)	
 				([=] (-V- actions 5 1) executing)
 				;(|| ([=] (-V- actions 5 1) executing) ([=] (-V- actions 5 1) parallel-executing))
 				; (-P- partFixed)
 	 			([=](-V- End_Eff_B_Position) L_1)
-=======
-				([=](-V- Body_Part hand) L_1)	
-				([=] (-V- actions 5 1) executing)
-				;(|| ([=] (-V- actions 5 1) executing) ([=] (-V- actions 5 1) parallel-executing))
-				; (-P- partFixed)
-	 			([=](-V- End_Eff_B) L_1)
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 	 		
 	 			(-A- j body_indexes 
 					(->  ; no part allowed on pallet except hand
 						([!=] j hand)
-<<<<<<< HEAD
 						([!=](-V- Body_Part_pos j) L_1)
-=======
-						([!=](-V- Body_Part j) L_1)
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 					)
 				)
 			)
@@ -1074,25 +930,15 @@
 		(<->
 			([=] (-V- Action_SafetyPro i) 1)
 			(&&
-<<<<<<< HEAD
 				([=](-V- Body_Part_pos hand) L_1)	
 				; (-P- partFixed)
 	 			([=](-V- End_Eff_B_Position) L_1)
-=======
-				([=](-V- Body_Part hand) L_1)	
-				; (-P- partFixed)
-	 			([=](-V- End_Eff_B) L_1)
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 	 			([=] (-V- actions 5 1) executing)
 	 			;(|| ([=] (-V- actions 5 1) executing) ([=] (-V- actions 5 1) parallel-executing))
 	 			(-A- j body_indexes 
 					(->  ; no part allowed on pallet except hand
 						([!=] j hand)
-<<<<<<< HEAD
 						([!=](-V- Body_Part_pos j) L_1)
-=======
-						([!=](-V- Body_Part j) L_1)
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 					)
 				)
 			)
@@ -1115,24 +961,14 @@
 	 			([=] (-V- actions (- i 1) 1) done)
 	 			([=] (-V- actions 5 1) executing)
 	 			;(|| ([=] (-V- actions 5 1) executing) ([=] (-V- actions 5 1) parallel-executing))
-<<<<<<< HEAD
 				([=](-V- Body_Part_pos hand) L_1)	
 				; (-P- partFixed)
 	 			([=](-V- End_Eff_B_Position) L_1)
-=======
-				([=](-V- Body_Part hand) L_1)	
-				; (-P- partFixed)
-	 			([=](-V- End_Eff_B) L_1)
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 	 		
 	 			(-A- j body_indexes 
 					(->  ; no part allowed on pallet except hand
 						([!=] j hand)
-<<<<<<< HEAD
 						([!=](-V- Body_Part_pos j) L_1)
-=======
-						([!=](-V- Body_Part j) L_1)
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 					)
 				)
 			)
@@ -1142,26 +978,15 @@
  		(<->
  			([=] (-V- Action_Post i) 1)
  			(&&
-<<<<<<< HEAD
 				([=](-V- Body_Part_pos hand) L_1)	
 				; (-P- partFixed)
 				; ([=] (-V- actions 5 1) executing)
 	 			([=](-V- End_Eff_B_Position) L_1)
-=======
-				([=](-V- Body_Part hand) L_1)	
-				; (-P- partFixed)
-				; ([=] (-V- actions 5 1) executing)
-	 			([=](-V- End_Eff_B) L_1)
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 	 		
 	 			(-A- j body_indexes 
 					(->  ; no part allowed on pallet except hand
 						([!=] j hand)
-<<<<<<< HEAD
 						([!=](-V- Body_Part_pos j) L_1)
-=======
-						([!=](-V- Body_Part j) L_1)
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 					)
 				)
 			)
@@ -1170,26 +995,16 @@
 		(<->
 			([=] (-V- Action_SafetyPro i) 1)
 			(&&
-<<<<<<< HEAD
 				([=](-V- Body_Part_pos hand) L_1)	
 				; (-P- partFixed)
 	 			([=](-V- End_Eff_B_Position) L_1)
-=======
-				([=](-V- Body_Part hand) L_1)	
-				; (-P- partFixed)
-	 			([=](-V- End_Eff_B) L_1)
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 	 			([=] (-V- actions 5 1) executing)
 	 			;(|| ([=] (-V- actions 5 1) executing) ([=] (-V- actions 5 1) parallel-executing))
 	 		
 	 			(-A- j body_indexes 
 					(->  ; no part allowed on pallet except hand
 						([!=] j hand)
-<<<<<<< HEAD
 						([!=](-V- Body_Part_pos j) L_1)
-=======
-						([!=](-V- Body_Part j) L_1)
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 					)
 				)
 			)		
@@ -1213,11 +1028,7 @@
 	 		; (&&
 	 			; ([>=] i 0)
 	 			([=] (-V- actions (- i 1) 1) done)
-<<<<<<< HEAD
 			; 	([=](-V- Body_Part_pos hand) L_6)	
-=======
-			; 	([=](-V- Body_Part hand) L_6)	
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 			; 	([=] (-V- actions 5 1) executing)
 			; 	(-P- partFixed)
 	 	; 		([=](-V- End_Eff_B) L_6)
@@ -1227,11 +1038,6 @@
 	 	; 		(-A- j body_indexes 
 			; 		(->  ; no part allowed on pallet except hand
 			; 			([!=] j hand)
-<<<<<<< HEAD
-			; 			([!=](-V- Body_Part_pos j) L_6)
-=======
-			; 			([!=](-V- Body_Part j) L_6)
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 			; 		)
 			; 	)
 			; )
@@ -1264,11 +1070,7 @@
 				(!! (-P- partHold))
 				(-A- i body_indexes 
 					  ; no part on pallet
-<<<<<<< HEAD
 						([!=](-V- Body_Part_pos i) L_1)
-=======
-						([!=](-V- Body_Part i) L_1)
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 					
 				)
 
@@ -1282,11 +1084,7 @@
 			(&&
 				([=](-V- LINK1_Position) (yesterday(-V- LINK1_Position)))
 	 			([=](-V- LINK2_Position) (yesterday(-V- LINK2_Position)))
-<<<<<<< HEAD
 	 			([=](-V- End_Eff_B_Position) (yesterday(-V- End_Eff_B_Position)))
-=======
-	 			([=](-V- End_Eff_B) (yesterday(-V- End_Eff_B)))
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
  			)
 
 		)
@@ -1313,11 +1111,7 @@
 				(&& 
 					; ([=](-V- LINK1_Position) L_1)
  				; 	([=](-V- LINK2) L_2)
-<<<<<<< HEAD
  					(!!([=](-V- End_Eff_B_Position) L_1))
-=======
- 					(!!([=](-V- End_Eff_B) L_1))
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 				)
 			
 		)

@@ -4,13 +4,10 @@
 
 	;number of body parts
 		
-
-<<<<<<< HEAD
 		(define-tvar Body_Part_pos *int* *int*)
-=======
-		(define-tvar Body_Part  *int* *int*)
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
+
 		(defvar body_indexes (loop for i from 1 to 11 collect i))
+		(defvar adjacency-indexes (loop for i from 1 to 11 collect i))
 
 	;;Name of bodyParts
 
@@ -44,196 +41,116 @@
 		;11 Neck (sides/neck)
 		;12 Lower arm/Hand joint
 
-<<<<<<< HEAD
-=======
 
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
 (defconstant *Operator_Body*
+  (alwf 
 
-	(alwf 
-	  (-A- i body_indexes
+	  (-A- i body_indexes 
+
 		(&& 
-<<<<<<< HEAD
+
 			(&& ([>=](-V- Body_Part_pos i) L_1) ([<=](-V- Body_Part_pos i) L_7))
-=======
-			(&& ([>=](-V- Body_Part i) L_1) ([<=](-V- Body_Part i) L_7))
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
-
-		
-		
-
-	    	(->
-	    		(-E- j body_indexes 	
-<<<<<<< HEAD
-	    			([=](-V- Body_Part_pos j) L_1)
-    			)
-	    		
-				(|| ([=](-V- Body_Part_pos i) L_1) ([=](-V- Body_Part_pos i) L_2) ([=](-V- Body_Part_pos i) L_4_a) ([=](-V- Body_Part_pos i) L_4_b) ([=](-V- Body_Part_pos i) L_7))
-=======
-	    			([=](-V- Body_Part j) L_1)
-    			)
-	    		
-				(|| ([=](-V- Body_Part i) L_1) ([=](-V- Body_Part i) L_2) ([=](-V- Body_Part i) L_4_a) ([=](-V- Body_Part i) L_4_b) ([=](-V- Body_Part i) L_7))
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
-			)
-
-	    	(->
-	    		(-E- j body_indexes 	
-<<<<<<< HEAD
-	    			([=](-V- Body_Part_pos j) L_2)
-    			)
-	    		
-				(|| ([=](-V- Body_Part_pos i) L_1) ([=](-V- Body_Part_pos i) L_7) ([=](-V- Body_Part_pos i) L_2) ([=](-V- Body_Part_pos i) L_3_a) ([=](-V- Body_Part_pos i) L_3_b) ([=](-V- Body_Part_pos i) L_3_c) ([=](-V- Body_Part_pos i) L_4_a) ([=](-V- Body_Part_pos i) L_4_b))
-=======
-	    			([=](-V- Body_Part j) L_2)
-    			)
-	    		
-				(|| ([=](-V- Body_Part i) L_1) ([=](-V- Body_Part i) L_7) ([=](-V- Body_Part i) L_2) ([=](-V- Body_Part i) L_3_a) ([=](-V- Body_Part i) L_3_b) ([=](-V- Body_Part i) L_3_c) ([=](-V- Body_Part i) L_4_a) ([=](-V- Body_Part i) L_4_b))
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
-			)
-
-			(->
-	    		(-E- j body_indexes 	
-<<<<<<< HEAD
-	    			([=](-V- Body_Part_pos j) L_3_a)
-    			)
-	    		
-				(|| ([=](-V- Body_Part_pos i) L_3_a) ([=](-V- Body_Part_pos i) L_3_b))
-=======
-	    			([=](-V- Body_Part j) L_3_a)
-    			)
-	    		
-				(|| ([=](-V- Body_Part i) L_3_a) ([=](-V- Body_Part i) L_3_b))
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
-			)
-
-			(->
-	    		(-E- j body_indexes 	
-<<<<<<< HEAD
-	    			([=](-V- Body_Part_pos j) L_3_b)
-    			)
-	    		
-				(|| ([=](-V- Body_Part_pos i) L_3_a) ([=](-V- Body_Part_pos i) L_3_b) ([=](-V- Body_Part_pos i) L_3_c))
-			)
-			(->
-	    		(-E- j body_indexes 	
-	    			([=](-V- Body_Part_pos j) L_3_c)
-    			)
-	    		
-				(|| ([=](-V- Body_Part_pos i) L_1) ([=](-V- Body_Part_pos i) L_2) ([=](-V- Body_Part_pos i) L_7) ([=](-V- Body_Part_pos i) L_3_b) ([=](-V- Body_Part_pos i) L_3_c))
-=======
-	    			([=](-V- Body_Part j) L_3_b)
-    			)
-	    		
-				(|| ([=](-V- Body_Part i) L_3_a) ([=](-V- Body_Part i) L_3_b) ([=](-V- Body_Part i) L_3_c))
-			)
-			(->
-	    		(-E- j body_indexes 	
-	    			([=](-V- Body_Part j) L_3_c)
-    			)
-	    		
-				(|| ([=](-V- Body_Part i) L_1) ([=](-V- Body_Part i) L_2) ([=](-V- Body_Part i) L_7) ([=](-V- Body_Part i) L_3_b) ([=](-V- Body_Part i) L_3_c))
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
-			)
 
 
-			(->
-	    		(-E- j body_indexes 	
-<<<<<<< HEAD
-	    			([=](-V- Body_Part_pos j) L_4_a)
-    			)
-	    		
-				(|| ([=](-V- Body_Part_pos i) L_4_a) ([=](-V- Body_Part_pos i) L_4_b) ([=](-V- Body_Part_pos i) L_5_b))
-=======
-	    			([=](-V- Body_Part j) L_4_a)
-    			)
-	    		
-				(|| ([=](-V- Body_Part i) L_4_a) ([=](-V- Body_Part i) L_4_b) ([=](-V- Body_Part i) L_5_b))
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
-			)
+			;  (-A- j body_indexes
+
+			; 	(-E- x adjucency-indexes
+			; 		(-E- y adjucency-indexes
+
+			; 		(&& ([=](-V- Body_Part_pos i) x) ([=](-V- Body_Part_pos j) y))
+			; 			; (->
+			; 			; 	(&& ([=](-V- Body_Part_pos i) x) ([=](-V- Body_Part_pos j) y) (!! ([=] i j)))
+			; 			; 	(|| ([=] (-V- adjucency x y) 1) ([=] x y))
+			; 			; )
+			; 			; (&& ([=](-V- Body_Part_pos i) x) ([=](-V- Body_Part_pos j) y) (|| ([=] (-V- adjucency x y) 1) ([=] x y)))
 
 
-			(->
-	    		(-E- j body_indexes 	
-<<<<<<< HEAD
-	    			([=](-V- Body_Part_pos j) L_4_b)
-    			)
-	    		
-				(|| ([=](-V- Body_Part_pos i) L_1) ([=](-V- Body_Part_pos i) L_2) ([=](-V- Body_Part_pos i) L_4_a) ([=](-V- Body_Part_pos i) L_4_b) ([=](-V- Body_Part_pos i) L_7))
-=======
-	    			([=](-V- Body_Part j) L_4_b)
-    			)
-	    		
-				(|| ([=](-V- Body_Part i) L_1) ([=](-V- Body_Part i) L_2) ([=](-V- Body_Part i) L_4_a) ([=](-V- Body_Part i) L_4_b) ([=](-V- Body_Part i) L_7))
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
-			)
+			; 		)
+			; 	)
+			; )
+; 		)
+; 	)
+;   )
+; )	
+(->
+	(-E- j body_indexes 	
 
+		([=](-V- Body_Part_pos j) L_1)
+	)
+	
+	(|| ([=](-V- Body_Part_pos i) L_1) ([=](-V- Body_Part_pos i) L_2) ([=](-V- Body_Part_pos i) L_4_a) ([=](-V- Body_Part_pos i) L_4_b) ([=](-V- Body_Part_pos i) L_7))
+)
+(->
+	(-E- j body_indexes 	
 
-			(->
-	    		(-E- j body_indexes 	
-<<<<<<< HEAD
-	    			([=](-V- Body_Part_pos j) L_5_a)
-    			)
-	    		
-				(|| ([=](-V- Body_Part_pos i) L_5_a) ([=](-V- Body_Part_pos i) L_5_b))
-=======
-	    			([=](-V- Body_Part j) L_5_a)
-    			)
-	    		
-				(|| ([=](-V- Body_Part i) L_5_a) ([=](-V- Body_Part i) L_5_b))
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
-			)
+		([=](-V- Body_Part_pos j) L_2)
+	)
+	
+	(|| ([=](-V- Body_Part_pos i) L_1) ([=](-V- Body_Part_pos i) L_7) ([=](-V- Body_Part_pos i) L_2) ([=](-V- Body_Part_pos i) L_3_a) ([=](-V- Body_Part_pos i) L_3_b) ([=](-V- Body_Part_pos i) L_3_c) ([=](-V- Body_Part_pos i) L_4_a) ([=](-V- Body_Part_pos i) L_4_b)
+	)
+)
+(->
+	(-E- j body_indexes 	
+		([=](-V- Body_Part_pos j) L_3_a)
+	)
+	
+	(|| ([=](-V- Body_Part_pos i) L_3_a) ([=](-V- Body_Part_pos i) L_3_b)))
 
+(->
+	(-E- j body_indexes 	
 
-			(->
-	    		(-E- j body_indexes 	
-<<<<<<< HEAD
-	    			([=](-V- Body_Part_pos j) L_5_b)
-    			)
-	    		
-				(|| ([=](-V- Body_Part_pos i) L_4_a) ([=](-V- Body_Part_pos i) L_5_a) ([=](-V- Body_Part_pos i) L_5_b))
-=======
-	    			([=](-V- Body_Part j) L_5_b)
-    			)
-	    		
-				(|| ([=](-V- Body_Part i) L_4_a) ([=](-V- Body_Part i) L_5_a) ([=](-V- Body_Part i) L_5_b))
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
-			)
+		([=](-V- Body_Part_pos j) L_3_b)
+	)
+	
+	(|| ([=](-V- Body_Part_pos i) L_3_a) ([=](-V- Body_Part_pos i) L_3_b) ([=](-V- Body_Part_pos i) L_3_c)))
+(->
+	(-E- j body_indexes 	
+		([=](-V- Body_Part_pos j) L_3_c)
+	)
+	
+	(|| ([=](-V- Body_Part_pos i) L_1) ([=](-V- Body_Part_pos i) L_2) ([=](-V- Body_Part_pos i) L_7) ([=](-V- Body_Part_pos i) L_3_b) ([=](-V- Body_Part_pos i) L_3_c))
+	)
+(->
+	(-E- j body_indexes 	
 
-			(->
-	    		(-E- j body_indexes 	
-<<<<<<< HEAD
-	    			([=](-V- Body_Part_pos j) L_6)
-    			)
-	    		
-				(!! (&&([=](-V- Body_Part_pos i) L_1) ([=](-V- Body_Part_pos i) L_7)))
-=======
-	    			([=](-V- Body_Part j) L_6)
-    			)
-	    		
-				(!! (&&([=](-V- Body_Part i) L_1) ([=](-V- Body_Part i) L_7)))
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
-			)
+		([=](-V- Body_Part_pos j) L_4_a)
+	)
+	
+	(|| ([=](-V- Body_Part_pos i) L_4_a) ([=](-V- Body_Part_pos i) L_4_b) ([=](-V- Body_Part_pos i) L_5_b)))
+(->
+	(-E- j body_indexes 	
+		([=](-V- Body_Part_pos j) L_4_b)
+	)
+	
+	(|| ([=](-V- Body_Part_pos i) L_1) ([=](-V- Body_Part_pos i) L_2) ([=](-V- Body_Part_pos i) L_4_a) ([=](-V- Body_Part_pos i) L_4_b) ([=](-V- Body_Part_pos i) L_7)))
+(->
+	(-E- j body_indexes 	
+		([=](-V- Body_Part_pos j) L_5_a)
+	)
+	
+	(|| ([=](-V- Body_Part_pos i) L_5_a) ([=](-V- Body_Part_pos i) L_5_b)))
+(->
+	(-E- j body_indexes 	
 
-			(->
-	    		(-E- j body_indexes 	
-<<<<<<< HEAD
-	    			([=](-V- Body_Part_pos j) L_7)
-    			)
-	    		
-				(|| ([=](-V- Body_Part_pos i) L_1) ([=](-V- Body_Part_pos i) L_2) ([=](-V- Body_Part_pos i) L_7) ([=](-V- Body_Part_pos i) L_4_a) ([=](-V- Body_Part_pos i) L_3_c))
-=======
-	    			([=](-V- Body_Part j) L_7)
-    			)
-	    		
-				(|| ([=](-V- Body_Part i) L_1) ([=](-V- Body_Part i) L_2) ([=](-V- Body_Part i) L_7) ([=](-V- Body_Part i) L_4_a) ([=](-V- Body_Part i) L_3_c))
->>>>>>> 4418f41ce45058233940e9541edafc6b68fa44d2
-			)
+		([=](-V- Body_Part_pos j) L_5_b)
+	)
+	
+	(|| ([=](-V- Body_Part_pos i) L_4_a) ([=](-V- Body_Part_pos i) L_5_a) ([=](-V- Body_Part_pos i) L_5_b)))
+(->
+	(-E- j body_indexes 	
 
-			
+		([=](-V- Body_Part_pos j) L_6)
+	)
+	
+	(!! (&&([=](-V- Body_Part_pos i) L_1) ([=](-V- Body_Part_pos i) L_7))))
+(->
+	(-E- j body_indexes 	
 
-    		)
+		([=](-V- Body_Part_pos j) L_7)
+	)
+	
+	(|| ([=](-V- Body_Part_pos i) L_1) ([=](-V- Body_Part_pos i) L_2) ([=](-V- Body_Part_pos i) L_7) ([=](-V- Body_Part_pos i) L_4_a) ([=](-V- Body_Part_pos i) L_3_c)))
 		)
 	)
-)	
-	
+)
+	)
