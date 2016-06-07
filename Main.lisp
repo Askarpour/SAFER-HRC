@@ -73,7 +73,7 @@
  			Init
 
  			;;Layout
- 			 *adj*
+ 			 ; *adj*
 
  			;Operator 
  			*Operator_Body*

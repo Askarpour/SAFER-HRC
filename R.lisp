@@ -271,26 +271,7 @@
 			)
 
 
-			(<->
-
-				(-P- LINK1_Moving)	
-				(!!([=] (-V- LINK1_Position) (yesterday (-V- LINK1_Position))))
-			)
-
-			(<->
-
-				(-P- LINK2_Moving)
-				(!!([=] (-V- LINK2_Position) (yesterday (-V- LINK2_Position))))
-				
-			)
-
-			(<->
-
-				(-P- End_Eff_Moving)
-				(!!([=] (-V- End_Eff_B_Position) (yesterday (-V- End_Eff_B_Position))))
-
-					
-			)
+			
 
 
 			(<-> 
