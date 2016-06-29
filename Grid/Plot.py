@@ -1,25 +1,20 @@
-
-import matplotlib.pyplot as plt
-import numpy as numpy
-import matplotlib.gridspec as gridspec
-import math
-# import scipy, pylab
-
+import tables
+import numpy as np
 step = -1
+actions_num = 14
+hazards_num = 15
 records = {}
-
 bool_set = set()
 f = open('output.hist.txt')
 for line in f:
        line = line.strip()   # strip out carriage return
        if line.startswith("------ time"):
            step += 1
-#            print("------- STEP {0} -------".format(step))
        elif line.startswith("------ end"):
            pass
        elif line.strip() == "**LOOP**":
            records["LOOP"] = step
-           # BODY["LOOP"] = step
+
        else:
            key_value = line.split(" = ")   # split line, into key and value
            key = key_value[0]   # key is first item in list
@@ -35,20 +30,43 @@ for line in f:
               
            else:
                records[key] = [value]
- 
-# sqrt(step)
-d = 4 
-f, axarr = plt.subplots(d,d)
-i = 0
-for k in range(0, d):
-    for j in range(0, d):
-       body = [records['BODY_PART(1)'][i], records['BODY_PART(2)'][i], records['BODY_PART(3)'][i], records['BODY_PART(4)'][i], records['BODY_PART(5)'][i], records['BODY_PART(6)'][i], records['BODY_PART(7)'][i], records['BODY_PART(8)'][i], records['BODY_PART(9)'][i], records['BODY_PART(10)'][i], records['BODY_PART(11)'][i]]
-       robot = [records['ARM1'][i], records['ARM2'][i], records['END_EFF_B'][i], records['END_EFF_F'][i]]
-       axarr[k,j].scatter(body, body, color='blue')
-       axarr[k,j].scatter(robot, robot, color='red')
-       # axarr[k,j].axes.get_xaxis().set_visible(False)
-       # axarr[k,j].axes.get_yaxis().set_visible(False)
-       axarr[k,j].axis([1, 9, 1, 9])
-       axarr[k,j].grid(color='gray', linestyle='-')
 
-plt.show()
+##
+def chunks(l, n):
+    n = max(1, n)
+    return [l[i:i + n] for i in range(0, len(l), n)]
+
+action_state={}
+action_risk={}
+i = 0
+while i < actions_num:
+    i += 1
+    ##state of each action
+    action_state[i] = chunks (records['ACTIONS('+str(i)+ ' 1)'],1)
+    ##risk value of each action
+    action_risk[i] = chunks (records['ACTIONS('+str(i)+ ' 4)'],1)
+
+##
+hazard_state={}
+hazard_risk={}
+i = 0
+while i < hazards_num:
+    i += 1
+    #state of each hazard
+    hazard_state[i] = chunks (records['HAZARDS('+str(i)+ ' 0)'],1)
+    #risk value of each hazard
+    hazard_risk[i] = chunks (records['HAZARDS('+str(i)+ ' 4)'],1)
+
+###
+i = 0
+j = 0
+table=['<htm><body><table border="1">']
+while i < step:
+    table.append('<tr><td>{}</td><td>{}</td><td>{}</td><td>{}</td></tr>'.format('step'+str(i),'actions','state','risk value'))
+    while j < actions_num:
+        j += 1
+        table.append('<tr><td>{}</td><td>{}</td><td>{}</td><td>{}</td></tr>'.format('','action' + str(j),action_state[j][i],action_risk[j][i]))
+    i += 1
+    j = 0
+table.append('</table></body></html>')
+print ''.join(table)

@@ -6,17 +6,15 @@
 
 ;; Hazrads Parameters
 	
-	; hazards(i 0) --> 0/1 exists or no
+	; hazards(i 0) --> 0/1 origin exists or no. we assume that each hazard associates with a pair of (origin, consequence) in table A.1 of ISO10218
 	; hazrads(i 1) -->(Av+Fr+Pr)
-	; hazrads(i 2) --> Severity
-	; hazrads(i 3) -->Risk
-	; hazrads(i 4) -->RRM ----removed
-
-
-
-(defconstant Hazards
-  (&&
-
+	; hazrads(i 2) --> Consequence: impact (1) / entanglement (2)
+	; hazrads(i 3) --> severity 
+	; hazrads(i 4) --> risk 
+	(defvar impact 1)
+	(defvar entanglement 2)
+	
+(defconstant *HazardsInit*
   	;;initialization of existance and (Av+Fr+Pr)
 	
 	(-A- i hazards-indexes
@@ -28,46 +26,35 @@
 
 				([>=] (-V- hazards i 1) 1) 
 				([<=] (-V- hazards i 1) 15)	
+
+				(-> ([<=] i 9) ([=] (-V- hazards i 2) impact)) 
+				(-> ([>] i 9) ([=] (-V- hazards i 2) entanglement))	
+
+				([>=] (-V- hazards i 3) 1) 
+				([<=] (-V- hazards i 3) 4)	
+
+				([>=] (-V- hazards i 4) 0) 
+				([<=] (-V- hazards i 4) 2)	
+
 			)	
 		)
 
 	)
+)
 
 
 
-;;two types of hazards are considered : hit    entangled
-;; each of these two can happen by a point of robot, except that end-eff cannot entangle anything, so in total we have 5 category of hazards.
+;;two types of hazards are considered : impact    entangled
+;;The origin of each of these two can happen by a point of robot, except that end-eff cannot entangle anything, so in total we have 5 category of hazards.
 ;;then we consider 3 body-parts category: head and shoulders(1,2,10) waist-part(3,4,5) hands and arms(6,7,11)
 ;;and so we study 15 hazards in fact.
 
-
-		(->
-
-			(-P- hit)
-
-			(-E- j body_indexes
-										
-
-				(|| ([=](-V- Body_Part_pos j) (-V- End_Eff_F_Position)) ([=](-V- Body_Part_pos j) (-V- LINK1_Position)) ([=](-V- Body_Part_pos j) (-V- LINK2_Position)))
-
-			)
-		)
-
-
-		(->
-
-			(-P- entangled)
-
-			(-E- j body_indexes
-										
-
-				(|| ([=](-V- Body_Part_pos j) (-V- End_Eff_F_Position)) ([=](-V- Body_Part_pos j) (-V- LINK1_Position)) ([=](-V- Body_Part_pos j) (-V- LINK2_Position)))
-
-			)
-		)
-		
-
-		(<-> ;; hit by end-efector 
+(defconstant *Hazards*	
+	 (&&	
+		;; hit by end-efector
+		;;Origin: movements (normal or unexpected) of endeffector or any mobile part of robot cell
+		;;consequence: impact of upper body area
+		(<->  
 			([=] (-V- hazards 1 0) 1)
 			(&&
 				(-P- hit)
@@ -87,7 +74,10 @@
 			)
 		)
 
-		(<-> ;; hit by end-efector 
+		;; hit by end-efector
+		;;Origin: movements (normal or unexpected) of endeffector or any mobile part of robot cell
+		;;consequence: impact of waist body area
+		(<-> 
 			([=] (-V- hazards 2 0) 1)
 			(&&
 				(-P- hit)
@@ -107,7 +97,10 @@
 			)
 		)
 
-		(<-> ;; hit by end-efector 
+		;; hit by end-efector
+		;;Origin: movements (normal or unexpected) of endeffector or any mobile part of robot cell
+		;;consequence: impact of lower body area
+		(<-> 
 			([=] (-V- hazards 3 0) 1)
 			(&&
 				(-P- hit)
@@ -126,31 +119,6 @@
 			)
 		)
 
-		;;-----------------------------------------
-
-		(->
-			([=] (-V- hazards 1 0) 1)
-
-			(moveback (-V- End_Eff_F_Position) ([=] (-V- hazards 1 0) 1))
-			
-
-			; (until_ee rrm_End_Eff_F_Move_Back ([=] (-V- hazards 1 0) 0))
-		)
-
-		(->
-			([=] (-V- hazards 2 0) 1)
-			(moveback (-V- End_Eff_F_Position) ([=] (-V- hazards 2 0) 1))
-
-			; (until_ee rrm_End_Eff_F_Move_Back ([=] (-V- hazards 2 0) 0))
-		)
-		(->
-			([=] (-V- hazards 3 0) 1)
-			(moveback (-V- End_Eff_F_Position) ([=] (-V- hazards 3 0) 1))
-
-			; (until_ee rrm_End_Eff_F_Move_Back ([=] (-V- hazards 3 0) 0))
-		)
-
-		;;-----------------------------------------
 		(<-> ;; hit by Link1
 			([=] (-V- hazards 4 0) 1)
 			(&&
@@ -199,24 +167,6 @@
 			)
 		)
 
-		;;-----------------------------------------
-		(->
-			([=] (-V- hazards 4 0) 1)
-			(moveback (-V- LINK1_Position) ([=] (-V- hazards 4 0) 1))
-
-			; (until_ee rrm_LINK1_Move_Back ([=] (-V- hazards 4 0) 0))
-		)
-
-		(->
-			([=] (-V- hazards 5 0) 1)
-			(moveback (-V- LINK1_Position) ([=] (-V- hazards 5 0) 1))
-		)
-
-		(->
-			([=] (-V- hazards 6 0) 1)
-			(moveback (-V- LINK1_Position) ([=] (-V- hazards 6 0) 1))
-		)
-		;;-----------------------------------------
 
 		(<-> ;; hit by LINK2
 			([=] (-V- hazards 7 0) 1)
@@ -267,29 +217,6 @@
 				(-P- LINK2_Moving)
 			)
 		)
-		;;-----------------------------------------
-
-		(->
-			([=] (-V- hazards 7 0) 1)
-			; moveback ((-V- LINK2_Position))
-			(moveback (-V- LINK2_Position) ([=] (-V- hazards 7 0) 1))
-			; (until_ee rrm_LINK2_Move_Back ([=] (-V- hazards 7 0) 0))
-		)
-
-		(->
-			([=] (-V- hazards 8 0) 1)
-			(moveback (-V- LINK2_Position) ([=] (-V- hazards 8 0) 1))
-			; rrm_LINK2_Move_Back
-			; (until_ee rrm_LINK2_Move_Back ([=] (-V- hazards 8 0) 0))
-		)
-		(->
-			([=] (-V- hazards 9 0) 1)
-			(moveback (-V- LINK2_Position) ([=] (-V- hazards 9 0) 1))
-			; rrm_LINK2_Move_Back
-			; (until_ee rrm_LINK2_Move_Back ([=] (-V- hazards 9 0) 0))
-		)
-
-		;;-----------------------------------------
 
 
 		(<-> ;; entanglement by LINK1
@@ -346,22 +273,6 @@
 			; )
 		)
 
-		;;-----------------------------------------
-		(->
-			([=] (-V- hazards 10 0) 1)
-			(until_ee rrm_full_stop ([=] (-V- hazards 10 0) 0))
-		)
-		(->
-			([=] (-V- hazards 11 0) 1)
-			(until_ee rrm_full_stop ([=] (-V- hazards 11 0) 0))
-		)
-		(->
-			([=] (-V- hazards 12 0) 1)
-			(until_ee rrm_full_stop ([=] (-V- hazards 12 0) 0))
-		)
-
-		;;-----------------------------------------
-
 		(<-> ;; entanglement by LINK2
 			([=] (-V- hazards 13 0) 1)
 			(&&
@@ -416,46 +327,8 @@
 			)
 		)
 
-
-		;;-----------------------------------------
-		(->
-			([=] (-V- hazards 13 0) 1)
-			(until_ee rrm_full_stop ([=] (-V- hazards 13 0) 0))
-		)
-		(->
-			([=] (-V- hazards 14 0) 1)
-			(until_ee rrm_full_stop ([=] (-V- hazards 14 0) 0))
-		)
-		(->
-			([=] (-V- hazards 15 0) 1)
-			(until_ee rrm_full_stop ([=] (-V- hazards 15 0) 0))
-		)
-
-
-;;severity initialization
-
-
-	
-	([=] (-V- hazards 2 2) 2) 
-	([=] (-V- hazards 3 2) 3) 
-	([=] (-V- hazards 4 2) 4) 
-	([=] (-V- hazards 5 2) 1) 
-	([=] (-V- hazards 6 2) 2) 
-	([=] (-V- hazards 7 2) 4) 
-	([=] (-V- hazards 8 2) 1) 
-	([=] (-V- hazards 9 2) 2) 
-	([=] (-V- hazards 10 2) 3) 
-	([=] (-V- hazards 11 2) 1) 
-	([=] (-V- hazards 12 2) 2) 
-	([=] (-V- hazards 13 2) 3) 
-	([=] (-V- hazards 14 2) 1) 
-	([=] (-V- hazards 15 2) 2) 
-
-
-
 	)
 )
-
 
 ; ;;Risk Estimation
 

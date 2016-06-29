@@ -1,13 +1,15 @@
 (asdf:operate 'asdf:load-op 'ae2sbvzot)
 (use-package :trio-utils)
-(defvar TSPACE 100)
+(defvar TSPACE 50)
 
 (load "L.lisp")
 (load "R.lisp")
 (load "O.lisp")
-(load "Task-nop.lisp")
+(load "Task-nop-2.lisp")
 (load "RRM.lisp")
 (load "Hazards.lisp")
+(load "REs.lisp")
+(load "REv.lisp")
 (load "Properties.lisp")
 
 
@@ -23,12 +25,16 @@
 		
 	   	(-A- i actions-indexes
 
-	   			 ([=] (-V- actions i 1) notStarted))
+	   			 ([=] (-V- actions i 1) notstarted))
 	   		
-	   	 (somf (&& ([!=](-V- Body_Part_pos head) L_1) ([=] (-V- actions 6 1) executing)))
-	   	 (somf (&& ([!=](-V- Body_Part_pos head) L_1) ([=] (-V- actions 7 1) executing)))
-	   	 (somf (&& ([!=](-V- Body_Part_pos belly) L_1) ([=] (-V- actions 8 1) executing)))
+	   	 ; (somf (&& ([!=](-V- Body_Part_pos head) L_1) ([=] (-V- actions 6 1) executing)))
+	   	 ; (somf (&& ([!=](-V- Body_Part_pos head) L_1) ([=] (-V- actions 7 1) executing)))
+	   	 ; (somf (&& ([!=](-V- Body_Part_pos belly) L_1) ([=] (-V- actions 8 1) executing)))
+	   	 ;initially al severities are zero
 
+	;   	 ; (-A- i hazards-indexes
+	 ;  	 ; 	([=] (-V- hazards i 3) 0)  
+   	 ;	;  )
 
 
 		(alwf 
@@ -41,23 +47,22 @@
 				)
 			)
 
-
 	 	)
-	 	(Somf 
-	 		(-E- i actions-indexes
-				([=] (-V- actions i 1) pause)
-		 	)
-	 	)
+	 ; 	(Somf 
+	 ; 		(-E- i actions-indexes
+		; 		([=] (-V- actions i 1) paused)
+		;  	)
+	 ; 	)
 
 	 	; (somf 
 	 	; 	(-E- i actions-indexes
 	 	; 		(&& ([=] (-V- actions i 1) executing) (yesterday ([=] (-V- actions i 1) executing)))
 	 	; 	)
  		; )
- 		(somf 
-	 		(-A- i actions-indexes
-	 			([=] (-V- actions i 1) done))
- 		)
+ 		; (somf 
+	 	; 	(-A- i actions-indexes
+	 	; 		([=] (-V- actions i 1) done))
+ 		; )
  	)
 	
 )
@@ -68,18 +73,22 @@
  			Init
 
  			;;Layout
- 			 ; *adj*
+ 			*relevantProperties*
 
- 			;Operator 
+ 			;;Operator 
  			*Operator_Body*
 
- 			; ;;Robot		 
+ 			;;Robot		 
  			*Robot_Structure*
 
  			;;Hazards
- 			 (alwf Hazards)
- 		
- 			; ; ;;Task
+ 			 (alwf *HazardsInit*)
+ 			 (alwf *Hazards*)
+
+ 			; ;;risks
+ 			(alwf *REs*)
+
+ 			; ;;Task
     		(alwf *ActionInit*)
     		(alwf *SeqAction*)
 	   		(alwf *Action1*)

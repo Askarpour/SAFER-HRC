@@ -14,7 +14,7 @@
 ; (Som 
 ; 	(-E- i actions-indexes
 ; 		(&&
-; 			([=] (-V- actions i 1) pause)
+; 			([=] (-V- actions i 1) paused)
 ; 			(||
 ; 				(-A- x hazards-indexes
 ; 					([=] (-V- hazards i 0) 0) 

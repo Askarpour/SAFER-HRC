@@ -22,115 +22,44 @@
 		(defvar L_6 10)
 		(defvar L_7 11)
 
+;;we can say that we define three sets of relevant properties, each for a group of bodyparts (upper, waist lower limbs).		
+;;
+;;
+(define-tvar relevantVelocity *int*)
+;;relevant velocity of robot and Operator which can have one of the following three values: critical, normal, low
 
-;adjacent (x , y) means x and y are neighbors
-; (define-variable adjucency (loop for i from 0 to 1 collect i))
-; (defvar adjucency-indexes (loop for i from 1 to 11 collect i))
-
-; (setf adjucency #((0 0 0 0 1 0 1 0 0 0 1)
-;  (0 0 0 0 1 0 1 0 0 1 1)
-;  (0 0 1 1 0 0 0 0 0 1 0)
-;  (0 0 1 0 1 0 0 0 0 1 0)
-;  (1 1 0 1 0 0 0 0 0 1 1)
-;  (0 0 0 0 0 0 1 0 1 1 0)
-;  (1 1 0 0 0 1 0 0 0 1 1)
-;  (0 0 0 0 0 0 0 0 0 1 1)
-;  (0 0 0 0 0 0 1 0 1 1 0)
-;  (0 1 1 1 1 1 1 1 1 1 0)
-;  (1 1 0 0 1 0 1 0 0 0 0)
-;  ))
-
-; (defconstant adj
-; 	(-A- i (loop for i from 1 to 11 collect i)
-; 		(-A- j adjucency-indexes
-
-; 			(if 
-; 				(or 
-; 				(and (= i 1) (or (= j 2) (= j 3) (= j 4))) 
-; 				(and (= i L_2) (or (= j L_3_c) (= j L_4_b) (= j L_6) (= j L_7)))
-; 				(and (= i L_3_a) (or (= j L_3_b) (= j L_6))) 
-; 				(and (= i L_3_b) (or (= j L_3_a) (= j L_3_c) (= j L_6))) 
-; 				(and (= i L_3_c) (or (= j L_3_b) (= j L_1) (= j L_2) (= j L_6) (= j L_7)))
-; 				(and (= i L_4_a) (or (= j L_5_b) (= j L_4_b) (= j L_6)))
-; 				(and (= i L_4_b) (or (= j L_1) (= j L_2) (= j L_4_a) (= j L_6) (= j L_7))) 
-; 				(and (= i L_5_a) (or (= j L_5_b) (= j L_6)))
-; 				(and (= i L_5_b) (or (= j L_5_a) (= j L_4_a) (= j L_6)))
-; 				(and (= i L_6) (and (not (= j L_1)) (not (= j L_7)))) 
-; 				(and (= i L_7) (or (= j L_1) (= j L_2) (= j L_3_c) (= j L_4_b))) 
-; 				)
-;  				; ([=] (-V- adjucency i j) 1) ([=] (-V- adjucency i j) 0)
-;  				
-; 			)
-; 		)
-; 	)
-; )
+(define-tvar relevantForce *int*)
+;;relevant velocity of robot and Operator which can have one of the following three values: critical, normal, low
 
 
-; (defconstant  *adj*
-;  (alw
-; 			; (&& 
-
-; 				(|| ([=] (-V- adjucency i j) 0) ([=] (-V- adjucency i j) 1) )
-
-; 				; (->
-; 				; 	([=] (-V- adjucency i j) 1) 
-; 				; 	(|| 
-; 				; 		(&& ([=] i L_1) (|| ([=] j L_3_c) ([=] j L_4_b) ([=] j L_7))) 
-; 				; 		(&& ([=] i L_2) (|| ([=] j L_3_c) ([=] j L_4_b) ([=] j L_6) ([=] j L_7)))
-; 				; 		(&& ([=] i L_3_a) (|| ([=] j L_3_b) ([=] j L_6))) 
-; 				; 		(&& ([=] i L_3_b) (|| ([=] j L_3_a) ([=] j L_3_c) ([=] j L_6))) 
-; 				; 		(&& ([=] i L_3_c) (|| ([=] j L_3_b) ([=] j L_1) ([=] j L_2) ([=] j L_6) ([=] j L_7)))
-; 				; 		(&& ([=] i L_4_a) (|| ([=] j L_5_b) ([=] j L_4_b) ([=] j L_6)))
-; 				; 		(&& ([=] i L_4_b) (|| ([=] j L_1) ([=] j L_2) ([=] j L_4_a) ([=] j L_6) ([=] j L_7))) 
-; 				; 		(&& ([=] i L_5_a) (|| ([=] j L_5_b) ([=] j L_6)))
-; 				; 		(&& ([=] i L_5_b) (|| ([=] j L_5_a) ([=] j L_4_a) ([=] j L_6)))
-; 				; 		(&& ([=] i L_6) (&& (not ([=] j L_1)) (not ([=] j L_7)))) 
-; 				; 		(&& ([=] i L_7) (|| ([=] j L_1) ([=] j L_2) ([=] j L_3_c) ([=] j L_4_b))) 
-; 				; 	)
-					
-; 				; )
-
-; 				; (->
-; 				; 	([=] (-V- adjucency i j) 0)
-; 				; 	(!!
-; 				; 		(|| 
-; 				; 			(&& ([=] i L_1) (|| ([=] j L_3_c) ([=] j L_4_b) ([=] j L_7))) 
-; 				; 			(&& ([=] i L_2) (|| ([=] j L_3_c) ([=] j L_4_b) ([=] j L_6) ([=] j L_7)))
-; 				; 			(&& ([=] i L_3_a) (|| ([=] j L_3_b) ([=] j L_6))) 
-; 				; 			(&& ([=] i L_3_b) (|| ([=] j L_3_a) ([=] j L_3_c) ([=] j L_6))) 
-; 				; 			(&& ([=] i L_3_c) (|| ([=] j L_3_b) ([=] j L_1) ([=] j L_2) ([=] j L_6) ([=] j L_7)))
-; 				; 			(&& ([=] i L_4_a) (|| ([=] j L_5_b) ([=] j L_4_b) ([=] j L_6)))
-; 				; 			(&& ([=] i L_4_b) (|| ([=] j L_1) ([=] j L_2) ([=] j L_4_a) ([=] j L_6) ([=] j L_7))) 
-; 				; 			(&& ([=] i L_5_a) (|| ([=] j L_5_b) ([=] j L_6)))
-; 				; 			(&& ([=] i L_5_b) (|| ([=] j L_5_a) ([=] j L_4_a) ([=] j L_6)))
-; 				; 			(&& ([=] i L_6) (&& (not ([=] j L_1)) (not ([=] j L_7)))) 
-; 				; 			(&& ([=] i L_7) (|| ([=] j L_1) ([=] j L_2) ([=] j L_3_c) ([=] j L_4_b))) 
-; 				; 		)
-; 				; 	)
-					
-; 				; )
-; 			; )
-; 		)
-; 	)
-;  )
-; )
+(define-tvar relevantSeparation *int*)
+;;relevant velocity of robot and Operator which can have one of the following two values: critical, normal
 
 
+(define-tvar moveDirection *int*)
+;;It takes two possible values which say of the operator and robot are getting closer (moving towards each other), or are getting apart.
+(defvar critical 3)
+(defvar normal 2)
+(defvar low 1)
+(defvar moveapart 1)
+(defvar moveclose 2)
+(defconstant *relevantProperties*
+	(alwf 
+		(&&
 
-; ; (defun adj (x y)
-; ; 				(if (or 
-; ; 					(and (= x L_1) (or (= y L_3_c) (= y L_4_b) (= y L_7))) 
-; ; 					(and (= x L_2) (or (= y L_3_c) (= y L_4_b) (= y L_6) (= y L_7)))
-; ; 					(and (= x L_3_a) (or (= y L_3_b) (= y L_6))) 
-; ; 					(and (= x L_3_b) (or (= y L_3_a) (= y L_3_c) (= y L_6))) 
-; ; 					(and (= x L_3_c) (or (= y L_3_b) (= y L_1) (= y L_2) (= y L_6) (= y L_7)))
-; ; 					(and (= x L_4_a) (or (= y L_5_b) (= y L_4_b) (= y L_6)))
-; ; 					(and (= x L_4_b) (or (= y L_1) (= y L_2) (= y L_4_a) (= y L_6) (= y L_7))) 
-; ; 					(and (= x L_5_a) (or (= y L_5_b) (= y L_6)))
-; ; 					(and (= x L_5_b) (or (= y L_5_a) (= y L_4_a) (= y L_6)))
-; ; 					(and (= x L_6) (and (not (= y L_1)) (not (= y L_7)))) 
-; ; 					(and (= x L_7) (or (= y L_1) (= y L_2) (= y L_3_c) (= y L_4_b))) 
-; ; 					)
-; ; 				1 0)
-; ; 			)
+			([>=] (-V- relevantVelocity) 1) 
+			([<=] (-V- relevantVelocity) 3)
 
+			([>=] (-V- relevantForce) 1) 
+			([<=] (-V- relevantForce) 3)	
+
+			([>=] (-V- relevantSeparation) 1) 
+			([<=] (-V- relevantSeparation) 2)
+
+			([>=] (-V- moveDirection) moveapart) 
+			([<=] (-V- moveDirection) moveclose)			
+
+
+		)
+	)
+)
