@@ -47,17 +47,17 @@ while i < actions_num:
     action_risk[i] = chunks (records['ACTIONS('+str(i)+ ' 4)'],1)
 
 ##
-hazard_state={}
-hazard_risk={}
-i = 0
-while i < hazards_num:
-    i += 1
-    #state of each hazard
-    hazard_state[i] = chunks (records['HAZARDS('+str(i)+ ' 0)'],1)
-    #risk value of each hazard
-    hazard_risk[i] = chunks (records['HAZARDS('+str(i)+ ' 4)'],1)
-
-###
+#hazard_state={}
+#hazard_risk={}
+#i = 0
+#while i < hazards_num:
+#    i += 1
+#    #state of each hazard
+#    hazard_state[i] = chunks (records['HAZARDS('+str(i)+ ' 0)'],1)
+#    #risk value of each hazard
+#    hazard_risk[i] = chunks (records['HAZARDS('+str(i)+ ' 4)'],1)
+#
+####
 i = 0
 j = 0
 table=['<htm><body><table border="1">']

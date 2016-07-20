@@ -1,21 +1,44 @@
 (asdf:operate 'asdf:load-op 'ae2sbvzot)
 (use-package :trio-utils)
-(defvar TSPACE 50)
+(defvar TSPACE 10)
+(defvar jigs 1)
+(defvar jigs_indexes (loop for i from 0 to (- jigs 1) collect i))
+(defvar tasks_indexes (loop for i from 0 to 3 collect i))
+(defvar actions-indexes (loop for i from 1 to (+ 8 (* 6 jigs)) collect i))
 
+(defvar task 1)
 (load "L.lisp")
 (load "R.lisp")
 (load "O.lisp")
-(load "Task-nop-2.lisp")
-(load "RRM.lisp")
 (load "Hazards.lisp")
-(load "REs.lisp")
-(load "REv.lisp")
-(load "Properties.lisp")
+(load "RRM.lisp")
+(load "T.lisp")
+(load "T1.lisp")
+(load "T2.lisp")
 
+; (load "REs.lisp")
+; (load "REv.lisp")
+; (load "Properties.lisp")
 
 
 (defvar Init 
 	(&& 
+		;;Layout
+		; *relevantProperties*
+
+		; ;;Operator 
+		; *Operator_Body*
+
+		; ;;Robot		 
+		; *Robot_Structure*
+
+		; ;;Hazards
+		;  (alwf *HazardsInit*)
+		;  (alwf *Hazards*)
+
+		; ; ;;risks
+		; (alwf *REs*)
+		*RRMProperties*
 
 		(!! (-P- partFixed))
 		(!! (-P- partTaken))
@@ -23,46 +46,12 @@
 		(somf (-P- partFixed))
 		
 		
-	   	(-A- i actions-indexes
-
-	   			 ([=] (-V- actions i 1) notstarted))
-	   		
-	   	 ; (somf (&& ([!=](-V- Body_Part_pos head) L_1) ([=] (-V- actions 6 1) executing)))
-	   	 ; (somf (&& ([!=](-V- Body_Part_pos head) L_1) ([=] (-V- actions 7 1) executing)))
-	   	 ; (somf (&& ([!=](-V- Body_Part_pos belly) L_1) ([=] (-V- actions 8 1) executing)))
-	   	 ;initially al severities are zero
-
-	;   	 ; (-A- i hazards-indexes
-	 ;  	 ; 	([=] (-V- hazards i 3) 0)  
-   	 ;	;  )
-
-
-		(alwf 
-			(-A- i actions-indexes
-				(&&
-
-				   	(|| ([=] (-V- Action_Pre i) 0) ([=] (-V- Action_Pre i) 1))
-				   	(|| ([=] (-V- Action_SafetyPro i) 0) ([=] (-V- Action_SafetyPro i) 1))
-				    (|| ([=] (-V- Action_Post i) 0) ([=] (-V- Action_Post i) 1))
-				)
-			)
-
-	 	)
-	 ; 	(Somf 
-	 ; 		(-E- i actions-indexes
-		; 		([=] (-V- actions i 1) paused)
-		;  	)
-	 ; 	)
-
-	 	; (somf 
-	 	; 	(-E- i actions-indexes
-	 	; 		(&& ([=] (-V- actions i 1) executing) (yesterday ([=] (-V- actions i 1) executing)))
-	 	; 	)
- 		; )
- 		; (somf 
-	 	; 	(-A- i actions-indexes
-	 	; 		([=] (-V- actions i 1) done))
- 		; )
+	 ;   	(-A- i actions-indexes
+	 ;   		(-A- j tasks-indexes
+		;  		([=] (-V- actions i 1 j) notstarted)
+		; 	)
+		; )
+	   	
  	)
 	
 )
@@ -71,67 +60,33 @@
  	(yesterday
  		(&&
  			Init
-
- 			;;Layout
- 			*relevantProperties*
-
- 			;;Operator 
- 			*Operator_Body*
-
- 			;;Robot		 
- 			*Robot_Structure*
-
- 			;;Hazards
- 			 (alwf *HazardsInit*)
- 			 (alwf *Hazards*)
-
- 			; ;;risks
- 			(alwf *REs*)
-
- 			; ;;Task
-    		(alwf *ActionInit*)
-    		(alwf *SeqAction*)
-	   		(alwf *Action1*)
-	   		(alwf *Action2*)
-	   		(alwf *Action3*)
-	   		(alwf *Action4*)
-	   		(alwf *Action5*)
-	   		(alwf *Action6*)
-
-	   		(alwf (Action7 7))
- 			(alwf (Action8 8))
- 			(alwf (Action9 9))
- 			(alwf (Action10 10))
- 			(alwf (Action11 11))
- 			(alwf (Action12 12))
+ 			*SeqAction*
+ 			; (Action7T1 2)
  			
- 			(alwf (ActionBeforeLast 13))
- 			(alwf (ActionLast 14))
+ 			; (start T0 T1 T2 T3 T4)
 
-
- 			; (alwf (Action7 13))
- 			; (alwf (Action8 14))
- 			; (alwf (Action9 15))
- 			; (alwf (Action10 16))
- 			; (alwf (Action11 17))
- 			; (alwf (Action12 18))
- 			; (alwf (ActionBeforeLast 19))
- 			; (alwf (ActionLast 20))
-	   		
-	   		
-
-	   		)	
-		  )
-	 	)
-	 
-
-
+ 		
+   		)	
+	)
+)
+	
+; (defun start (T0 T1 T2 T3 T4)
+; 	;;T0
+; 	;;unboun actions
+; 	;;T1
+; 	;;unboun actions
+; 	;; if T2.1 then T2.1(tool)
+; 	;; if T2.2 then T2.2(tool)
+; 	;;unboun actions
+; 	;; if T3.1 then T3.1(jigs) and 	unboun actions
+; 	;;if T3.2 then T3.2(jigs) and unboun actions
+; 	)
 
 (ae2sbvzot:zot TSPACE 
 	(&&
 		*sys*
-		; (!! noHazard)
-
+		; (start T0 T1 T2 T3 T4)
+		
 		
 	)
  )
