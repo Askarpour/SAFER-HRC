@@ -1,3 +1,4 @@
+
 ;;Hazards
 
 (define-tvar hazards *int* *int* *int*)
