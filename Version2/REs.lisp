@@ -10,67 +10,115 @@
 	(-A- i hazards-indexes
 		(&&
 			
-			(->
-				([<=] i 9)
+			; (->
+			; 	([<=] i 9)
 
-				(||
-						;;risk_j = 4
-					(&&
+				; (||
+						
+					(->
 						([=] (-V- hazards i 3) 4)
-						(||
-							(&& ([=] (-V- relevantVelocity) critical) ([=] (-V- moveDirection) moveclose))
-							(&& ([=] (-V- relevantVelocity) normal) ([=] (-V- moveDirection) moveclose) ([=] (-V- relevantForce) critical))
+						; (&& ([=] (-V- relativeVelocity) critical) ([=] (-V- relativeForce) critical) (-E- i body_indexes (||([=] (-V- moveDirectionLink1 i) moveclose) ([=] (-V- moveDirectionLink2 i) moveclose) ([=] (-V- moveDirectionEndEff i) moveclose))))
+						(|| 
+							(&& ([=] (-V- relativeVelocity) critical) ([=] (-V- relativeForce) critical))
+							(&& ([=] (-V- relativeVelocity) critical) ([=] (-V- relativeForce) normal) (-E- i body_indexes (||([=] (-V- moveDirectionLink1 i) moveclose) ([=] (-V- moveDirectionLink2 i) moveclose) ([=] (-V- moveDirectionEndEff i) moveclose))))
+							(&& ([=] (-V- relativeVelocity) normal) ([=] (-V- relativeForce) critical) (-E- i body_indexes (||([=] (-V- moveDirectionLink1 i) moveclose) ([=] (-V- moveDirectionLink2 i) moveclose) ([=] (-V- moveDirectionEndEff i) moveclose))))
+
 						)
 					)
-						;;risk_j = 3
-					(&&
+						
+					(->
 						([=] (-V- hazards i 3) 3)	
-						(&& ([=] (-V- relevantVelocity) normal) ([=] (-V- moveDirection) moveclose) (!!([=] (-V- relevantForce) critical)))
+						; (||
+						; 	(&& ([=] (-V- relativeVelocity) critical) (-E- i body_indexes (||([=] (-V- moveDirectionLink1 i) moveclose) ([=] (-V- moveDirectionLink2 i) moveclose) ([=] (-V- moveDirectionEndEff i) moveclose))))
+						; 	(&& ([=] (-V- relativeForce) critical) (-E- i body_indexes (||([=] (-V- moveDirectionLink1 i) moveclose) ([=] (-V- moveDirectionLink2 i) moveclose) ([=] (-V- moveDirectionEndEff i) moveclose))) )
+						; )
+						(||
+							(&& ([=] (-V- relativeVelocity) critical) ([>=] (-V- relativeForce) normal) (!!(-E- i body_indexes (||([=] (-V- moveDirectionLink1 i) moveclose) ([=] (-V- moveDirectionLink2 i) moveclose) ([=] (-V- moveDirectionEndEff i) moveclose)))))
+							(&& ([>=] (-V- relativeVelocity) normal) ([=] (-V- relativeForce) critical) (!!(-E- i body_indexes (||([=] (-V- moveDirectionLink1 i) moveclose) ([=] (-V- moveDirectionLink2 i) moveclose) ([=] (-V- moveDirectionEndEff i) moveclose)))))
+							(&& ([=] (-V- relativeVelocity) critical) ([=] (-V- relativeForce) low) (-E- i body_indexes (||([=] (-V- moveDirectionLink1 i) moveclose) ([=] (-V- moveDirectionLink2 i) moveclose) ([=] (-V- moveDirectionEndEff i) moveclose))) (-P- OperatorStill))
+							(&& ([=] (-V- relativeVelocity) low) ([=] (-V- relativeForce) critical) (-E- i body_indexes (||([=] (-V- moveDirectionLink1 i) moveclose) ([=] (-V- moveDirectionLink2 i) moveclose) ([=] (-V- moveDirectionEndEff i) moveclose))) (-P- OperatorStill))
+						)
 					)
-						;;risk_j = 2
-					(&&
-						([=] (-V- hazards i 3) 2)	
-						(&& (!!([=] (-V- relevantVelocity) low)) ([=] (-V- moveDirection) moveapart))
+						
+					(->
+						([=] (-V- hazards i 3) 2)
+						
+						; (&& ([=] (-V- relativeVelocity) normal) ([=] (-V- relativeForce) normal) (-E- i body_indexes (||([=] (-V- moveDirectionLink1 i) moveclose) ([=] (-V- moveDirectionLink2 i) moveclose) ([=] (-V- moveDirectionEndEff i) moveclose))))
+						(||
+							(&& ([=] (-V- relativeVelocity) critical) ([=] (-V- relativeForce) low) (-E- i body_indexes (||([=] (-V- moveDirectionLink1 i) moveclose) ([=] (-V- moveDirectionLink2 i) moveclose) ([=] (-V- moveDirectionEndEff i) moveclose))) (!!(-P- OperatorStill)))
+							(&& ([=] (-V- relativeVelocity) low) ([=] (-V- relativeForce) critical) (-E- i body_indexes (||([=] (-V- moveDirectionLink1 i) moveclose) ([=] (-V- moveDirectionLink2 i) moveclose) ([=] (-V- moveDirectionEndEff i) moveclose))) (!!(-P- OperatorStill)))
+
+							(&& ([=] (-V- relativeVelocity) critical) ([=] (-V- relativeForce) low) (!!(-E- i body_indexes (||([=] (-V- moveDirectionLink1 i) moveclose) ([=] (-V- moveDirectionLink2 i) moveclose) ([=] (-V- moveDirectionEndEff i) moveclose)))))
+							(&& ([=] (-V- relativeVelocity) low) ([=] (-V- relativeForce) critical) (!!(-E- i body_indexes (||([=] (-V- moveDirectionLink1 i) moveclose) ([=] (-V- moveDirectionLink2 i) moveclose) ([=] (-V- moveDirectionEndEff i) moveclose)))))
+
+							(&& ([=] (-V- relativeVelocity) normal) ([=] (-V- relativeForce) low) (-E- i body_indexes (||([=] (-V- moveDirectionLink1 i) moveclose) ([=] (-V- moveDirectionLink2 i) moveclose) ([=] (-V- moveDirectionEndEff i) moveclose))) (-P- OperatorStill))
+							(&& ([=] (-V- relativeVelocity) low) ([=] (-V- relativeForce) normal) (-E- i body_indexes (||([=] (-V- moveDirectionLink1 i) moveclose) ([=] (-V- moveDirectionLink2 i) moveclose) ([=] (-V- moveDirectionEndEff i) moveclose))) (-P- OperatorStill))
+						)
 					)
-						;;risk_j = 1
-					(&&
-						([=] (-V- hazards i 3) 1)	
-						([=] (-V- relevantVelocity) low)
+
+					(->
+						([=] (-V- hazards i 3) 1)
+						; (&&  ([=] (-V- relativeVelocity) normal) ([=] (-V- relativeForce) normal) (!! (-E- i body_indexes (||([=] (-V- moveDirectionLink1 i) moveclose) ([=] (-V- moveDirectionLink2 i) moveclose) ([=] (-V- moveDirectionEndEff i) moveclose)))))
+						(||
+							(&& ([=] (-V- relativeVelocity) normal) ([=] (-V- relativeForce) low) (-E- i body_indexes (||([=] (-V- moveDirectionLink1 i) moveclose) ([=] (-V- moveDirectionLink2 i) moveclose) ([=] (-V- moveDirectionEndEff i) moveclose))) (!!(-P- OperatorStill)))
+							(&& ([=] (-V- relativeVelocity) low) ([=] (-V- relativeForce) normal) (-E- i body_indexes (||([=] (-V- moveDirectionLink1 i) moveclose) ([=] (-V- moveDirectionLink2 i) moveclose) ([=] (-V- moveDirectionEndEff i) moveclose))) (!!(-P- OperatorStill)))
+
+							(&& ([=] (-V- relativeVelocity) normal) ([=] (-V- relativeForce) low) (!!(-E- i body_indexes (||([=] (-V- moveDirectionLink1 i) moveclose) ([=] (-V- moveDirectionLink2 i) moveclose) ([=] (-V- moveDirectionEndEff i) moveclose)))))
+							(&& ([=] (-V- relativeVelocity) low) ([=] (-V- relativeForce) normal) (!!(-E- i body_indexes (||([=] (-V- moveDirectionLink1 i) moveclose) ([=] (-V- moveDirectionLink2 i) moveclose) ([=] (-V- moveDirectionEndEff i) moveclose)))))
+
+							(&& ([=] (-V- relativeVelocity) low) ([=] (-V- relativeForce) low) (-E- i body_indexes (||([=] (-V- moveDirectionLink1 i) moveclose) ([=] (-V- moveDirectionLink2 i) moveclose) ([=] (-V- moveDirectionEndEff i) moveclose))) (-P- OperatorStill))
+							(&& ([=] (-V- relativeVelocity) low) ([=] (-V- relativeForce) low) (-E- i body_indexes (||([=] (-V- moveDirectionLink1 i) moveclose) ([=] (-V- moveDirectionLink2 i) moveclose) ([=] (-V- moveDirectionEndEff i) moveclose)))(-P- OperatorStill))
+						)
+					)
+						
+					(->
+						([=] (-V- hazards i 3) 0)
+						; (&&
+						; 	([=] (-V- relativeVelocity) low)
+						; 	([=] (-V- relativeForce) low)
+						; )
+						(||
+							(&& ([=] (-V- relativeVelocity) low) ([=] (-V- relativeForce) low) (-E- i body_indexes (||([=] (-V- moveDirectionLink1 i) moveclose) ([=] (-V- moveDirectionLink2 i) moveclose) ([=] (-V- moveDirectionEndEff i) moveclose))) (!!(-P- OperatorStill)))
+							(&& ([=] (-V- relativeVelocity) low) ([=] (-V- relativeForce) low) (-E- i body_indexes (||([=] (-V- moveDirectionLink1 i) moveclose) ([=] (-V- moveDirectionLink2 i) moveclose) ([=] (-V- moveDirectionEndEff i) moveclose)))(!!(-P- OperatorStill)))
+							(&& ([=] (-V- relativeVelocity) low) ([=] (-V- relativeForce) low) (!!(-E- i body_indexes (||([=] (-V- moveDirectionLink1 i) moveclose) ([=] (-V- moveDirectionLink2 i) moveclose) ([=] (-V- moveDirectionEndEff i) moveclose)))))
+							(&& ([=] (-V- relativeVelocity) low) ([=] (-V- relativeForce) low) (!!(-E- i body_indexes (||([=] (-V- moveDirectionLink1 i) moveclose) ([=] (-V- moveDirectionLink2 i) moveclose) ([=] (-V- moveDirectionEndEff i) moveclose)))))
+
+							)
 					)		
-				)
-			) 
-			
+				; )
+			; )
+
 			;if the origin for hazard_10 is present in the system, 
 			;then its severity is one of the following values
 			;remember that hazards(10,2)= entanglement
-			(->
-				([>] i 9)
-				(||
-						;;risk_j = 4
-					(&&
-						([=] (-V- hazards i 3) 4)
-						(||
-							(&& ([=] (-V- relevantForce) critical) ([=] (-V- moveDirection) moveclose))
-							(&& ([=] (-V- relevantForce) normal) ([=] (-V- moveDirection) moveclose) ([=] (-V- relevantVelocity) critical))
-						)
-					)
-						;;risk_j = 3
-					(&&
-						([=] (-V- hazards i 3) 3)	
-						(&& ([=] (-V- relevantForce) normal) ([=] (-V- moveDirection) moveclose) (!!([=] (-V- relevantVelocity) critical)))
-					)
-						;;risk_j = 2
-					(&&
-						([=] (-V- hazards i 3) 2)	
-						(&& (!!([=] (-V- relevantForce) low)) ([=] (-V- moveDirection) moveapart))
-					)
-						;;risk_j = 1
-					(&&
-						([=] (-V- hazards i 3) 1)	
-						(&& (!!([=] (-V- relevantForce) low)) (!!([=] (-V- moveDirection) moveapart)))
-					)		
-				)
-			) 
+			; (->
+			; 	([>] i 9)
+			; 	(||
+			; 			;;risk_j = 4
+			; 		(&&
+			; 			([=] (-V- hazards i 3) 4)
+			; 			(||
+			; 				(&& ([=] (-V- relativeForce) critical) (-E- i body_indexes (||([=] (-V- moveDirectionLink1 i) moveclose) ([=] (-V- moveDirectionLink2 i) moveclose) ([=] (-V- moveDirectionEndEff i) moveclose))))
+			; 				(&& ([=] (-V- relativeForce) normal) (-E- i body_indexes (||([=] (-V- moveDirectionLink1 i) moveclose) ([=] (-V- moveDirectionLink2 i) moveclose) ([=] (-V- moveDirectionEndEff i) moveclose))) ([=] (-V- relativeVelocity) critical))
+			; 			)
+			; 		)
+			; 			;;risk_j = 3
+			; 		(&&
+			; 			([=] (-V- hazards i 3) 3)	
+			; 			(&& ([=] (-V- relativeForce) normal) (-E- i body_indexes (||([=] (-V- moveDirectionLink1 i) moveclose) ([=] (-V- moveDirectionLink2 i) moveclose) ([=] (-V- moveDirectionEndEff i) moveclose))) (!!([=] (-V- relativeVelocity) critical)))
+			; 		)
+			; 			;;risk_j = 2
+			; 		(&&
+			; 			([=] (-V- hazards i 3) 2)	
+			; 			(&& (!!([=] (-V- relativeForce) low)) (!! (-E- i body_indexes (||([=] (-V- moveDirectionLink1 i) moveclose) ([=] (-V- moveDirectionLink2 i) moveclose) ([=] (-V- moveDirectionEndEff i) moveclose)))))
+			; 		)
+			; 			;;risk_j = 1
+			; 		(&&
+			; 			([=] (-V- hazards i 3) 1)	
+			; 			(&& (!!([=] (-V- relativeForce) low)) (!! (-E- i body_indexes (||([=] (-V- moveDirectionLink1 i) moveclose) ([=] (-V- moveDirectionLink2 i) moveclose) ([=] (-V- moveDirectionEndEff i) moveclose)))))
+			; 		)		
+			; 	)
+			; ) 
 		)
 	)
 
@@ -78,8 +126,9 @@
 
 	(-A- i hazards-indexes
 		(&&
-			(->
+			(<->
 				([=] (-V- hazards i 4) 0)
+				
 				(||
 					([=] (-V- hazards i 0) 0)
 					(&&
@@ -93,7 +142,11 @@
 					)
 				)
 			)
-			(->
+			; (<->
+			; 	(!! (|| ([=] (-V- hazards i 4) 2) ([=] (-V- hazards i 4) 1)))
+			; 	([=] (-V- hazards i 4) 0)
+			; )
+			(<->
 				([=] (-V- hazards i 4) 1)
 				(&&
 					([=] (-V- hazards i 0) 1)
@@ -106,7 +159,11 @@
 					)
 				)
 			)
-			(->
+			(<->
+				(!! (|| ([=] (-V- hazards i 4) 0) ([=] (-V- hazards i 4) 1)))
+				([=] (-V- hazards i 4) 2)
+			)
+			(<->
 				([=] (-V- hazards i 4) 2)
 				(&&
 					([=] (-V- hazards i 0) 1)
@@ -117,68 +174,23 @@
 						(&& ([=] (-V- hazards i 3) 1) ([>=] (-V- hazards i 1) 14)) 
 					)
 				)
+
 			)
+			
+			
 		)
 	)
-	; ;----------------Estimation of risk for each action------------------
-
-	;for each action, the risk value is the maximum risk value for each of the present hazards.
-		
-	(-A- i actions-indexes
-		(&&
-
-			;;no RRM needed
-			(->
-				([=] (-V- actions i 4) 0)
-				; (&&
-				; 	(|| ([=] (-V- actions i 1) paused) ([=] (-V- actions i 1) executing))
-					
-						(!!(-E- j hazards-indexes
-							(&&
-							 	(&& ([=] (-V- hazards j 4) 1) ([=] (-V- hazards j 4) 2))
-							 	([=] (-V- hazards j 0) 1)
-						 	)	
-						))
-				; )
-			)
-
-
-			;;RRM recommended
-			(->
-				([=] (-V- actions i 4) 1)
-				(&&
-					(|| ([=] (-V- actions i 1) paused) ([=] (-V- actions i 1) executing))
-					(!!(-E- j hazards-indexes
-						(&&
-						 	([=] (-V- hazards j 4) 2)
-						 	([=] (-V- hazards j 0) 1)
-					 	)	
-					))
-					(-E- j hazards-indexes
-						(&&
-						 	([=] (-V- hazards j 4) 1)
-						 	([=] (-V- hazards j 0) 1)
-					 	)	
-					)
-				)
-			)
-
-
-			;;RRM required
-			(->
-				([=] (-V- actions i 4) 2)
-				(&&
-					(|| ([=] (-V- actions i 1) paused) ([=] (-V- actions i 1) executing))
-					(-E- j hazards-indexes
-						(&&
-						 	([=] (-V- hazards j 4) 2)
-						 	([=] (-V- hazards j 0) 1)
-					 	)	
-					)
-				)
-			)
+	; ;----------------Estimation of total risk------------------
+	(alw (-A- i hazards-indexes ;;max of risk values of hazards
+	     ([>=](-V- Risk) (-V- hazards i 4))
 		)
 	)
-   )
+
+	(alw 
+		(-E- i hazards-indexes  ;;equal to the max risk
+
+	     ([=](-V- Risk) (-V- hazards i 4))
+		)
+	)
+ )
 )
- 

@@ -1,92 +1,169 @@
 (asdf:operate 'asdf:load-op 'ae2sbvzot)
 (use-package :trio-utils)
-(defvar TSPACE 10)
-(defvar jigs 1)
-(defvar jigs_indexes (loop for i from 0 to (- jigs 1) collect i))
-(defvar tasks_indexes (loop for i from 0 to 3 collect i))
-(defvar actions-indexes (loop for i from 1 to (+ 8 (* 6 jigs)) collect i))
+(defvar TSPACE 40)
 
-(defvar task 1)
-(load "L.lisp")
-(load "R.lisp")
-(load "O.lisp")
-(load "Hazards.lisp")
-(load "RRM.lisp")
-(load "T.lisp")
-(load "T1.lisp")
-(load "T2.lisp")
+(load "TaskLib/T.lisp")
+; ; (load "TaskLib/T1.lisp")
+; ; (load "TaskLib/T2.lisp")
+; ; (load "TaskLib/T3.lisp")
+; ; (load "TaskLib/T4.lisp")
+; ; (load "Properties.lisp")
+; ; (load "ORL-Module/errors.lisp")
+(load "error-counters.lisp")
 
-; (load "REs.lisp")
-; (load "REv.lisp")
-; (load "Properties.lisp")
+(defconstant ExeT1
+  (&&
+    (load "TaskLib/T1.lisp")
+    ; (load "Properties.lisp")
 
 
-(defvar Init 
-	(&& 
-		;;Layout
-		; *relevantProperties*
+    ;;execution
+    configT1
+    *initConfig*
 
-		; ;;Operator 
-		; *Operator_Body*
+    ;;assumptions
+    (-A- i actions1-indexes
+         ([=] (-V- actions i 1 T1) notstarted))
 
-		; ;;Robot		 
-		; *Robot_Structure*
+    (alwf (->
+           (!!([=] (-V- actions 4 1 T1) done))
+           (-P- Robot_Homing)))
 
-		; ;;Hazards
-		;  (alwf *HazardsInit*)
-		;  (alwf *Hazards*)
+    (alwf (->
+           (-P- partTaken)
+           ([=] (-V- actions 2 1 T1) done)))
 
-		; ; ;;risks
-		; (alwf *REs*)
-		*RRMProperties*
 
-		(!! (-P- partFixed))
-		(!! (-P- partTaken))
-		(-P- Robot_Homing)
-		(somf (-P- partFixed))
-		
-		
-	 ;   	(-A- i actions-indexes
-	 ;   		(-A- j tasks-indexes
-		;  		([=] (-V- actions i 1 j) notstarted)
-		; 	)
-		; )
-	   	
- 	)
-	
-)
+    ; ;;modeling misuses  --> uncomment regarding files
+    ; configT3
+    ; noCallT3
+    ; noCallT2
+    ; noCallT4
 
-(defconstant *sys* 
- 	(yesterday
- 		(&&
- 			Init
- 			*SeqAction*
- 			; (Action7T1 2)
- 			
- 			; (start T0 T1 T2 T3 T4)
+    ; ;;completeness
+    ; (SomF
+    ;   (-A- i actions1-indexes ([=] (-V- actions i 1 T1) done)))
+    (SomF
+      ([=] (-V- actions 6 1 1) done))
+  )
+  )
 
- 		
-   		)	
-	)
-)
-	
-; (defun start (T0 T1 T2 T3 T4)
-; 	;;T0
-; 	;;unboun actions
-; 	;;T1
-; 	;;unboun actions
-; 	;; if T2.1 then T2.1(tool)
-; 	;; if T2.2 then T2.2(tool)
-; 	;;unboun actions
-; 	;; if T3.1 then T3.1(jigs) and 	unboun actions
-; 	;;if T3.2 then T3.2(jigs) and unboun actions
-; 	)
 
-(ae2sbvzot:zot TSPACE 
+
+
+; ; (defconstant ExeT2
+; ; 	(&&
+; ; 		(load "TaskLib/T2.lisp")
+
+; ; 		;;execution
+; ; 		configT2
+; ; 		*initConfig*
+
+; ; 		;;assumptions
+; ; 		(-A- i actions2-indexes
+; ; 		 		([=] (-V- actions i 1 T2) notstarted))
+
+; ; 		; ;;modeling misuses  --> uncomment regarding files
+; ; 		; configT3
+; ; 		; noCallT3
+; ; 		; noCallT1
+; ; 		; noCallT4
+
+; ; 		; ;;completeness
+; ; 		; (SomF
+; ; 		; 	(-A- i actions2-indexes ([=] (-V- actions i 1 T2) done)))
+; ; 	)
+; ; )
+
+; ; (defconstant ExeT3
+; ; 	(&&
+; ; 		(load "TaskLib/T3.lisp")
+
+; ; 		;;execution
+; ; 		configT3
+; ; 		*initConfig*
+
+; ; 		;;assumptions
+; ; 		(-A- i actions3-indexes
+; ; 		 		([=] (-V- actions i 1 T3) notstarted))
+
+; ; 		; ;;modeling misuses  --> uncomment regarding files
+; ; 		; noCallT1
+; ; 		; noCallT2
+; ; 		; noCallT4
+
+; ; 		;;completeness
+; ; 		(SomF
+; ; 			(-A- i actions3-indexes ([=] (-V- actions i 1 T3) done)))
+; ; 	)
+; ; )
+
+; ; (defconstant ExeT4
+; ; 	(&&
+; ; 		(load "TaskLib/T4.lisp")
+
+; ; 		;;execution
+; ; 		configT4
+; ; 		*initConfig*
+
+; ; 		; ;;modeling misuses  --> uncomment regarding files
+; ; 		; configT3
+; ; 		; noCallT1
+; ; 		; noCallT2
+
+; ; 		;;assumptions
+; ; 		(-A- i actions4-indexes
+; ; 		 		([=] (-V- actions i 1 T4) notstarted))
+
+; ; 		;;completeness
+; ; 		(SomF
+; ; 			(-A- i actions4-indexes ([=] (-V- actions i 1 T4) done)))
+; ; 	)
+; ; )
+
+; (defconstant error-property
+; 	(eval (append `(&&)
+; 		(loop for i from 1 to hazards-indexes do
+; 			(loop for j from 1 to 3 do
+; 				(eval `(SomF ([=] (-V- ,(with-input-from-string (in (format nil "hazards ~a ~a" i 1)) (loop for x = (read in nil nil) while x collect x))) 1)))
+; 				(eval `(Alwf (first(with-input-from-string (in (format nil "error_count_~a" j)) (loop for x = (read in nil nil) while x collect x)))))
+; 	 		)
+; 	 	)
+; 	))
+; )
+
+(defconstant *sys*
+   (yesterday
+     (&&
+
+         ExeT1
+;        (AlwF error_count_0)
+;	(SomF ([=] (-V- hazards 10 0)1))
+        ; (SomF (-E- i '(2 3 4 5 6 7) ([=](-V- hazards i 0) 1)))
+       ; (first(list(create_properties)))
+        ; desiredProperty_11_1
+)))
+
+
+;(format t "~S" *sys*)
+; (ae2sbvzot:zot TSPACE
+;   (&&
+;     *sys*))
+
+
+
+(loop for p in '(
+				desiredProperty_1_0 desiredProperty_2_0 desiredProperty_3_0 desiredProperty_4_0 desiredProperty_5_0 desiredProperty_6_0 desiredProperty_7_0 desiredProperty_8_0 desiredProperty_9_0 desiredProperty_10_0 desiredProperty_11_0 desiredProperty_12_0 desiredProperty_13_0 desiredProperty_14_0 desiredProperty_15_0
+				desiredProperty_1_1 desiredProperty_2_1 desiredProperty_3_1 desiredProperty_4_1 desiredProperty_5_1 desiredProperty_6_1 desiredProperty_7_1 desiredProperty_8_1 desiredProperty_9_1 desiredProperty_10_1 desiredProperty_11_1 desiredProperty_12_1 desiredProperty_13_1 desiredProperty_14_1 desiredProperty_15_1
+				desiredProperty_1_2 desiredProperty_2_2 desiredProperty_3_2 desiredProperty_4_2 desiredProperty_5_2 desiredProperty_6_2 desiredProperty_7_2 desiredProperty_8_2 desiredProperty_9_2 desiredProperty_10_2 desiredProperty_11_2 desiredProperty_12_2 desiredProperty_13_2 desiredProperty_14_2 desiredProperty_15_2
+				desiredProperty_1_3 desiredProperty_2_3 desiredProperty_3_3 desiredProperty_4_3 desiredProperty_5_3 desiredProperty_6_3 desiredProperty_7_3 desiredProperty_8_3 desiredProperty_9_3 desiredProperty_10_3 desiredProperty_11_3 desiredProperty_12_3 desiredProperty_13_3 desiredProperty_14_3 desiredProperty_15_3
+				 ; desiredProperty_1_4 desiredProperty_2_4 desiredProperty_3_4 desiredProperty_4_4 desiredProperty_5_4 desiredProperty_6_4 desiredProperty_7_4 desiredProperty_8_4 desiredProperty_9_4 desiredProperty_10_4 desiredProperty_11_4 desiredProperty_12_4 desiredProperty_13_4 desiredProperty_14_4 desiredProperty_15_4
+				 ; desiredProperty_1_5 desiredProperty_2_5 desiredProperty_3_5 desiredProperty_4_5 desiredProperty_5_5 desiredProperty_6_5 desiredProperty_7_5 desiredProperty_8_5 desiredProperty_9_5 desiredProperty_10_5 desiredProperty_11_5 desiredProperty_12_5 desiredProperty_13_5 desiredProperty_14_5 desiredProperty_15_5
+				) do
+(ae2sbvzot:zot TSPACE
 	(&&
 		*sys*
-		; (start T0 T1 T2 T3 T4)
-		
-		
+		(eval p)
 	)
- )
+)
+)

@@ -1,97 +1,37 @@
- ;;Risk Evaluation
-
-
-; (-A- i hazards-indexes
-; 	(-A- j actions-indexes
-
-; 	(->
-; 		([>=] (-V- hazards i 0) 1)  
-
-; 	 	(until RRMij ([<] (-V- hazards i 1) 0)))
-; )
-; 	)
-;;risk <= Threshold means that or there is no hazard or if there is,
-;;then its relevant RRM is working 
-
-
-
-		(->
-			([=] (-V- hazards 1 0) 1)
-
-			(moveback (-V- End_Eff_F_Position) ([=] (-V- hazards 1 0) 1))
-			
-
-			; (until_ee rrm_End_Eff_F_Move_Back ([=] (-V- hazards 1 0) 0))
+(defconstant *RRMcall*
+  (alw
+  	(-A- i hazards-indexes (&& 
+	 	;;for hzds 1,4,7,10,13 RRM1 / RRM4
+ 		(<->
+		 (&&([=] (-V-  hazards i 4) 2) (|| ([=] i 1) ([=] i 4) ([=] i 7) ([=] i 10) ([=] i 13)))
+		 ([=](-V- RRM 1) on)
 		)
 
-		(->
-			([=] (-V- hazards 2 0) 1)
-			(moveback (-V- End_Eff_F_Position) ([=] (-V- hazards 2 0) 1))
-
-			; (until_ee rrm_End_Eff_F_Move_Back ([=] (-V- hazards 2 0) 0))
-		)
-		(->
-			([=] (-V- hazards 3 0) 1)
-			(moveback (-V- End_Eff_F_Position) ([=] (-V- hazards 3 0) 1))
-
-			; (until_ee rrm_End_Eff_F_Move_Back ([=] (-V- hazards 3 0) 0))
-		)
-		(->
-			([=] (-V- hazards 4 0) 1)
-			(moveback (-V- LINK1_Position) ([=] (-V- hazards 4 0) 1))
-
-			; (until_ee rrm_LINK1_Move_Back ([=] (-V- hazards 4 0) 0))
+		(<->
+		 (&& ([>=] (-V-  hazards i 4) 1) (|| ([=] i 1) ([=] i 4) ([=] i 7)))
+		 ([=](-V- RRM 4) on) 
 		)
 
-		(->
-			([=] (-V- hazards 5 0) 1)
-			(moveback (-V- LINK1_Position) ([=] (-V- hazards 5 0) 1))
+		;;for hzds 2,3,5,6,8,9 RRM2 / RRM5
+		(<->
+		 (&& ([=] (-V-  hazards i 4) 2) ([<=] i 9) (!!(|| ([=] i 1) ([=] i 4) ([=] i 7))))
+		 ([=](-V- RRM 2) on) 
 		)
 
-		(->
-			([=] (-V- hazards 6 0) 1)
-			(moveback (-V- LINK1_Position) ([=] (-V- hazards 6 0) 1))
+		(<->
+		 (&& ([>=] (-V-  hazards i 4) 1) ([<=] i 9) (!!(|| ([=] i 1) ([=] i 4) ([=] i 7))))
+		 ([=](-V- RRM 5) on) 
 		)
-		(->
-			([=] (-V- hazards 7 0) 1)
-			; moveback ((-V- LINK2_Position))
-			(moveback (-V- LINK2_Position) ([=] (-V- hazards 7 0) 1))
-			; (until_ee rrm_LINK2_Move_Back ([=] (-V- hazards 7 0) 0))
+		
+     	;;for hzds  11,12,14,15 RRM3 / RRM6
+     	(<->
+		 (&& ([=] (-V-  hazards i 4) 2) ([>] i 9) (!!(|| ([=] i 10) ([=] i 13))))
+		 ([=](-V- RRM 3) on)
 		)
 
-		(->
-			([=] (-V- hazards 8 0) 1)
-			(moveback (-V- LINK2_Position) ([=] (-V- hazards 8 0) 1))
-			; rrm_LINK2_Move_Back
-			; (until_ee rrm_LINK2_Move_Back ([=] (-V- hazards 8 0) 0))
-		)
-		(->
-			([=] (-V- hazards 9 0) 1)
-			(moveback (-V- LINK2_Position) ([=] (-V- hazards 9 0) 1))
-			; rrm_LINK2_Move_Back
-			; (until_ee rrm_LINK2_Move_Back ([=] (-V- hazards 9 0) 0))
-		)
-			(->
-			([=] (-V- hazards 10 0) 1)
-			(until_ee rrm_full_stop ([=] (-V- hazards 10 0) 0))
-		)
-		(->
-			([=] (-V- hazards 11 0) 1)
-			(until_ee rrm_full_stop ([=] (-V- hazards 11 0) 0))
-		)
-		(->
-			([=] (-V- hazards 12 0) 1)
-			(until_ee rrm_full_stop ([=] (-V- hazards 12 0) 0))
-		)
-			(->
-			([=] (-V- hazards 13 0) 1)
-			(until_ee rrm_full_stop ([=] (-V- hazards 13 0) 0))
-		)
-		(->
-			([=] (-V- hazards 14 0) 1)
-			(until_ee rrm_full_stop ([=] (-V- hazards 14 0) 0))
-		)
-		(->
-			([=] (-V- hazards 15 0) 1)
-			(until_ee rrm_full_stop ([=] (-V- hazards 15 0) 0))
-		)
+		(<->
+		 (&& ([>=] (-V-  hazards i 4) 1) ([>] i 9) (!!(|| ([=] i 10) ([=] i 13))))
+		 ([=](-V- RRM 6) on) 
+		)	
+))))
+
