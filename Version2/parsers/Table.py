@@ -3,11 +3,90 @@ import numpy as np
 import sys
 import prettytable
 
+
+def layout_parser (x):
+    return{
+            '0': 'L_0',
+            '1': 'L_1_1',
+            '2': 'L_1_2',
+            '3': 'L_1_3',
+            '4': 'L_2_1',
+            '5': 'L_2_2',
+            '6': 'L_2_3',
+            '7': 'L_2_4',
+            '8': 'L_3_1',
+            '9': 'L_3_2',
+            '10': 'L_3_4',
+            '11': 'L_4_1',
+            '12': 'L_4_2',
+            '13': 'L_5_1',
+            '14': 'L_6_1',
+            '15': 'L_6_2',
+            '16': 'L_6_3',
+            '17': 'L_7_1',
+            '18': 'L_7_2',
+            '19': 'L_7_3',
+            '20': 'L_8_1',
+            '21': 'L_8_2',
+    }[x]
+def low_mid (x):
+    return{
+            '1': 'low',
+            '2': 'mid',
+            '3': 'high',
+    }[x]  
+
+def close_far (x):
+    return{
+            '1': 'far',
+            '2': 'mid',
+            '3': 'close',
+    }[x]    
+
+def exe_parser (x):
+    return{
+            '0': 'ns',
+            '1': 'wt',
+            '2': 'exe',
+            '3': 'exrm',
+            '4': 'hold',
+            '5': 'done',
+            '6': 'exit',
+    }[x]  
+
+def execution_parser (strin , strout):
+    if strin == ['0']: strout = 'ns'
+    if strin == ['1']: strout = 'wt'
+    if strin == ['2']: strout = 'exe'
+    if strin == ['3']: strout = 'exrm'
+    if strin == ['4']: strout = 'hold'
+    if strin == ['5']: strout = 'done'
+    if strin == ['6']: strout = 'exit'
+    return
+
+def still_moving (strin, strout, j):
+    if strin[j] == strin[j-1]: strout[j] = 'still'
+    if strin[j] != strin[j-1]: strout[j] = 'moving'
+    return 
+
+def reach_leave (strin, strout, i, j, body_parts_num):
+    if strin[i][j] == '0':
+        if i == body_parts_num: strout[j] = 'leave'
+    if strin[i][j] == '1':
+        strout[j] = 'reach'
+        i = body_parts_num
+    return        
+    
+
+    
+
+      
 #arguments
-Table_type = sys.argv[1]
+File_name = sys.argv[1]
+Table_type = sys.argv[2]
 Task = {}
 if Table_type=="state":
-    Task = sys.argv[2]
+    Task = sys.argv[3]
 
 
 step = -1
@@ -33,7 +112,7 @@ def chunks(l, n):
     return [l[i:i + n] for i in range(0, len(l), n)]
 records = {}
 bool_set = set()
-f = open('output.hist.txt')
+f = open(File_name)
 for line in f:
        line = line.strip()   # strip out carriage return
        if line.startswith("------ time"):
@@ -105,43 +184,23 @@ EndEffPos = records['END_EFF_F_POSITION']
 Link1Pos= records['LINK1_POSITION']
 Link2Pos= records['LINK2_POSITION']
 
-EndEffStill[0] = 'still'
+EndEffStill[0] = Link1Still[0]= Link2Still[0] ='still'
 j = 1
 while j <= step:
-    if EndEffPos[j] == EndEffPos[j-1]:
-        EndEffStill[j] = 'still'
-    if EndEffPos[j] != EndEffPos[j-1]:
-        EndEffStill[j] = 'moving'
+    still_moving (EndEffPos, EndEffStill, j)
+    still_moving (Link1Pos, Link1Still, j)
+    still_moving (Link2Pos, Link2Still, j)
     j += 1
-
-Link1Still[0] = 'still'
-j = 1
-while j <= step:
-    if Link1Pos[j] == Link1Pos[j-1]:
-        Link1Still[j] = 'still'
-    if Link1Pos[j] != Link1Pos[j-1]:
-        Link1Still[j] = 'moving'
-    j += 1
-
-Link2Still[0] = 'still'
-j = 1
-while j <= step:
-    if Link2Pos[j] == Link2Pos[j-1]:
-        Link2Still[j] = 'still'
-    if Link2Pos[j] != Link2Pos[j-1]:
-        Link2Still[j] = 'moving'
-    j += 1
-
-
-
 
 BodyPartPosition={}
+BodyPartPosition_name={}
 BodypartStill={}
 i = 1
 while i <= body_parts_num:
     BodyPartPosition[i] = records['BODY_PART_POS('+str(i)+')']
     i += 1
 
+# BodyPartPosition_name = BodyPartPosition
 
 j = 1
 while j <= step:
@@ -151,7 +210,7 @@ while j <= step:
             if i == body_parts_num: BodypartStill[j] = 'still'
         if BodyPartPosition[i][j] != BodyPartPosition[i][j-1]:
             BodypartStill[j] = 'moving'
-            i = body_parts_num
+            i = body_parts_num   
 
         i += 1
     j += 1
@@ -178,135 +237,63 @@ j = 0
 while j <= step:
     i = 1
     while i <= body_parts_num:
-        if MOVEDIRECTIONENDEFF[i][j] == '0':
-            if i == body_parts_num: EndEffFinalDirection[j] = 'leave'
-        if MOVEDIRECTIONENDEFF[i][j] == '1':
-            EndEffFinalDirection[j] = 'reach'
-            i = body_parts_num
-
+        reach_leave (MOVEDIRECTIONENDEFF, EndEffFinalDirection, i, j, body_parts_num)
+        reach_leave (MOVEDIRECTIONLINK2, Link2FinalDirection, i, j, body_parts_num)
+        reach_leave (MOVEDIRECTIONLINK1, Link1FinalDirection, i, j, body_parts_num)
         i += 1
     j += 1
-
-
-j = 0
-while j <= step:
-    i = 1
-    while i <= body_parts_num:
-        if MOVEDIRECTIONLINK2[i][j] == '0':
-            if i == body_parts_num: Link2FinalDirection[j] = 'leave'
-        if MOVEDIRECTIONLINK2[i][j] == '1':
-            Link2FinalDirection[j] = 'reach'
-            i = body_parts_num
-
-        i += 1
-    j += 1
-
-
-
-j = 0
-while j <= step:
-    i = 1
-    while i <= body_parts_num:
-        if MOVEDIRECTIONLINK1[i][j] == '0':
-            if i == body_parts_num: Link1FinalDirection[j] = 'leave'
-        if MOVEDIRECTIONLINK1[i][j] == '1':
-            Link1FinalDirection[j] = 'reach'
-            i = body_parts_num
-
-        i += 1
-    j += 1
-
 
 
 velocity={}
 velocity = records['RELATIVEVELOCITY']
-i= 0
-while i<= step:
-    if velocity[i] == '1': velocity[i]='low'
-    if velocity[i] == '2': velocity[i]='mid'
-    if velocity[i] == '3': velocity[i]='high'
-    i+=1
 
 force={}
 force = records['RELATIVEFORCE']
-i=0
+
+i= 0
 while i<= step:
-    if force[i] == '1': force[i]='low'
-    if force[i] == '2': force[i]='mid'
-    if force[i] == '3': force[i]='high'
+    low_mid(velocity[i])
+    low_mid(force[i])
     i+=1
 
+
 separationEE={}
-i = 0
-while i<= step:
-    j = 1
-    while j <= body_parts_num:
-     separationEE[i] = records['RELATIVESEPARATIONENDEFF('+str(j)+')']
-     j +=1
-    i += 1
-
-separationEEmax={}
-i = 0
-while i < step:
-    for o in separationEE[i]:
-        if o == '3':
-            separationEEmax[i]='close'
-            break
-        # if o == '2':
-        #     separationEEmax[i]='not-close'
-        # if o == '1':
-        separationEEmax[i]='far'
-    i += 1
-
-#print separationEEmax
-
-
 separationL1={}
-i = 0
-while i<= step:
-    j = 1
-    while j <= body_parts_num:
-        separationL1[i] = records['RELATIVESEPARATIONLINK1('+str(j)+')']
-        j +=1
-    i += 1
-
-i=0
-
-separationL1max={}
-i = 0
-while i < step:
-    for o in separationL1[i]:
-        if o == '3':
-            separationL1max[i]='close'
-            break
-        # elif o == 'mid':
-            # separationL1max[i]='close'
-        # elif o == 'far':
-        separationL1max[i]='far'
-    i += 1
-
-
-
 separationL2={}
 i = 0
 while i<= step:
     j = 1
     while j <= body_parts_num:
-        separationL2[i] = records['RELATIVESEPARATIONLINK2('+str(j)+')']
-        j +=1
+     separationEE[i] = records['RELATIVESEPARATIONENDEFF('+str(j)+')']
+     separationL1[i] = records['RELATIVESEPARATIONLINK1('+str(j)+')']
+     separationL2[i] = records['RELATIVESEPARATIONLINK2('+str(j)+')']
+     j +=1
     i += 1
 
+separationEEmax={}
+separationL1max={}
 separationL2max={}
 i = 0
 while i < step:
+ #   
+    for o in separationEE[i]:
+        if o == '3':
+            separationEEmax[i]='close'
+            break
+        separationEEmax[i]='far'
+#
+    for o in separationL1[i]:
+        if o == '3':
+            separationL1max[i]='close'
+            break
+        separationL1max[i]='far' 
+#
     for o in separationL2[i]:
         if o == '3':
             separationL2max[i]='close'
             break
-        # if o == 'mid':
-        #     separationL2max[i]='close'
-        # else:
         separationL2max[i]='far'
+#
     i += 1
 
 
@@ -327,7 +314,10 @@ action_state1={}
 action_state2={}
 action_state3={}
 action_state4={}
+
+
 ##state of each action
+
 #Task 1
 while i < actions1_num:
     i += 1
@@ -336,6 +326,7 @@ i = 1
 while i <= actions1_num:
     j = 0
     while j <= step:
+        # execution_parser (action_state1[i][j] , action_state1[i][j])
         if action_state1[i][j] == ['0']: action_state1[i][j] = 'ns'
         if action_state1[i][j] == ['1']: action_state1[i][j] = 'wt'
         if action_state1[i][j] == ['2']: action_state1[i][j] = 'exe'
@@ -346,9 +337,14 @@ while i <= actions1_num:
         j += 1
     i +=1
 
+i = 0
+j = 0
+action_doer={}
+while i < actions1_num:
+    i += 1
+    action_doer[i] = chunks (records['ACTIONS('+str(i)+ ' 3 1)'],1)
 
 
-#print action_state1
 #Task2
 i = 0
 while i < actions2_num:
@@ -359,13 +355,7 @@ i = 1
 while i <= actions2_num:
     j = 0
     while j <= step:
-        if action_state2[i][j] == ['0']: action_state2[i][j] = 'ns'
-        if action_state2[i][j] == ['1']: action_state2[i][j] = 'wt'
-        if action_state2[i][j] == ['2']: action_state2[i][j] = 'exe'
-        if action_state2[i][j] == ['3']: action_state2[i][j] = 'exrm'
-        if action_state2[i][j] == ['4']: action_state2[i][j] = 'hold'
-        if action_state2[i][j] == ['5']: action_state2[i][j] = 'done'
-        if action_state2[i][j] == ['6']: action_state2[i][j] = 'exit'
+        execution_parser (action_state2[i][j] , action_state2[i][j])
         j += 1
     i +=1
 
@@ -379,13 +369,7 @@ i = 1
 while i <= actions3_num:
     j = 0
     while j <= step:
-        if action_state3[i][j] == ['0']: action_state3[i][j] = 'ns'
-        if action_state3[i][j] == ['1']: action_state3[i][j] = 'wt'
-        if action_state3[i][j] == ['2']: action_state3[i][j] = 'exe'
-        if action_state3[i][j] == ['3']: action_state3[i][j] = 'exrm'
-        if action_state3[i][j] == ['4']: action_state3[i][j] = 'hold'
-        if action_state3[i][j] == ['5']: action_state3[i][j] = 'done'
-        if action_state3[i][j] == ['6']: action_state3[i][j] = 'exit'
+        execution_parser (action_state3[i][j] , action_state3[i][j])
         j += 1
     i +=1
 
@@ -400,13 +384,7 @@ i = 1
 while i <= actions4_num:
     j = 0
     while j <= step:
-        if action_state4[i][j] == ['0']: action_state4[i][j] = 'ns'
-        if action_state4[i][j] == ['1']: action_state4[i][j] = 'wt'
-        if action_state4[i][j] == ['2']: action_state4[i][j] = 'exe'
-        if action_state4[i][j] == ['3']: action_state4[i][j] = 'exrm'
-        if action_state4[i][j] == ['4']: action_state4[i][j] = 'hold'
-        if action_state4[i][j] == ['5']: action_state4[i][j] = 'done'
-        if action_state4[i][j] == ['6']: action_state4[i][j] = 'exit'
+        execution_parser (action_state3[i][j] , action_state3[i][j])
         j += 1
     i +=1
 
@@ -496,101 +474,6 @@ while i <= actions1_num:
         j += 1
     i +=1
 #
-i = 0
-err_state2={}
-# errA_state2={}
-errA_repetition_state2={}
-errA_Omission_state2={}
-errA_Late_state2={}
-errA_early_state2={}
-errA_insertion_state2={}
-errF_state2={}
-errL_state2={}
-while i < actions2_num:
-    i += 1
-    err_state2[i] = chunks (records['ACTIONS('+str(i)+ ' 4 2)'],1)
-    # errA_state2[i] = chunks (records['ERRORA('+str(i)+ ' 2)'],1)
-    errA_repetition_state2[i] = chunks (records['ERRORA('+str(i)+ ' 2 1)'],1)
-    errA_Omission_state2[i] = chunks (records['ERRORA('+str(i)+ ' 2 2)'],1)
-    errA_Late_state2[i] = chunks (records['ERRORA('+str(i)+ ' 2 3)'],1)
-    errA_early_state2[i] = chunks (records['ERRORA('+str(i)+ ' 2 4)'],1)
-    errA_insertion_state2[i] = chunks (records['ERRORA('+str(i)+ ' 2 5)'],1)
-    errF_state2[i] = chunks (records['ERRORF('+str(i)+ ' 2)'],1)
-    errL_state2[i] = chunks (records['ERRORL('+str(i)+ ' 2)'],1)
-
-
-i = 1
-while i <= actions2_num:
-    j = 0
-    while j <= step:
-        if err_state2[i][j] == ['0']: err_state2[i][j] = 'norm'
-        if err_state2[i][j] == ['1']: err_state2[i][j] = 'err'
-        j += 1
-    i +=1
-#
-i = 0
-err_state3={}
-# errA_state3={}
-errA_repetition_state3={}
-errA_Omission_state3={}
-errA_Late_state3={}
-errA_early_state3={}
-errA_insertion_state3={}
-errF_state3={}
-errL_state3={}
-while i < actions3_num:
-    i += 1
-    err_state3[i] = chunks (records['ACTIONS('+str(i)+ ' 4 3)'],1)
-    # errA_state3[i] = chunks (records['ERRORA('+str(i)+ ' 3)'],1)
-    errA_repetition_state3[i] = chunks (records['ERRORA('+str(i)+ ' 3 1)'],1)
-    errA_Omission_state3[i] = chunks (records['ERRORA('+str(i)+ ' 3 2)'],1)
-    errA_Late_state3[i] = chunks (records['ERRORA('+str(i)+ ' 3 3)'],1)
-    errA_early_state3[i] = chunks (records['ERRORA('+str(i)+ ' 3 4)'],1)
-    errA_insertion_state3[i] = chunks (records['ERRORA('+str(i)+ ' 3 5)'],1)
-    errF_state3[i] = chunks (records['ERRORF('+str(i)+ ' 3)'],1)
-    errL_state3[i] = chunks (records['ERRORL('+str(i)+ ' 3)'],1)
-
-
-i = 1
-while i <= actions3_num:
-    j = 0
-    while j < step:
-        if err_state3[i][j] == ['0']: err_state3[i][j] = 'norm'
-        if err_state3[i][j] == ['1']: err_state3[i][j] = 'err'
-        j += 1
-    i +=1
-
-i = 0
-err_state4={}
-# errA_state4={}
-errA_repetition_state4={}
-errA_Omission_state4={}
-errA_Late_state4={}
-errA_early_state4={}
-errA_insertion_state4={}
-errF_state4={}
-errL_state4={}
-while i < actions4_num:
-    i += 1
-    err_state4[i] = chunks (records['ACTIONS('+str(i)+ ' 4 4)'],1)
-    # errA_state4[i] = chunks (records['ERRORA('+str(i)+ ' 4)'],1)
-    errA_repetition_state4[i] = chunks (records['ERRORA('+str(i)+ ' 4 1)'],1)
-    errA_Omission_state4[i] = chunks (records['ERRORA('+str(i)+ ' 4 2)'],1)
-    errA_Late_state4[i] = chunks (records['ERRORA('+str(i)+ ' 4 3)'],1)
-    errA_early_state4[i] = chunks (records['ERRORA('+str(i)+ ' 4 4)'],1)
-    errA_insertion_state4[i] = chunks (records['ERRORA('+str(i)+ ' 4 5)'],1)
-    errF_state4[i] = chunks (records['ERRORF('+str(i)+ ' 4)'],1)
-    errL_state4[i] = chunks (records['ERRORL('+str(i)+ ' 4)'],1)
-
-
-i = 1
-while i <= actions4_num:
-    j = 0
-    while j < step:
-        if err_state4[i][j] == ['0']: err_state4[i][j] = 'norm'
-        if err_state4[i][j] == ['1']: err_state4[i][j] = 'err'
-        j += 1
-    i +=1
 
 
 ###########
@@ -654,6 +537,7 @@ if Table_type == "err":
     #
         j = 1
         while j<= actions1_num:
+           
             err_A = ""
             err_A += str(errL_state1[j][i])
             err_A += " , "
@@ -668,44 +552,24 @@ if Table_type == "err":
             err_A = err_A.replace("[", "")
             err_A = err_A.replace("]", "")
             err_A = err_A.replace("'", "")
-
-            Gstate_err.add_row(["",str(j)+ "   -   1",action_state1[j][i],err_state1[j][i],err_A,"","",""])
+            if action_doer[j][i] ==['1']:
+                Gstate_err.add_row(["",str(j)+ "   -   1",action_state1[j][i],err_state1[j][i],err_A,"","",""])
             j += 1
     #
-        j = 1
-        while j<= actions2_num:
-            err_A = ""
-            err_A += str(errL_state2[j][i])
-            err_A += " , "
-            err_A += str(errF_state2[j][i])
-            err_A += " , ("
-            if errA_repetition_state2[j][i] == ['1']: err_A = err_A + 're '
-            if errA_Omission_state2[j][i] == ['1']: err_A = err_A + 'om '
-            if errA_Late_state2[j][i] == ['1']: err_A = err_A+'la '
-            if errA_early_state2[j][i] == ['1']: err_A = err_A+'ea '
-            if errA_insertion_state2[j][i] == ['1']: err_A = err_A+'in'
-            err_A += ")"
-            err_A = err_A.replace("[", "")
-            err_A = err_A.replace("]", "")
-            err_A = err_A.replace("'", "")
-
-            Gstate_err.add_row(["",str(j)+ "   -   2",action_state2[j][i],err_state2[j][i],err_A,"","",""])
-            j += 1
+        #
+        k= 1
+        while k<= hazards_num:
+            if hazard_state [k][i] != ['0']:
+                Gstate_err.add_row(["","","","","",hazard_state [k][i],"",""])
+            k += 1
     #
+        k = 1
+        while k<= RRM_num:
+            if RRM[k][i] != ['0']:
+                Gstate_err.add_row(["","","","","","","",str(k)])
+            k += 1
     #
-        j= 1
-        while j<= hazards_num:
-            if hazard_state [j][i] != ['0']:
-                Gstate_err.add_row(["","","","","",hazard_state [j][i],"",""])
-            j += 1
-    #
-        j = 1
-        while j<= RRM_num:
-            if RRM[j][i] != ['0']:
-                Gstate_err.add_row(["","","","","","","",str(j)])
-            j += 1
-    #
-        j= 1
+        k= 1
         i += 1
         print Gstate_err
 # #####################
@@ -755,3 +619,47 @@ if Table_type == "state":
             j += 1
         i += 1
         print Gstate_status
+# i = 1
+if Table_type == "positions":
+    from prettytable import PrettyTable
+    while i < step:
+        Gstate_status = PrettyTable()
+        Gstate_status.field_names = ["step","Link 1", "Link 2", "EndEff", "still/moving", "relative force", "relative Speed"]
+        Gstate_status.add_row([str(i),Link1Pos[i],Link2Pos[i],EndEffPos[i],BodypartStill[i]+ '-' + EndEffStill[i] +'-'+ Link2Still[i]+'-'+ Link1Still[i],velocity[i],force[i]])
+        i += 1
+        print Gstate_status
+#
+if Table_type == "info":
+    k = 1
+    i = 1
+    while i < step:
+        print ("-----------------time"+str(i)+"-----------------")
+        j = 1
+        while j<= actions1_num:
+            if action_state1[j][i] == 'exe' or action_state1[j][i] == 'exrm':
+                print "Action "+ str(j)+ " is executing."
+            j += 1  
+
+        if Link1Still[i] == 'still': print "Link1 is still in " + layout_parser(Link1Pos[i])
+        else: print "Link1 is moving in " + layout_parser(Link1Pos[i])
+        
+        if Link2Still[i] == 'still': print "Link2 is still in " + layout_parser(Link2Pos[i])
+        else: print "Link2 is moving in " + layout_parser(Link2Pos[i])
+        
+        if EndEffStill[i] == 'still': print "EndEff is still in " + layout_parser(EndEffPos[i])
+        else: print "EndEff is moving in " + layout_parser(EndEffPos[i])
+
+        print "the operator's head is in " + layout_parser(BodyPartPosition[1][i])
+        print "the operator's shoulders are in " + layout_parser(BodyPartPosition[2][i])
+        print "the operator's chest is in " + layout_parser(BodyPartPosition[3][i])
+        print "the operator's belly is in " + layout_parser(BodyPartPosition[4][i])
+        print "the operator's pelvis is in " + layout_parser(BodyPartPosition[5][i])
+        print "the operator's upper arms are in " + layout_parser(BodyPartPosition[6][i])
+        print "the operator's hands are in " + layout_parser(BodyPartPosition[7][i])
+        print "the operator's thigs are in " + layout_parser(BodyPartPosition[8][i])
+        print "the operator's legs are in " + layout_parser(BodyPartPosition[9][i])
+        print "the operator's neck is in " + layout_parser(BodyPartPosition[10][i])
+        print "the operator's lower arms are in " + layout_parser(BodyPartPosition[11][i])
+        i += 1  
+
+

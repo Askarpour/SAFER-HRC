@@ -33,7 +33,10 @@
 		; ;End_Eff is facing the operator 
 		; (define-tvar End_Eff_facing_Operator *bool*)
 
-
+(defvar Link1 "Link1")
+(defvar Link2 "Link2")
+(defvar End_Eff_B "End_Eff_B")
+(defvar End_Eff_F "End_Eff_F")
 
 
 
@@ -92,17 +95,17 @@
 
 		 	(||
 		 		(Adj (-V- LINK1_Position) (Yesterday(-V- LINK1_Position)))
-		 		([=] (-V- LINK1_Position) (-V- LINK1_Position))
+		 		([=] (-V- LINK1_Position) (Yesterday(-V- LINK1_Position)))
 	 		)
 
 	 		(||
 		 		(Adj (-V- LINK2_Position) (Yesterday(-V- LINK2_Position)))
-		 		([=] (-V- LINK2_Position) (-V- LINK2_Position))
+		 		([=] (-V- LINK2_Position) (Yesterday(-V- LINK2_Position)))
 	 		)
 
 	 		(||
 		 		(Adj (-V- End_Eff_B_Position) (Yesterday(-V- End_Eff_B_Position)))
-		 		([=] (-V- End_Eff_B_Position) (-V- End_Eff_B_Position))
+		 		([=] (-V- End_Eff_B_Position) (Yesterday(-V- End_Eff_B_Position)))
 	 		)
 
 			
@@ -122,6 +125,7 @@
 				(&&
 					([=](-V- LINK2_Position) L_0)
 					([=](-V- LINK1_Position) L_0)
+					([=](-V- End_Eff_F_Position) L_0)
 					(!! (-P- LINK1_Moving))
 					(!! (-P- LINK2_Moving))
 					(!! (-P- End_Eff_Moving))
@@ -141,7 +145,12 @@
 
 			(<->
 				(-P- End_Eff_Moving)
-				(!! ([=] (-V- LINK1_Position) (Yesterday (-V- End_Eff_F_Position))))
+				(!! ([=] (-V- End_Eff_F_Position) (Yesterday (-V- End_Eff_F_Position))))
+			)
+
+			(<->
+				(-P- End_Eff_F_Moving)
+				(!! ([=] (-V- End_Eff_F_Position) (Yesterday (-V- End_Eff_F_Position))))
 			)
 
 			

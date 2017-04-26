@@ -16,7 +16,7 @@
     (defvar entanglement 2)
 
 (defconstant *HazardsInit*
-        ;;initialization of existance and (Av+Fr+Pr)
+ ;;initialization of existance and (Av+Fr+Pr)
 
     (-A- i hazards-indexes
             (alw
@@ -55,350 +55,138 @@
 ;;then we consider 3 body-parts category: head and shoulders(1,2,10) waist-part(3,4,5) hands and arms(6,7,11)
 ;;and so we study 15 hazards in fact.
 
+(defun hazard_hit (bodypart robotpart hazard_id other_robotpart_1 other_robotpart_2)
+ (eval
+   `(<->
+        ([=] (-V- ,(with-input-from-string (in (format nil "hazards ~a ~a" hazard_id 0)) (loop for x = (read in nil nil) while x collect x))) 1)
+        (&& 
+            ([=]
+                (-V- ,(with-input-from-string (in (format nil "Body_Part_pos ~a" bodypart)) (loop for x = (read in nil nil) while x collect x)))
+                (-V- ,(with-input-from-string (in (format nil "~D_Position" robotpart)) (loop for x = (read in nil nil) while x collect x)))
+            )
+            
+            (|| 
+                (-P- ,(read-from-string (format nil "~D_Moving" robotpart))) 
+                ([=]
+                    (-V- ,(with-input-from-string (in (format nil "Body_Part_pos ~a" bodypart)) (loop for x = (read in nil nil) while x collect x)))
+                    (Yesterday (-V- ,(with-input-from-string (in (format nil "Body_Part_pos ~a" bodypart)) (loop for x = (read in nil nil) while x collect x))))
+                )
+            )
+            (!!
+                (||
+                    ([=] (-V- ,(with-input-from-string (in (format nil "Body_Part_pos ~a" bodypart)) (loop for x = (read in nil nil) while x collect x))) L_1_2)
+                    ([=] (-V- ,(with-input-from-string (in (format nil "Body_Part_pos ~a" bodypart)) (loop for x = (read in nil nil) while x collect x))) L_1_3)
+                    ;;ocluded area 
+                   
+                    ([=] (-V- ,(with-input-from-string (in (format nil "Body_Part_pos ~a" bodypart)) (loop for x = (read in nil nil) while x collect x))) (-V- ,(with-input-from-string (in (format nil "~D_Position" other_robotpart_1)) (loop for x = (read in nil nil) while x collect x)))) 
+                    ([=] (-V- ,(with-input-from-string (in (format nil "Body_Part_pos ~a" bodypart)) (loop for x = (read in nil nil) while x collect x))) (-V- ,(with-input-from-string (in (format nil "~D_Position" other_robotpart_2)) (loop for x = (read in nil nil) while x collect x))))
+                )
+            )  
+        )
+    )
+  )
+)
+
+
+(defun hazard_entg (bodypart robotpart hazard_id other_robotpart_1 other_robotpart_2)
+ (eval
+   `(<->
+        ([=] (-V- ,(with-input-from-string (in (format nil "hazards ~a ~a" hazard_id 0)) (loop for x = (read in nil nil) while x collect x))) 1)
+        (&& 
+            ([=]
+                (-V- ,(with-input-from-string (in (format nil "Body_Part_pos ~a" bodypart)) (loop for x = (read in nil nil) while x collect x)))
+                (-V- ,(with-input-from-string (in (format nil "~D_Position" robotpart)) (loop for x = (read in nil nil) while x collect x)))
+            )
+            (||
+                ([=] (-V- ,(with-input-from-string (in (format nil "Body_Part_pos ~a" bodypart)) (loop for x = (read in nil nil) while x collect x))) L_1_2)
+                ([=] (-V- ,(with-input-from-string (in (format nil "Body_Part_pos ~a" bodypart)) (loop for x = (read in nil nil) while x collect x))) L_1_3)
+                
+                (&&
+                    ([=] (-V- ,(with-input-from-string (in (format nil "Body_Part_pos ~a" bodypart)) (loop for x = (read in nil nil) while x collect x))) (-V- ,(with-input-from-string (in (format nil "~D_Position" other_robotpart_1)) (loop for x = (read in nil nil) while x collect x)))) 
+                    (-P- ,(read-from-string (format nil "~D_Moving" other_robotpart_1))) 
+                )
+
+                (&&
+                    ([=] (-V- ,(with-input-from-string (in (format nil "Body_Part_pos ~a" bodypart)) (loop for x = (read in nil nil) while x collect x))) (-V- ,(with-input-from-string (in (format nil "~D_Position" other_robotpart_2)) (loop for x = (read in nil nil) while x collect x)))) 
+                    (-P- ,(read-from-string (format nil "~D_Moving" other_robotpart_2))) 
+                )                        
+            )
+            (||
+                (-P- ,(read-from-string (format nil "~D_Moving" robotpart))) 
+                (!!([=] (-V- ,(with-input-from-string (in (format nil "Body_Part_pos ~a" bodypart)) (loop for x = (read in nil nil) while x collect x))) (Yesterday (-V- ,(with-input-from-string (in (format nil "Body_Part_pos ~a" bodypart)) (loop for x = (read in nil nil) while x collect x))))))
+            )
+        )
+    )
+  )
+)  
+
 (defconstant *Hazards*
  (&&
-    ;; hit by end-effector
-    ;;Origin: movements (normal or unexpected) of endeffector or any mobile part of robot cell
-    ;;consequence: impact of upper body area
-    (<->
-        ([=] (-V- hazards 1 0) 1)
-        (-E- j body_indexes 
-            (&& 
-                ([=](-V- Body_Part_pos j) (-V- End_Eff_F_Position)) 
-                (|| ([=] j Head) ([=] j Shoulders) ([=] j Neck))
-                (|| 
-                    (-P- End_Eff_Moving) 
-                    (&& ([=](-V- Body_Part_pos j) (Yesterday (-V- Body_Part_pos j))))
-                )
-                (!!
-                    (||
-                        ([=](-V- Body_Part_pos j) L_1_2) ([=](-V- Body_Part_pos j) L_1_3) ;;ocluded area 
-                        ([=](-V- Body_Part_pos j) (-V- LINK1_Position)) 
-                        ([=](-V- Body_Part_pos j) (-V- End_Eff_F_Position)) 
-                    )
-                )  
-            )
-        )
-    )
-    ;; hit by end-effector
-    ;;Origin: movements (normal or unexpected) of endeffector or any mobile part of robot cell
-    ;;consequence: impact of waist body area
-    (<->
-        ([=] (-V- hazards 2 0) 1)
-        (-E- j body_indexes 
-            (&& 
-                ([=](-V- Body_Part_pos j) (-V- End_Eff_F_Position)) 
-                (|| ([=] j Chest) ([=] j Belly) ([=] j Pelvis))
-                (|| 
-                    (-P- End_Eff_Moving) 
-                    (&& (!!([=](-V- Body_Part_pos j) (Yesterday (-V- Body_Part_pos j)))))
-                )
-                (!!
-                    (||
-                        ([=](-V- Body_Part_pos j) L_1_2) ([=](-V- Body_Part_pos j) L_1_3) ;;ocluded area 
-                        ([=](-V- Body_Part_pos j) (-V- LINK1_Position)) 
-                        ([=](-V- Body_Part_pos j) (-V- End_Eff_F_Position)) 
-                    )
-                )  
-            )
-        )
-    )
+        ;;*** hits
+    (hazard_hit Neck End_Eff_F 1 LINK1 LINK2)
+    (hazard_hit Head End_Eff_F 1 LINK1 LINK2)
+    (hazard_hit shoulders End_Eff_F 1 LINK1 LINK2)
 
-    ;; hit by end-efector
-    ;;Origin: movements (normal or unexpected) of endeffector or any mobile part of robot cell
-    ;;consequence: impact of lower body area
-    (<->
-        ([=] (-V- hazards 3 0) 1)
-        (-E- j body_indexes 
-            (&& 
-                ([=](-V- Body_Part_pos j) (-V- End_Eff_F_Position)) 
-                (|| ([=] j Upper_Arm) ([=] j Hand) ([=] j Lower_Arm))
-                (|| 
-                    (-P- End_Eff_Moving) 
-                    (&& (!!([=](-V- Body_Part_pos j) (Yesterday (-V- Body_Part_pos j)))))
-                )
-                (!!
-                    (||
-                        ([=](-V- Body_Part_pos j) L_1_2) ([=](-V- Body_Part_pos j) L_1_3) ;;ocluded area 
-                        ([=](-V- Body_Part_pos j) (-V- LINK1_Position)) 
-                        ([=](-V- Body_Part_pos j) (-V- End_Eff_F_Position)) 
-                    )
-                )  
-            )
-        )
-    )
+    (hazard_hit Chest End_Eff_F 2 LINK1 LINK2)
+    (hazard_hit Belly End_Eff_F 2 LINK1 LINK2)
+    (hazard_hit Pelvis End_Eff_F 2 LINK1 LINK2)
 
-    (<-> ;; hit by Link1
-        ([=] (-V- hazards 4 0) 1)
-        (-E- j body_indexes 
-            (&& 
-                ([=](-V- Body_Part_pos j) (-V- LINK1_Position)) 
-                (|| ([=] j Head) ([=] j Shoulders) ([=] j Neck))
-                (|| 
-                    (-P- LINK1_Moving) 
-                    (&& (!!([=](-V- Body_Part_pos j) (Yesterday (-V- Body_Part_pos j)))))
-                )
-                (!!
-                    (||
-                        ([=](-V- Body_Part_pos j) L_1_2) ([=](-V- Body_Part_pos j) L_1_3) ;;ocluded area 
-                        ([=](-V- Body_Part_pos j) (-V- LINK1_Position)) 
-                        ([=](-V- Body_Part_pos j) (-V- End_Eff_F_Position)) 
-                    )
-                )  
-            )
-        )
-    )
-
-    (<-> ;; hit by Link1
-        ([=] (-V- hazards 5 0) 1)
-        (-E- j body_indexes 
-            (&& 
-                ([=](-V- Body_Part_pos j) (-V- LINK1_Position)) 
-                (|| ([=] j Chest) ([=] j Belly) ([=] j Pelvis))
-                (|| 
-                    (-P- LINK1_Moving) 
-                    (&& (!!([=](-V- Body_Part_pos j) (Yesterday (-V- Body_Part_pos j)))))
-                )
-                (!!
-                    (||
-                        ([=](-V- Body_Part_pos j) L_1_2) ([=](-V- Body_Part_pos j) L_1_3) ;;ocluded area 
-                        ([=](-V- Body_Part_pos j) (-V- LINK1_Position)) 
-                        ([=](-V- Body_Part_pos j) (-V- End_Eff_F_Position)) 
-                    )
-                )  
-            )
-        )
-    )
-
-    (<-> ;; hit by Link1
-        ([=] (-V- hazards 6 0) 1)
-        (-E- j body_indexes 
-            (&& 
-                ([=](-V- Body_Part_pos j) (-V- LINK1_Position)) 
-                (|| ([=] j Upper_Arm) ([=] j Hand) ([=] j Lower_Arm))
-                (|| 
-                    (-P- LINK1_Moving) 
-                    (&& (!!([=](-V- Body_Part_pos j) (Yesterday (-V- Body_Part_pos j)))))
-                )
-                (!!
-                    (||
-                        ([=](-V- Body_Part_pos j) L_1_2) ([=](-V- Body_Part_pos j) L_1_3) ;;ocluded area 
-                        ([=](-V- Body_Part_pos j) (-V- LINK1_Position)) 
-                        ([=](-V- Body_Part_pos j) (-V- End_Eff_F_Position)) 
-                    )
-                )  
-            )
-        )
-    )
+    (hazard_hit Upper_Arm End_Eff_F 3 LINK1 LINK2)
+    (hazard_hit Hand End_Eff_F 3 LINK1 LINK2)
+    (hazard_hit Lower_Arm End_Eff_F 3 LINK1 LINK2)
 
 
-    (<-> ;; hit by LINK2
-        ([=] (-V- hazards 7 0) 1)
-        (-E- j body_indexes 
-            (&& 
-                ([=](-V- Body_Part_pos j) (-V- LINK2_Position)) 
-                (|| ([=] j Head) ([=] j Shoulders) ([=] j Neck))
-                (|| 
-                    (-P- LINK2_Moving) 
-                    (&& (!!([=](-V- Body_Part_pos j) (Yesterday (-V- Body_Part_pos j)))))
-                )
-                (!!
-                    (||
-                        ([=](-V- Body_Part_pos j) L_1_2) ([=](-V- Body_Part_pos j) L_1_3) ;;ocluded area 
-                        ([=](-V- Body_Part_pos j) (-V- LINK1_Position)) 
-                        ([=](-V- Body_Part_pos j) (-V- End_Eff_F_Position)) 
-                    )
-                )  
-            )
-        )
-    )
+    (hazard_hit Neck LINK1 4 LINK2 End_Eff_F)
+    (hazard_hit Head LINK1 4 LINK2 End_Eff_F)
+    (hazard_hit shoulders LINK1 4 LINK2 End_Eff_F)
 
-    (<-> ;; hit by LINK2
-        ([=] (-V- hazards 8 0) 1)
-        (-E- j body_indexes 
-            (&& 
-                ([=](-V- Body_Part_pos j) (-V- LINK2_Position)) 
-                (|| ([=] j Chest) ([=] j Belly) ([=] j Pelvis))
-                (|| 
-                    (-P- LINK2_Moving) 
-                    (&& (!!([=](-V- Body_Part_pos j) (Yesterday (-V- Body_Part_pos j)))))
-                )
-                (!!
-                    (||
-                        ([=](-V- Body_Part_pos j) L_1_2) ([=](-V- Body_Part_pos j) L_1_3) ;;ocluded area 
-                        ([=](-V- Body_Part_pos j) (-V- LINK1_Position)) 
-                        ([=](-V- Body_Part_pos j) (-V- End_Eff_F_Position)) 
-                    )
-                )  
-            )
-        )
-    )
+    (hazard_hit Chest LINK1 5 LINK2 End_Eff_F)
+    (hazard_hit Belly LINK1 5 LINK2 End_Eff_F)
+    (hazard_hit Pelvis LINK1 5 LINK2 End_Eff_F)
 
-    (<-> ;; hit by LINK2
-        ([=] (-V- hazards 9 0) 1)
-        (-E- j body_indexes 
-            (&& 
-                ([=](-V- Body_Part_pos j) (-V- LINK2_Position)) 
-                (|| ([=] j Upper_Arm) 
-                   ; ([=] j Hand) 
-                    ([=] j Lower_Arm))
-                (|| 
-                    (-P- LINK2_Moving) 
-                    (&& (!!([=](-V- Body_Part_pos j) (Yesterday (-V- Body_Part_pos j)))))
-                )
-                (!!
-                    (||
-                        ([=](-V- Body_Part_pos j) L_1_2) ([=](-V- Body_Part_pos j) L_1_3) ;;ocluded area 
-                        ([=](-V- Body_Part_pos j) (-V- LINK1_Position)) 
-                        ([=](-V- Body_Part_pos j) (-V- End_Eff_F_Position)) 
-                    )
-                )  
-            )    
-        )
-    )
+    (hazard_hit Upper_Arm LINK1 6 LINK2 End_Eff_F)
+    (hazard_hit Hand LINK1 6 LINK2 End_Eff_F)
+    (hazard_hit Lower_Arm LINK1 6 LINK2 End_Eff_F)
 
 
-    (<-> ;; entanglement by LINK1
-        ([=] (-V- hazards 10 0) 1)
-        (-E- j body_indexes 
-            (&& 
-                ([=](-V- Body_Part_pos j) (-V- LINK1_Position)) 
-                (|| ([=] j Head) ([=] j Shoulders) ([=] j Neck))
-                
-                (||
-                    ([=](-V- Body_Part_pos j) L_1_2) ([=](-V- Body_Part_pos j) L_1_3) ;;ocluded area 
-                    (&& ([=](-V- Body_Part_pos j) (-V- LINK2_Position)) (-P- LINK2_Moving))
-                    (&& ([=](-V- Body_Part_pos j) (-V- End_Eff_F_Position)) (-P- End_Eff_Moving)) 
-                )    
-                
-                (|| 
-                    (-P- LINK1_Moving) 
-                    (&& (!!([=](-V- Body_Part_pos j) (Yesterday (-V- Body_Part_pos j)))))
-                )  
-            )    
-        )
-    )
+    (hazard_hit Neck LINK2 7 LINK1 End_Eff_F)
+    (hazard_hit Head LINK2 7 LINK1 End_Eff_F)
+    (hazard_hit shoulders LINK2 7 LINK1 End_Eff_F)
 
-    (<-> ;; entanglement by LINK1
-        ([=] (-V- hazards 11 0) 1)
-        (-E- j body_indexes 
-            (&& 
-                ([=](-V- Body_Part_pos j) (-V- LINK1_Position)) 
-                
-                (||
-                    ([=](-V- Body_Part_pos j) L_1_2) ([=](-V- Body_Part_pos j) L_1_3) ;;ocluded area 
-                    (&& ([=](-V- Body_Part_pos j) (-V- LINK2_Position)) (-P- LINK2_Moving))
-                    (&& ([=](-V- Body_Part_pos j) (-V- End_Eff_F_Position)) (-P- End_Eff_Moving)) 
-                ) 
-                
-                (|| 
-                    ([=] j Chest) ([=] j Belly) ([=] j Pelvis)
-                ) 
-                
-                (|| 
-                    (-P- LINK1_Moving) 
-                    (&& (!!([=](-V- Body_Part_pos j) (Yesterday (-V- Body_Part_pos j)))))
-                )  
-            )    
-        )
-    )
+    (hazard_hit Chest LINK2 8 LINK1 End_Eff_F)
+    (hazard_hit Belly LINK2 8 LINK1 End_Eff_F)
+    (hazard_hit Pelvis LINK2 8 LINK1 End_Eff_F)
 
-    (<-> ;; entanglement by LINK1
-        ([=] (-V- hazards 12 0) 1)
-        (-E- j body_indexes 
-            (&& 
-                ([=](-V- Body_Part_pos j) (-V- LINK1_Position)) 
-                
-                (||
-                    ([=](-V- Body_Part_pos j) L_1_2) ([=](-V- Body_Part_pos j) L_1_3) ;;ocluded area 
-                    (&& ([=](-V- Body_Part_pos j) (-V- LINK2_Position)) (-P- LINK2_Moving))
-                    (&& ([=](-V- Body_Part_pos j) (-V- End_Eff_F_Position)) (-P- End_Eff_Moving)) 
-                ) 
-                
-                (||
-                    ([=] j Upper_Arm)
-                    ; ([=] j Hand)
-                    ([=] j Lower_Arm)
+    (hazard_hit Upper_Arm LINK2 9 LINK1 End_Eff_F)
+    (hazard_hit Hand LINK2 9 LINK1 End_Eff_F)
+    (hazard_hit Lower_Arm LINK2 9 LINK1 End_Eff_F)
 
-                ) 
-                
-                (|| 
-                    (-P- LINK1_Moving) 
-                    (&& (!!([=](-V- Body_Part_pos j) (Yesterday (-V- Body_Part_pos j)))))
-                )  
-            )    
-        )       
-    )
 
-    (<-> ;; entanglement by LINK2
-        ([=] (-V- hazards 13 0) 1)
-        (-E- j body_indexes 
-            (&& 
-                ([=](-V- Body_Part_pos j) (-V- LINK2_Position)) 
-                
-                (||
-                    ([=](-V- Body_Part_pos j) L_1_2) ([=](-V- Body_Part_pos j) L_1_3) ;;ocluded area 
-                    (&& ([=](-V- Body_Part_pos j) (-V- LINK1_Position)) (-P- LINK1_Moving))
-                    (&& ([=](-V- Body_Part_pos j) (-V- End_Eff_F_Position)) (-P- End_Eff_Moving)) 
-                ) 
+    ;;*** entanglements
+    (hazard_entg Neck LINK1 10 LINK2 End_Eff_F)
+    (hazard_entg Head LINK1 10 LINK2 End_Eff_F)
+    (hazard_entg shoulders LINK1 10 LINK2 End_Eff_F)
 
-                (|| ([=] j Head) ([=] j Shoulders) ([=] j Neck)) 
-                
-                (|| 
-                    (-P- LINK2_Moving) 
-                    (&& (!!([=](-V- Body_Part_pos j) (Yesterday (-V- Body_Part_pos j)))))
-                )  
-            )    
-        ) 
-    )
+    (hazard_entg Chest LINK1 11 LINK2 End_Eff_F)
+    (hazard_entg Belly LINK1 11 LINK2 End_Eff_F)
+    (hazard_entg Pelvis LINK1 11 LINK2 End_Eff_F)
 
-    (<-> ;; entanglement by LINK2
-        ([=] (-V- hazards 14 0) 1)
-        (-E- j body_indexes 
-            (&& 
-                ([=](-V- Body_Part_pos j) (-V- LINK2_Position)) 
-                
-                (||
-                    ([=](-V- Body_Part_pos j) L_1_2) ([=](-V- Body_Part_pos j) L_1_3) ;;ocluded area 
-                    (&& ([=](-V- Body_Part_pos j) (-V- LINK1_Position)) (-P- LINK1_Moving))
-                    (&& ([=](-V- Body_Part_pos j) (-V- End_Eff_F_Position)) (-P- End_Eff_Moving)) 
-                ) 
+    (hazard_entg Upper_Arm LINK1 12 LINK2 End_Eff_F)
+    (hazard_entg Hand LINK1 12 LINK2 End_Eff_F)
+    (hazard_entg Lower_Arm LINK1 12 LINK2 End_Eff_F)
 
-                (||
-                    ([=] j Upper_Arm)
-                     ; ([=] j Hand)
-                    ([=] j Lower_Arm)
-                )   
-                
-                (|| 
-                    (-P- LINK2_Moving) 
-                    (&& (!!([=](-V- Body_Part_pos j) (Yesterday (-V- Body_Part_pos j)))))
-                )
-            )      
-        )    
-    ) 
 
-    (<-> ;; entanglement by LINK2
-        ([=] (-V- hazards 15 0) 1)
-        (-E- j body_indexes 
-            (&& 
-                ([=](-V- Body_Part_pos j) (-V- LINK2_Position)) 
-                
-                (||
-                    ([=](-V- Body_Part_pos j) L_1_2) ([=](-V- Body_Part_pos j) L_1_3) ;;ocluded area 
-                    (&& ([=](-V- Body_Part_pos j) (-V- LINK1_Position)) (-P- LINK1_Moving))
-                    (&& ([=](-V- Body_Part_pos j) (-V- End_Eff_F_Position)) (-P- End_Eff_Moving)) 
-                ) 
+    (hazard_entg Neck LINK2 13 LINK1 End_Eff_F)
+    (hazard_entg Head LINK2 13 LINK1 End_Eff_F)
+    (hazard_entg shoulders LINK2 13 LINK1 End_Eff_F)
 
-                (|| ([=] j Chest) ([=] j Belly) ([=] j Pelvis))  
-                
-                (|| 
-                    (-P- LINK2_Moving) 
-                    (&& (!!([=](-V- Body_Part_pos j) (Yesterday (-V- Body_Part_pos j)))))
-                )
-            )      
-        ) 
-    )
+    (hazard_entg Chest LINK2 14 LINK1 End_Eff_F)
+    (hazard_entg Belly LINK2 14 LINK1 End_Eff_F)
+    (hazard_entg Pelvis LINK2 14 LINK1 End_Eff_F)
+
+    (hazard_entg Upper_Arm LINK2 15 LINK1 End_Eff_F)
+    (hazard_entg Hand LINK2 15 LINK1 End_Eff_F)
+    (hazard_entg Lower_Arm LINK2 15 LINK1 End_Eff_F)
 
 
     (-A- i hazards-indexes
@@ -436,25 +224,3 @@
 
     )
 )
-
-; ;;Risk Estimation
-
-
-
-; ;;rrm required= req           rrm recommended=rec
-
-
-; ;;                            (Av+Fr+Pr)      3-4         5-7         8-10            11-13           14-15
-; ;;                            Se = 4          rec         req         req             req             req
-; ;;                            Se = 3                      rec         req             req             req
-; ;;                            Se = 2                                  rec             req             req
-; ;;                            Se = 1                                                  rec             req
-
-;   ;;Risk values 0:negligible,  1: rrm recommended,   2: rrm required
-
-; (defconstant Risks
-
-
-
-
-;   )

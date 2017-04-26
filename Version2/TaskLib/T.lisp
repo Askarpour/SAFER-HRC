@@ -589,30 +589,32 @@
 
             (-> ;;inexit to anything
                 (&& (Yesterday ([=] (-V- actions i 1 Tname) inexitt)) (!!([>] (-V- Risk) Threshold)))
-             (&& (!!([=] (-V- actions i 1 Tname) inexitt)) (!!([=] (-V- actions i 1 Tname) exitt))))))))
+             (&& (!!([=] (-V- actions i 1 Tname) inexitt)) (!!([=] (-V- actions i 1 Tname) exitt)))
+            )
+            
 
     ;;*********************************
-  ; 	;only two operator actions concurrently execute
-  ;   	(-A- j index
-  ;   		(-A- k index
-  ;   			(->
-    ;     		(&&
-    ;     			(||([=] (-V- actions j 1 Tname) executing) ([=] (-V- actions j 1 Tname) exrm))
-    ;     			([=] (-V- actions j 3 Tname) operator)
-    ; 				(&& (||([=] (-V- actions k 1 Tname) executing) ([=] (-V- actions k 1 Tname) exrm)) ([=] (-V- actions k 3 Tname) operator) (!! ([=] j k)))
-    ; 			)
-    ; 			(!!
-    ; 				(-E- x index
-    ; 					(&&
-    ; 						(!! ([=] x k))
-    ; 						(!! ([=] x j))
-    ; 						([=](-V- OpStarts x Tname) 1)
-    ; 					)
-    ; 				)
-    ; 			)
-    ; 		)
-    ; 	)
-    ; )
+  	;only two operator actions concurrently execute
+    	(-A- j index
+    		(-A- k index
+    			(->
+        		(&&
+        			(||([=] (-V- actions j 1 Tname) executing) ([=] (-V- actions j 1 Tname) exrm))
+        			([=] (-V- actions j 3 Tname) operator)
+    				(&& (||([=] (-V- actions k 1 Tname) executing) ([=] (-V- actions k 1 Tname) exrm)) ([=] (-V- actions k 3 Tname) operator) (!! ([=] j k)))
+    			)
+    			(!!
+    				(-E- x index
+    					(&&
+    						(!! ([=] x k))
+    						(!! ([=] x j))
+    						([=](-V- OpStarts x Tname) 1)
+    					)
+    				)
+    			)
+    		)
+    	)
+    )
   ; ;;only three erroneous actions at the same time
   ; 	(-A- j index
   ; 	   (-A- k index
@@ -628,13 +630,22 @@
   ; 						(!! ([=] x k))
   ; 						(!! ([=] x j))
   ; 						([=] (-V- actions x 4 Tname) erroneous)))))))
+ ;;only two erroneous actions at the same time
+    (-A- j index
+      (->
+        ([=] (-V- actions j 4 Tname) erroneous)
+        (!!
+          (-E- x index
+            (&&
+              (!! ([=] x j))
+              ([=] (-V- actions x 4 Tname) erroneous))))))
 
+))))    
 
 
 
 (defconstant *initConfig*
   (&&
-
     (!! (-P- partFixed))
     (!! (-P- partTaken))
 
@@ -650,12 +661,12 @@
     ; 	([=](-V- Body_Part_pos hand) L_3_2))
 
      ;;Layout
-    *relativeProperties*
+   *relativeProperties*
 
      ;;Operator
      *Operator_Body*
 
-     ;Robot
+    ;; Robot
      *Robot_Structure*
      (robotidle actions1-indexes T1)
      ; (robotidle actions2-indexes T2)

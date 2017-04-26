@@ -170,6 +170,7 @@
 ;;4. he puts the part on the stone
 (defconstant *Action4T1* 
 	(alwf(&&
+
 		(->
 	 		([=] (-V- Action_Pre 4 T1) 1)
 	 		(&& 
@@ -230,7 +231,7 @@
 (defconstant *Action5T1*
   (alwf
 	(&&
-
+		
 	 	(->
 	 		([=] (-V- Action_Pre 5 T1) 1)
 	 		(&&

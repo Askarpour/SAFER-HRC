@@ -1,5 +1,18 @@
 ;;Risk Estimator
+; ;;Risk Estimation
 
+
+
+; ;;rrm required= req           rrm recommended=rec
+
+
+; ;;                            (Av+Fr+Pr)      3-4         5-7         8-10            11-13           14-15
+; ;;                            Se = 4          rec         req         req             req             req
+; ;;                            Se = 3                      rec         req             req             req
+; ;;                            Se = 2                                  rec             req             req
+; ;;                            Se = 1                                                  rec             req
+
+;   ;;Risk values 0:negligible,  1: rrm recommended,   2: rrm required
 
 ;;----------------Estimation of severity------------------
 ;;if the origin for hazard_1 is present in the system, 

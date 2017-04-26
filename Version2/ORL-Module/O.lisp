@@ -53,6 +53,29 @@
 			 		([=] (-V- Body_Part_pos i) (-V- Body_Part_pos j))
 			 	)	
 			)
+
+			;;
+				([=] (-V- Body_Part_pos 1) (-V- Body_Part_pos 2))
+
+				([=] (-V- Body_Part_pos 1) (-V- Body_Part_pos 3))
+
+				([=] (-V- Body_Part_pos 1) (-V- Body_Part_pos 4))
+
+				([=] (-V- Body_Part_pos 1) (-V- Body_Part_pos 5))
+
+				([=] (-V- Body_Part_pos 1) (-V- Body_Part_pos 6))
+
+				([=] (-V- Body_Part_pos 11) (-V- Body_Part_pos 7))
+
+				([=] (-V- Body_Part_pos 1) (-V- Body_Part_pos 8))
+
+				([=] (-V- Body_Part_pos 1) (-V- Body_Part_pos 9))
+
+				([=] (-V- Body_Part_pos 1) (-V- Body_Part_pos 10))
+
+				(|| ([=] (-V- Body_Part_pos 1) (-V- Body_Part_pos 11))
+						(Adj (-V- Body_Part_pos 1) (-V- Body_Part_pos 11))
+				)
 		)
    	)
   )

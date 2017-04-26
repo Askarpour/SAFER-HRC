@@ -4,30 +4,41 @@ import sys
 
 count = -1
 hazard = 0
+file_name = sys.argv[1]
+SAT = -1
+path = "tables/outputs"
 
-with open("count_0_to_3.txt", mode="r") as bigfile:
-	if sys.argv[1] == "table":
-	    reader = bigfile.read()
-	    for i,part in enumerate(reader.split("------ time 0 ------")):
-	        if i != 0:
-	        	with open("File_" + str(i), mode="w") as newfile:
-	         		newfile.write("------ time 0 ------"+part)
-	         		os.system("python Table.py File_" + str(i) + " err > Table_"+ str(i))	
-	         		os.system("python Table.py File_" + str(i) + " sa >> Table_"+ str(i))
+if not os.path.exists(path):
+    os.makedirs(path)
 #
-	if sys.argv[1] == "info":
-		f = open("count_0_to_3.txt")
-		for line in f:
-			line = line.strip()
-			if line.startswith("---SAT"):
-				if hazard % 15 == 0: 
-					count += 1
-					hazard = 0
-					print "count = "+ str(count)
-				hazard += 1
-				print "hazard "+ str(hazard)
-			elif line.startswith("---UNSAT"):
-				if hazard % 15 == 0: 
-					count += 1
-					print "count = "+ str(count)
-				hazard += 1
+f = open(file_name)
+for line in f:
+	line = line.strip()
+	if line.startswith("---SAT"):
+		SAT = 1
+		if hazard % 15 == 0:
+			count += 1
+			hazard = 0
+			print "count = "+ str(count)
+		hazard += 1
+		print "hazard "+ str(hazard)
+		#
+	if line.startswith("---UNSAT"):
+		SAT = 0
+		if hazard % 15 == 0:
+			count += 1
+			hazard = 0
+			print "count = "+ str(count)
+		hazard += 1
+		#
+	elif SAT == 1:
+		newfile = open(os.path.join(path, "Hazard_" + str(hazard) + "_count_" + str(count)), mode="a")
+		newfile.write(line )
+		newfile.write("\n")
+
+for f in os.listdir(path):
+	os.system("python Table.py tables/outputs/" + str(f) + " info > tables/Table_"+ str(f))
+	os.system("python Table.py tables/outputs/" + str(f) + " err >> tables/Table_"+ str(f))
+	os.system("python Table.py tables/outputs/" + str(f) + " sa >> tables/Table_"+ str(f))
+
+
