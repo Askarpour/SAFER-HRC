@@ -16,7 +16,7 @@ import prettytable
 
 #############################parsing the output file#############################
 # File_name = sys.argv[1]
-output_type = sys.argv[1]
+# output_type = sys.argv[1]
 step = -1
 body_parts_num = 11
 
@@ -29,7 +29,21 @@ class switch(object):
         """Return the match method once, then stop"""
         yield self.match
         raise StopIteration
-    
+   
+    def pallet(element):
+    	for case in switch(elelemnt):
+    		 if case('head'):
+    		 	return (1500,480)
+    		 	break
+     		 if case('hand'):
+    		 	return (1400,520)
+    		 	break
+     		 if case('ro'):
+    		 	return (1350,520)
+    		 	break
+    		 if case():
+    		 	print ("something is wrong with coordinates of the object!")
+	        		
     def match(self, *args):
         """Indicate whether or not to enter a case suite"""
         if self.fall or not args:
@@ -39,7 +53,7 @@ class switch(object):
             return True
         else:
             return False
-def element_co(strin):
+def element_co(strin,element):
 	for case in switch(strin):
 	    if case('0'): #L_0
 	        return (1000,700)
@@ -48,10 +62,16 @@ def element_co(strin):
 	        return (1200,500)
 	        break
 	    if case('2'): #L_1_2
-	        return (1300,430)
+	        return (1250,500)
 	        break
 	    if case('3'): #L_1_3
-	        return (1500,480)
+	        # return (1500,480)
+	        if element == 'head':
+	        	return (1500,480)
+	        if element == 'hand':
+	        	return (1400,400)
+	        if element == 'ro':
+	        	return (1350,400)
 	        break
 	    if case('4'): #L_2_1
 	        return (1200,700)
@@ -66,7 +86,7 @@ def element_co(strin):
 	        return (1500,800)
 	        break
 	    if case('8'): #L_3_1
-	        return (1100,800)
+	        return (1190,900)
 	        break
 	    if case('9'): #L_3_2
 	        return (1250,1000)
@@ -345,12 +365,15 @@ def create_legend (step,plt):
 	for i in range(1, actions_num+1,1):
 		exec("if step in actions_EXRM_%s_%s: legendexrm += caseAact[i]" % (i,task_id))
 	for i in range(1, actions_num+1,1):
-		exec("if step in actions_INEX_%s_%s: legendexrm += caseAact[i] " % (i,task_id))	
+		exec("if step in actions_INEX_%s_%s: legendexrm += caseAact[i] " % (i,task_id))
+	for i in range(1, actions_num+1,1):
+		exec("if step in actions_INEX_%s_%s: legendexrm += caseAact[i] " % (i,task_id))
+
 	for i in range(1, actions_num+1, 1):
 			for x in ('REPETITION', 'OMISSION', 'LATE', 'EARLY_START', 'EARLY_END','ERR_F', 'ERR_L' ):
 				exec ("if step in %s_%s_%s:	legenderror += '%s of ' + caseAact[i]" % ( x, i, task_id,x))			
 	for i in range(1, actions_num+1, 1):
-			exec ("if step in INTRUSION_%s_%s:	legenderror += 'INTRUSION during ' + caseAact[i]" % (i, task_id))							
+			exec ("if step in INTRUSION_%s_%s:	legenderror += 'INTRUSION during ' + caseAact[i]" % (i, task_id))						
 
 	for i in range (1, hazards_num+1,1):
 		temp =''
@@ -364,7 +387,7 @@ def create_legend (step,plt):
 	label  = legendexe + legendexrm + '\n' + "errors: " + legenderror
 	if label == '': label += '-'
 	labelx = "executing: " + label
-	title = "hazards: " + legendhz
+	title = "hazards: " + legendhz 
 	plt.xlabel(title)
 	plt.ylabel(labely)
 	plt.title(labelx)
@@ -383,19 +406,19 @@ def draw_layout(ee, l1, l2, op_head, op_hand, step, task_id):
 	L_base = mpatches.Circle((1000,700),15, color="red")
 	ax.add_patch(L_base)
 	#
-	L_head = mpatches.Circle((element_co(op_head)[0],element_co(op_head)[1]),35, color="blue")
+	L_head = mpatches.Circle((element_co(op_head,'head')[0],element_co(op_head,'head')[1]),35, color="blue")
 	ax.add_patch(L_head)
 	#
-	L_hand = lines.Line2D([element_co(op_head)[0], element_co(op_hand)[0]],[element_co(op_head)[1], element_co(op_hand)[1]], lw=5., color="blue",zorder=1)
+	L_hand = lines.Line2D([element_co(op_head,'head')[0], element_co(op_hand,'hand')[0]],[element_co(op_head,'head')[1], element_co(op_hand,'hand')[1]], lw=5., color="blue",zorder=1)
 	ax.add_line(L_hand)
 	#
-	L_ee = mpatches.Circle((element_co(ee)[0],element_co(ee)[1]),15, color="red",zorder=2)
+	L_ee = mpatches.Circle((element_co(ee,'ro')[0],element_co(ee,'ro')[1]),15, color="red",zorder=2)
 	ax.add_patch(L_ee)
 	#
-	L_l1 = lines.Line2D([1000,element_co(l1)[0]],[700, element_co(l1)[1]], lw=9., color="red",zorder=2)
+	L_l1 = lines.Line2D([1000,element_co(l1,'ro')[0]],[700, element_co(l1,'ro')[1]], lw=9., color="red",zorder=2)
 	ax.add_line(L_l1)
 	#
-	L_l2 = lines.Line2D([element_co(l1)[0], element_co(ee)[0] ],[element_co(l1)[1], element_co(ee)[1]], lw=9., color="red",zorder=2)
+	L_l2 = lines.Line2D([element_co(l1,'ro')[0], element_co(ee,'ro')[0] ],[element_co(l1,'ro')[1], element_co(ee,'ro')[1]], lw=9., color="red",zorder=2)
 	ax.add_line(L_l2)
 	#
 	return ax.patches,
@@ -414,7 +437,7 @@ def safety_analysis_table (tick,task_id):
 		exec("if tick in actions_EXRM_%s_%s: actions += caseAact[i] " % (i,task_id))
 	for i in range(1, actions_num+1,1):
 		exec("if tick in actions_INEX_%s_%s: actions += caseAact[i] " % (i,task_id))	
-		
+	#
 	from prettytable import PrettyTable
 	GstateSA = PrettyTable()
 	GstateSA.field_names = ["t","Executing", "Hazards","Se","Risk","force","velocity"]
@@ -426,21 +449,21 @@ def safety_analysis_table (tick,task_id):
 			exec("risks = hazard_risk_%s[tick]" % (i))
 			exec("severities = hazard_se_%s[tick]" % (i))
 			GstateSA.add_row(["", "",hzs,severities,risks,"",""])
-	print GstateSA	
+	return GstateSA	
 
 #############################executing zot and processing the output#############################
 if __name__ == '__main__':
-	# os.system("zot Main.lisp")
-	# #wait for output.hist
-	# while not os.path.exists('output.hist.txt'):time.sleep(1)
-	# if os.path.isfile('output.hist.txt'):
+	os.system("zot Main2.lisp")
+	#wait for output.hist
+	while not os.path.exists('output.hist.txt'):time.sleep(1)
+	if os.path.isfile('output.hist.txt'):
 		read_file()
 		task_id = 2
 		# parse actions
 		for i in range(1, actions_num+1, 1):
 			for x in ('NS', 'WT', 'EXE', 'EXRM', 'HD', 'DN','INEX', 'EX' ):
-				exec ("actions_%s_%s_%s={}" % (x, i , task_id))
-				exec ("if 'ACTION_STATE_%s_%s_%s' in records.keys():	actions_%s_%s_%s = records['ACTION_STATE_%s_%s_%s']" % ( x, i, task_id, x, i, task_id, x,i, task_id))	
+				exec ("actions_%s_%s_%s={}" % (x, i ,task_id))
+				exec ("if 'ACTION_STATE_%s_%s_%s' in records.keys():	actions_%s_%s_%s = records['ACTION_STATE_%s_%s_%s']" % ( x, i, task_id, x, i,task_id, x,i,task_id))	
 		
 		# parse hazards
 		for i in range (1, hazards_num+1, 1):
@@ -452,14 +475,15 @@ if __name__ == '__main__':
 
 		# parse errors
 		for i in range(1, actions_num+1, 1):
-			for x in ('REPETITION', 'OMISSION', 'LATE', 'EARLY_START', 'EARLY_END', 'INSERTION','ERR_F', 'ERR_L' ):
+			for x in ('REPETITION', 'OMISSION', 'LATE', 'EARLY_START', 'EARLY_END', 'INTRUSION','ERR_F', 'ERR_L' ):
 				exec ("%s_%s_%s={}" % (x, i , task_id))
-				exec ("if '%s_%s_%s' in records.keys():	%s_%s_%s = records['%s_%s_%s']" % ( x, i, task_id, x, i, task_id, x,i, task_id))		
-
+				exec ("if '%s_%s_%s' in records.keys():	%s_%s_%s = records['%s_%s_%s']" % ( x, i, task_id, x, i, task_id, x,i, task_id))	
+		
 		# parse positions
 		parse_positions(step, records)
 		caseAact = import_act_names("TaskLib/T2.lisp")
 		caseAlayout = import_layout_sec("ORL-Module/L.lisp")
+		errors = import_act_names("TaskLib/fcm.lisp")
 
 		# parse relative attributes
 		for i in range (0, step+1):
@@ -477,23 +501,33 @@ if __name__ == '__main__':
 			elif 	velocity[i]=='LOW': velocity[i]='low'
 			elif 	velocity[i]=='NORMAL': velocity[i]='mid'	
 		
-		if output_type == 'fig':
-			newpath = 'Images'
-			if not os.path.exists(newpath):
-				os.makedirs(newpath)
-				folder = newpath
-			for i in range (0, step+1):
-				draw_layout(EndEffPos[i], Link1Pos[i], Link2Pos[i], BodyPartPosition[1][i], BodyPartPosition[7][i], i, task_id)
-				# plt.show()
-				create_legend (i,plt)
-				plt.savefig('Images'+"/Time"+str(i)+".png")
+		# if output_type == 'fig':
+		index = 1
+		newpath = 'Output'
+		while 1:
+			name = str(index)
+			if not os.path.exists(newpath+name):
+				os.makedirs(newpath+name)
+				folder = newpath+name
+				break
+			else:
+				index += 1
 
-		elif output_type == 'table':
-			for i in range (0, step+1):
-				safety_analysis_table(i,task_id)		
+		for i in range (0, step+1):
+			draw_layout(EndEffPos[i], Link1Pos[i], Link2Pos[i], BodyPartPosition[1][i], BodyPartPosition[7][i], i, 1)
+			# plt.show()
+			create_legend (i,plt)
+			plt.savefig(folder+"/Time"+str(i)+".png")
 
-	# else:
-	# 	raise ValueError("output.hist.txt not found!")
+		# elif output_type == 'table':
+		f = open(folder+'/Table.txt','w')
+		for i in range (0, step+1):
+			table = safety_analysis_table(i, task_id)
+			table_txt = table.get_string()
+			f.write(table_txt)
+
+	else:
+		raise ValueError("output.hist.txt not found!")
 	
 	
 	

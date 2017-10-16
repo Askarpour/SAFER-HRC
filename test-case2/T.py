@@ -16,7 +16,7 @@ import prettytable
 
 #############################parsing the output file#############################
 # File_name = sys.argv[1]
-output_type = sys.argv[1]
+# output_type = sys.argv[1]
 step = -1
 body_parts_num = 11
 
@@ -424,7 +424,7 @@ def draw_layout(ee, l1, l2, op_head, op_hand, step, task_id):
 	return ax.patches,
 
 #############################creating tables#############################
-def safety_analysis_table (tick):
+def safety_analysis_table (tick,task_id):
 
 	actions = ''
 	hzs = ''
@@ -432,11 +432,11 @@ def safety_analysis_table (tick):
 	severities = ''
 	
 	for i in range(1, actions_num+1,1):
-		exec("if tick in actions_EXE_%s_1: actions += caseAact[i]  " % (i))
+		exec("if tick in actions_EXE_%s_%s: actions += caseAact[i]  " % (i,task_id))
 	for i in range(1, actions_num+1,1):
-		exec("if tick in actions_EXRM_%s_1: actions += caseAact[i] " % (i))
+		exec("if tick in actions_EXRM_%s_%s: actions += caseAact[i] " % (i,task_id))
 	for i in range(1, actions_num+1,1):
-		exec("if tick in actions_INEX_%s_1: actions += caseAact[i] " % (i))	
+		exec("if tick in actions_INEX_%s_%s: actions += caseAact[i] " % (i,task_id))	
 	#
 	from prettytable import PrettyTable
 	GstateSA = PrettyTable()
@@ -449,21 +449,21 @@ def safety_analysis_table (tick):
 			exec("risks = hazard_risk_%s[tick]" % (i))
 			exec("severities = hazard_se_%s[tick]" % (i))
 			GstateSA.add_row(["", "",hzs,severities,risks,"",""])
-	print GstateSA	
+	return GstateSA	
 
 #############################executing zot and processing the output#############################
 if __name__ == '__main__':
-	# os.system("zot Main.lisp")
-	# #wait for output.hist
-	# while not os.path.exists('output.hist.txt'):time.sleep(1)
-	# if os.path.isfile('output.hist.txt'):
+	os.system("zot Main.lisp")
+	#wait for output.hist
+	while not os.path.exists('output.hist.txt'):time.sleep(1)
+	if os.path.isfile('output.hist.txt'):
 		read_file()
 		task_id = 1
 		# parse actions
 		for i in range(1, actions_num+1, 1):
 			for x in ('NS', 'WT', 'EXE', 'EXRM', 'HD', 'DN','INEX', 'EX' ):
-				exec ("actions_%s_%s_%s={}" % (x, i , 1))
-				exec ("if 'ACTION_STATE_%s_%s_%s' in records.keys():	actions_%s_%s_%s = records['ACTION_STATE_%s_%s_%s']" % ( x, i, 1, x, i, 1, x,i, 1))	
+				exec ("actions_%s_%s_%s={}" % (x, i ,task_id))
+				exec ("if 'ACTION_STATE_%s_%s_%s' in records.keys():	actions_%s_%s_%s = records['ACTION_STATE_%s_%s_%s']" % ( x, i, task_id, x, i,task_id, x,i,task_id))	
 		
 		# parse hazards
 		for i in range (1, hazards_num+1, 1):
@@ -501,23 +501,32 @@ if __name__ == '__main__':
 			elif 	velocity[i]=='LOW': velocity[i]='low'
 			elif 	velocity[i]=='NORMAL': velocity[i]='mid'	
 		
-		if output_type == 'fig':
-			newpath = 'Images'
-			if not os.path.exists(newpath):
-				os.makedirs(newpath)
-				folder = newpath
-			for i in range (0, step+1):
-				draw_layout(EndEffPos[i], Link1Pos[i], Link2Pos[i], BodyPartPosition[1][i], BodyPartPosition[7][i], i, 1)
-				# plt.show()
-				create_legend (i,plt)
-				plt.savefig('Images'+"/Time"+str(i)+".png")
+		# if output_type == 'fig':
+		index = 1
+		newpath = 'Output'
+		while 1:
+			name = str(index)
+			if not os.path.exists(newpath+name):
+				os.makedirs(newpath+name)
+				folder = newpath+name
+				break
+			else:
+				index += 1
 
-		elif output_type == 'table':
-			for i in range (0, step+1):
-				safety_analysis_table(i)		
+		for i in range (0, step+1):
+			draw_layout(EndEffPos[i], Link1Pos[i], Link2Pos[i], BodyPartPosition[1][i], BodyPartPosition[7][i], i, 1)
+			# plt.show()
+			create_legend (i,plt)
+			plt.savefig(folder+"/Time"+str(i)+".png")
 
-	# else:
-	# 	raise ValueError("output.hist.txt not found!")
-	
+		# elif output_type == 'table':
+		f = open(folder+'/Table.txt','w')
+		for i in range (0, step+1):
+			table = safety_analysis_table(i, task_id)
+			table_txt = table.get_string()
+			f.write(table_txt)
+
+	else:
+		raise ValueError("output.hist.txt not found!")
 	
 	

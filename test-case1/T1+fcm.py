@@ -16,7 +16,7 @@ import prettytable
 
 #############################parsing the output file#############################
 # File_name = sys.argv[1]
-output_type = sys.argv[1]
+# output_type = sys.argv[1]
 step = -1
 body_parts_num = 11
 
@@ -28,7 +28,22 @@ class switch(object):
     def __iter__(self):
         """Return the match method once, then stop"""
         yield self.match
-        raise StopIteration       		
+        raise StopIteration
+   
+    def pallet(element):
+    	for case in switch(elelemnt):
+    		 if case('head'):
+    		 	return (1500,480)
+    		 	break
+     		 if case('hand'):
+    		 	return (1400,520)
+    		 	break
+     		 if case('ro'):
+    		 	return (1350,520)
+    		 	break
+    		 if case():
+    		 	print ("something is wrong with coordinates of the object!")
+	        		
     def match(self, *args):
         """Indicate whether or not to enter a case suite"""
         if self.fall or not args:
@@ -38,44 +53,80 @@ class switch(object):
             return True
         else:
             return False
-
 def element_co(strin,element):
 	for case in switch(strin):
-	    if case('1'): #L1
-	        return (200,300)
+	    if case('0'): #L_0
+	        return (1000,700)
 	        break
-	    if case('2'): #L2
-	        return (650,400)
+	    if case('1'): #L_1_1
+	        return (1200,500)
 	        break
-	    if case('3'): #L3
-	        return (950,400)
+	    if case('2'): #L_1_2
+	        return (1250,500)
 	        break
-	    if case('4'): #L4
-	        return (1100,480)
-	        break
-	    if case('5'): #L5
-	        return (1200,550)
-	        break
-	    if case('6'): #L6
+	    if case('3'): #L_1_3
+	        # return (1500,480)
 	        if element == 'head':
-	        	return (1200,700)
+	        	return (1500,480)
 	        if element == 'hand':
-	        	return (1200,600)
+	        	return (1400,400)
 	        if element == 'ro':
-	        	return (1000,620)
+	        	return (1350,400)
 	        break
-	    if case('7'): #L7
-	        return (600,1200)
+	    if case('4'): #L_2_1
+	        return (1200,700)
 	        break
-	    if case('8'): #L8
-	        return (600,1050)
+	    if case('5'): #L_2_2
+	        return (1320,700)
 	        break
-	    if case('9'): #L9
-	        return (600,800)
+	    if case('6'): #L_2_3
+	        return (1500,600)
 	        break
-	    if case('10'): #L10
-	        return (1200,480)
-	        break    
+	    if case('7'): #L_2_4
+	        return (1500,800)
+	        break
+	    if case('8'): #L_3_1
+	        return (1190,900)
+	        break
+	    if case('9'): #L_3_2
+	        return (1250,1000)
+	        break
+	    if case('10'): #L_3_4
+	        return (1500,1000)
+	        break
+	    if case('11'): #L_4_1
+	        return (1000,900)
+	        break
+	    if case('12'): #L_4_2
+	        return (1000,1100)
+	        break
+	    if case('13'): #L_5_1
+	        return (750,850)
+	        break
+	    if case('14'): #L_6_1
+	        return (750,650)
+	        break
+	    if case('15'): #L_6_2
+	        return (600,700)
+	        break
+	    if case('16'): #L_6_3
+	        return (250,600)
+	        break
+	    if case('17'): #L_7_1
+	        return (800,500)
+	        break
+	    if case('18'): #L_7_2
+	        return (700,400)
+	        break
+	    if case('19'): #L_7_3
+	        return (250,400)
+	        break
+	    if case('20'): #L_8_1
+	        return (1000,500)
+	        break
+	    if case('21'): #L_8_2
+	        return (1000,300)
+	        break        
 	    if case(): # default, could also just omit condition or 'if True'
 	        print ("something is wrong with coordinates of the object!")
 def hazard_id(i):
@@ -352,7 +403,7 @@ def draw_layout(ee, l1, l2, op_head, op_hand, step, task_id):
 	ax.set_yticklabels([])
 	ax.set_xticklabels([])
 	#
-	L_base = mpatches.Circle((600,800),15, color="red")
+	L_base = mpatches.Circle((1000,700),15, color="red")
 	ax.add_patch(L_base)
 	#
 	L_head = mpatches.Circle((element_co(op_head,'head')[0],element_co(op_head,'head')[1]),35, color="blue")
@@ -364,7 +415,7 @@ def draw_layout(ee, l1, l2, op_head, op_hand, step, task_id):
 	L_ee = mpatches.Circle((element_co(ee,'ro')[0],element_co(ee,'ro')[1]),15, color="red",zorder=2)
 	ax.add_patch(L_ee)
 	#
-	L_l1 = lines.Line2D([600,element_co(l1,'ro')[0]],[800, element_co(l1,'ro')[1]], lw=9., color="red",zorder=2)
+	L_l1 = lines.Line2D([1000,element_co(l1,'ro')[0]],[700, element_co(l1,'ro')[1]], lw=9., color="red",zorder=2)
 	ax.add_line(L_l1)
 	#
 	L_l2 = lines.Line2D([element_co(l1,'ro')[0], element_co(ee,'ro')[0] ],[element_co(l1,'ro')[1], element_co(ee,'ro')[1]], lw=9., color="red",zorder=2)
@@ -373,7 +424,7 @@ def draw_layout(ee, l1, l2, op_head, op_hand, step, task_id):
 	return ax.patches,
 
 #############################creating tables#############################
-def safety_analysis_table (tick):
+def safety_analysis_table (tick,task_id):
 
 	actions = ''
 	hzs = ''
@@ -381,11 +432,11 @@ def safety_analysis_table (tick):
 	severities = ''
 	
 	for i in range(1, actions_num+1,1):
-		exec("if tick in actions_EXE_%s_1: actions += caseAact[i]  " % (i))
+		exec("if tick in actions_EXE_%s_%s: actions += caseAact[i]  " % (i,task_id))
 	for i in range(1, actions_num+1,1):
-		exec("if tick in actions_EXRM_%s_1: actions += caseAact[i] " % (i))
+		exec("if tick in actions_EXRM_%s_%s: actions += caseAact[i] " % (i,task_id))
 	for i in range(1, actions_num+1,1):
-		exec("if tick in actions_INEX_%s_1: actions += caseAact[i] " % (i))	
+		exec("if tick in actions_INEX_%s_%s: actions += caseAact[i] " % (i,task_id))	
 	#
 	from prettytable import PrettyTable
 	GstateSA = PrettyTable()
@@ -398,21 +449,21 @@ def safety_analysis_table (tick):
 			exec("risks = hazard_risk_%s[tick]" % (i))
 			exec("severities = hazard_se_%s[tick]" % (i))
 			GstateSA.add_row(["", "",hzs,severities,risks,"",""])
-	print GstateSA	
+	return GstateSA	
 
 #############################executing zot and processing the output#############################
 if __name__ == '__main__':
-	# os.system("zot Main.lisp")
-	# #wait for output.hist
-	# while not os.path.exists('output.hist.txt'):time.sleep(1)
-	# if os.path.isfile('output.hist.txt'):
+	os.system("zot Main1-witherror.lisp")
+	#wait for output.hist
+	while not os.path.exists('output.hist.txt'):time.sleep(1)
+	if os.path.isfile('output.hist.txt'):
 		read_file()
 		task_id = 1
 		# parse actions
 		for i in range(1, actions_num+1, 1):
 			for x in ('NS', 'WT', 'EXE', 'EXRM', 'HD', 'DN','INEX', 'EX' ):
-				exec ("actions_%s_%s_%s={}" % (x, i , 1))
-				exec ("if 'ACTION_STATE_%s_%s_%s' in records.keys():	actions_%s_%s_%s = records['ACTION_STATE_%s_%s_%s']" % ( x, i, 1, x, i, 1, x,i, 1))	
+				exec ("actions_%s_%s_%s={}" % (x, i ,task_id))
+				exec ("if 'ACTION_STATE_%s_%s_%s' in records.keys():	actions_%s_%s_%s = records['ACTION_STATE_%s_%s_%s']" % ( x, i, task_id, x, i,task_id, x,i,task_id))	
 		
 		# parse hazards
 		for i in range (1, hazards_num+1, 1):
@@ -450,23 +501,33 @@ if __name__ == '__main__':
 			elif 	velocity[i]=='LOW': velocity[i]='low'
 			elif 	velocity[i]=='NORMAL': velocity[i]='mid'	
 		
-		if output_type == 'fig':
-			newpath = 'Images'
-			if not os.path.exists(newpath):
-				os.makedirs(newpath)
-				folder = newpath
-			for i in range (0, step+1):
-				draw_layout(EndEffPos[i], Link1Pos[i], Link2Pos[i], BodyPartPosition[1][i], BodyPartPosition[7][i], i, 1)
-				# plt.show()
-				create_legend (i,plt)
-				plt.savefig('Images'+"/Time"+str(i)+".png")
+		# if output_type == 'fig':
+		index = 1
+		newpath = 'Output'
+		while 1:
+			name = str(index)
+			if not os.path.exists(newpath+name):
+				os.makedirs(newpath+name)
+				folder = newpath+name
+				break
+			else:
+				index += 1
 
-		elif output_type == 'table':
-			for i in range (0, step+1):
-				safety_analysis_table(i)		
+		for i in range (0, step+1):
+			draw_layout(EndEffPos[i], Link1Pos[i], Link2Pos[i], BodyPartPosition[1][i], BodyPartPosition[7][i], i, 1)
+			# plt.show()
+			create_legend (i,plt)
+			plt.savefig(folder+"/Time"+str(i)+".png")
 
-	# else:
-	# 	raise ValueError("output.hist.txt not found!")
+		# elif output_type == 'table':
+		f = open(folder+'/Table.txt','w')
+		for i in range (0, step+1):
+			table = safety_analysis_table(i, task_id)
+			table_txt = table.get_string()
+			f.write(table_txt)
+
+	else:
+		raise ValueError("output.hist.txt not found!")
 	
 	
 	
