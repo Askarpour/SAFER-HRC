@@ -33,7 +33,10 @@
       	(&& (SomP (-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" i Tname)))) (-P- ,(read-from-string (format nil "Op_starts_~A_~A" i Tname))))
       	;;not stopping
       	; (&& (Yesterday (|| (-P- ,(read-from-string (format nil "Action_State_exe_~A_~A" i Tname)))(-P- ,(read-from-string (format nil "Action_State_exrm_~A_~A" i Tname))))) (-P- ,(read-from-string (format nil "Action_Post_~A_~A" i Tname))) (Yesterday (!! (-P- ,(read-from-string (format nil "Action_Post_L_~A_~A" i Tname)))))  )
-        (&& (Yesterday (|| (-P- ,(read-from-string (format nil "Action_State_exe_~A_~A" i Tname)))(-P- ,(read-from-string (format nil "Action_State_exrm_~A_~A" i Tname))))) (-P- ,(read-from-string (format nil "Action_Post_~A_~A" i Tname))) (!! (-P- ,(read-from-string (format nil "Op_stops_~A_~A" i Tname))))(Yesterday (!! (-P- ,(read-from-string (format nil "Op_stops_~A_~A" i Tname)))))  )
+        (&& (Yesterday (|| (-P- ,(read-from-string (format nil "Action_State_exe_~A_~A" i Tname)))(-P- ,(read-from-string (format nil "Action_State_exrm_~A_~A" i Tname)))))
+        	 (-P- ,(read-from-string (format nil "Action_Post_~A_~A" i Tname))) 
+        	 (!! (-P- ,(read-from-string (format nil "Op_stops_~A_~A" i Tname))))
+        	 (Yesterday (!! (-P- ,(read-from-string (format nil "Op_stops_~A_~A" i Tname)))))  )
 	))) 
 
     ;;omission

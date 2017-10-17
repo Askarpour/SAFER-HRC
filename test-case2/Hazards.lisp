@@ -9,6 +9,7 @@
         (eval `(define-tvar ,(read-from-string (format nil "Hazard_Risk_~A" i)) *int*))
         (eval `(define-tvar ,(read-from-string (format nil "Hazard_Reg_~A" i)) *int*))))
 
+
 (defun HazardsInit ()
  (eval (list `alwf (append `(&&) (loop for i in hazards-indexes collect `(&&
     ;;

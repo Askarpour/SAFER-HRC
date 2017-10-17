@@ -4,11 +4,6 @@
   ; things to export
   (defvar Threshold 2)
   (define-tvar Risk *int*) ;;max risk in the system  
-  
-
-  (load "ORL-Module/L.lisp")
-  (load "ORL-Module/O.lisp")
-  (load "ORL-Module/R.lisp")
   (load "Hazards.lisp")
   (load "RRM.lisp")
   (load "REs.lisp")
@@ -35,7 +30,6 @@
  (eval (list `alwf (append `(&&)
   (loop for i in index collect
    `(&&
-     ;exe time for all is 1
     ([=](-V- ,(read-from-string (format nil "Action_Time_~A_~A" i Tname))) 1)
      ;each action is done either by op or ro
     (<->(-P- ,(read-from-string (format nil "Action_Doer_ro_~A_~A" i Tname))) (!!(-P- ,(read-from-string (format nil "Action_Doer_op_~A_~A" i Tname)))))

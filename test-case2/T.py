@@ -55,78 +55,41 @@ class switch(object):
             return False
 def element_co(strin,element):
 	for case in switch(strin):
-	    if case('0'): #L_0
-	        return (1000,700)
+	    if case('1'): #L1
+	        return (200,300)
 	        break
-	    if case('1'): #L_1_1
-	        return (1200,500)
+	    if case('2'): #L2
+	        return (650,400)
 	        break
-	    if case('2'): #L_1_2
-	        return (1250,500)
+	    if case('3'): #L3
+	        return (950,400)
 	        break
-	    if case('3'): #L_1_3
-	        # return (1500,480)
+	    if case('4'): #L4
+	        return (1100,480)
+	        break
+	    if case('5'): #L5
+	        return (1200,550)
+	        break
+	    if case('6'): #L6
 	        if element == 'head':
-	        	return (1500,480)
+	        	return (1200,700)
 	        if element == 'hand':
-	        	return (1400,400)
+	        	return (1200,600)
 	        if element == 'ro':
-	        	return (1350,400)
+	        	return (1000,620)
 	        break
-	    if case('4'): #L_2_1
-	        return (1200,700)
+	    if case('7'): #L7
+	        return (600,1200)
 	        break
-	    if case('5'): #L_2_2
-	        return (1320,700)
+	    if case('8'): #L8
+	        return (600,1050)
 	        break
-	    if case('6'): #L_2_3
-	        return (1500,600)
+	    if case('9'): #L9
+	        return (600,800)
 	        break
-	    if case('7'): #L_2_4
-	        return (1500,800)
-	        break
-	    if case('8'): #L_3_1
-	        return (1190,900)
-	        break
-	    if case('9'): #L_3_2
-	        return (1250,1000)
-	        break
-	    if case('10'): #L_3_4
-	        return (1500,1000)
-	        break
-	    if case('11'): #L_4_1
-	        return (1000,900)
-	        break
-	    if case('12'): #L_4_2
-	        return (1000,1100)
-	        break
-	    if case('13'): #L_5_1
-	        return (750,850)
-	        break
-	    if case('14'): #L_6_1
-	        return (750,650)
-	        break
-	    if case('15'): #L_6_2
-	        return (600,700)
-	        break
-	    if case('16'): #L_6_3
-	        return (250,600)
-	        break
-	    if case('17'): #L_7_1
-	        return (800,500)
-	        break
-	    if case('18'): #L_7_2
-	        return (700,400)
-	        break
-	    if case('19'): #L_7_3
-	        return (250,400)
-	        break
-	    if case('20'): #L_8_1
-	        return (1000,500)
-	        break
-	    if case('21'): #L_8_2
-	        return (1000,300)
-	        break        
+	    if case('10'): #L10
+	        return (1200,480)
+	        break    
 	    if case(): # default, could also just omit condition or 'if True'
 	        print ("something is wrong with coordinates of the object!")
 def hazard_id(i):
@@ -403,7 +366,7 @@ def draw_layout(ee, l1, l2, op_head, op_hand, step, task_id):
 	ax.set_yticklabels([])
 	ax.set_xticklabels([])
 	#
-	L_base = mpatches.Circle((1000,700),15, color="red")
+	L_base = mpatches.Circle((600,800),15, color="red")
 	ax.add_patch(L_base)
 	#
 	L_head = mpatches.Circle((element_co(op_head,'head')[0],element_co(op_head,'head')[1]),35, color="blue")
@@ -415,7 +378,7 @@ def draw_layout(ee, l1, l2, op_head, op_hand, step, task_id):
 	L_ee = mpatches.Circle((element_co(ee,'ro')[0],element_co(ee,'ro')[1]),15, color="red",zorder=2)
 	ax.add_patch(L_ee)
 	#
-	L_l1 = lines.Line2D([1000,element_co(l1,'ro')[0]],[700, element_co(l1,'ro')[1]], lw=9., color="red",zorder=2)
+	L_l1 = lines.Line2D([600,element_co(l1,'ro')[0]],[800, element_co(l1,'ro')[1]], lw=9., color="red",zorder=2)
 	ax.add_line(L_l1)
 	#
 	L_l2 = lines.Line2D([element_co(l1,'ro')[0], element_co(ee,'ro')[0] ],[element_co(l1,'ro')[1], element_co(ee,'ro')[1]], lw=9., color="red",zorder=2)

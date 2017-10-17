@@ -31,34 +31,16 @@
 
 )))
 
-;;no ongoing robot actions when robot is idle --> task1
+;;no ongoing robot actions when robot is idle --> task2
 (defconstant robotidle
  (AlwF(->
  	(&& 
- 		; (!!(||(-P- Action_State_exe_6_1)(-P- Action_State_exrm_6_1)))
- 		(!!(||(-P- Action_State_exe_8_1)(-P- Action_State_exrm_8_1)))
- 		(!!(||(-P- Action_State_exe_9_1)(-P- Action_State_exrm_9_1)))
- 		(!!(||(-P- Action_State_exe_10_1)(-P- Action_State_exrm_10_1)))
- 		(!!(||(-P- Action_State_exe_11_1)(-P- Action_State_exrm_11_1)))
- 		(!!(||(-P- Action_State_exe_12_1)(-P- Action_State_exrm_12_1)))
- 		(!!(||(-P- Action_State_exe_14_1)(-P- Action_State_exrm_14_1)))
- 		(!!(||(-P- Action_State_exe_15_1)(-P- Action_State_exrm_15_1)))
- 		(!!(||(-P- Action_State_exe_16_1)(-P- Action_State_exrm_16_1)))
- 		(!!(||(-P- Action_State_exe_18_1)(-P- Action_State_exrm_18_1)))
+ 		(!!(||(-P- Action_State_exe_1_2)(-P- Action_State_exrm_1_2)))
+ 		(!!(||(-P- Action_State_exe_2_2)(-P- Action_State_exrm_2_2)))
+ 		(!!(||(-P- Action_State_exe_3_2)(-P- Action_State_exrm_3_2)))
+ 		(!!(||(-P- Action_State_exe_4_2)(-P- Action_State_exrm_4_2)))
+ 		(!!(||(-P- Action_State_exe_8_2)(-P- Action_State_exrm_8_2)))
+ 		(!!(||(-P- Action_State_exe_9_2)(-P- Action_State_exrm_9_2)))
+ 		(!!(||(-P- Action_State_exe_10_2)(-P- Action_State_exrm_10_2)))
  		)
  		(&& (!! (-P- LINK1_Moving))(!! (-P- LINK2_Moving))(!! (-P- End_Eff_Moving))))))
-
-
-; ;;no ongoing robot actions when robot is idle --> task2
-; (defconstant robotidle
-;  (AlwF(->
-;  	(&& 
-;  		(!!(||(-P- Action_State_exe_1_2)(-P- Action_State_exrm_1_2)))
-;  		(!!(||(-P- Action_State_exe_2_2)(-P- Action_State_exrm_2_2)))
-;  		(!!(||(-P- Action_State_exe_3_2)(-P- Action_State_exrm_3_2)))
-;  		(!!(||(-P- Action_State_exe_4_2)(-P- Action_State_exrm_4_2)))
-;  		(!!(||(-P- Action_State_exe_8_2)(-P- Action_State_exrm_8_2)))
-;  		(!!(||(-P- Action_State_exe_9_2)(-P- Action_State_exrm_9_2)))
-;  		(!!(||(-P- Action_State_exe_10_2)(-P- Action_State_exrm_10_2)))
-;  		)
-;  		(&& (!! (-P- LINK1_Moving))(!! (-P- LINK2_Moving))(!! (-P- End_Eff_Moving))))))

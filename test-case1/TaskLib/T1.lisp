@@ -1,5 +1,5 @@
 ;;Operator grasps and Robot Screw-drives
-(defvar jigs 17)
+(defvar jigs 2)
 (defvar T1 1)
 (defvar actions1-indexes (loop for i from 1 to (+ 10 (* 4 jigs)) collect i))
 (defvar jigs_indexes (loop for i from 0 to (- jigs 1) collect i))
@@ -26,7 +26,6 @@
 	(-> (-P- Action_Pre_L_1_1) (!!([=](-V- Body_Part_pos hand) L_bin)))
 	(-> (-P- Action_Post_1_1)(&&([=](-V- Body_Part_pos hand) L_bin)(-P- Robot_Homing)))
 	(-> (-P- Action_Post_L_1_1)([=](-V- Body_Part_pos hand) L_bin))
-	; (limiting_erroneous_actions actions1-indexes 1 1) <-************************
 	)))
 
 (defconstant *Action2T1* 
@@ -40,7 +39,6 @@
 	(->(-P- Action_Post_2_1)(&& (-P- partTaken)([=](-V- Body_Part_pos hand) L_bin)(-P- Robot_Homing)))
 	(->(-P- Action_Post_L_2_1)(&& (-P- partTaken)(&& (-P- Action_State_dn_1_1)([=](-V- Body_Part_pos hand) L_bin))))
 	(->(|| (-P- Action_State_exe_2_1) (-P- Action_State_exrm_2_1))([=](-V- Body_Part_pos hand) L_bin))
-	; (limiting_erroneous_actions actions1-indexes 2 1) <-************************
 	(->(-P- partTaken) (-P- Action_State_dn_2_1)))))
 
 (defconstant *Action3T1* 
@@ -52,7 +50,6 @@
 	(->(-P- Action_Post_3_1)(&& ([=](-V- Body_Part_pos hand) L_1_3)(-P- partTaken)(-P- Robot_Homing)))
 	(->(-P- Action_Post_L_3_1)(&& (-P- Action_State_dn_2_1)(-P- partTaken)))
 	(->(|| (-P- Action_State_exe_3_1) (-P- Action_State_exrm_3_1))(&&(-P- partTaken) (-P- Robot_Homing)))
-	; (limiting_erroneous_actions actions1-indexes 3 1) <-************************
 	)))
 
 (defconstant *Action4T1* 
@@ -63,8 +60,7 @@
 	(->(-P- Action_Post_4_1)(&& ([=](-V- Body_Part_pos hand) L_1_3)(-P- partFixed)(-P- partTaken)(-P- Robot_Homing)))
 	(->(-P- Action_Post_L_4_1)(&& ([=](-V- Body_Part_pos hand) L_1_3)))
 	(->(|| (-P- Action_State_exe_4_1) (-P- Action_State_exrm_4_1))([=](-V- Body_Part_pos hand) L_1_3))		
-	; (limiting_erroneous_actions actions1-indexes 4 1) <-************************
-	; (-> (!!(-P- Action_State_dn_4_1)) (-P- Robot_Homing))
+	(-> (!!(-P- Action_State_dn_4_1)) (-P- Robot_Homing))
 	)))
 
 (defconstant *Action5T1* 
@@ -80,7 +76,7 @@
 	(alwf(&&
 		(-P- Action_Doer_op_6_1)
 		(->(-P- Action_Pre_6_1)(&& (-P- Action_State_dn_5_1)([=](-V- Body_Part_pos hand) L_1_3)(!! (-P- LINK1_Moving))(!! (-P- LINK2_Moving))))
-		; (->(-P- Action_Pre_L_6_1)([=](-V- Body_Part_pos hand) L_1_3))
+		(->(-P- Action_Pre_L_6_1)([=](-V- Body_Part_pos hand) L_1_3))
 		(->(-P- Action_Post_6_1)(&& (|| (-P- Action_State_exe_6_1) (-P- Action_State_exrm_6_1))([=](-V- Body_Part_pos hand) L_1_3) (!! (-P- LINK1_Moving))(!! (-P- LINK2_Moving))(-P- preparedJig)))
 		(->(-P- Action_Post_L_6_1)(&& ([=](-V- Body_Part_pos hand) L_1_3)))
 		(->(|| (-P- Action_State_exe_6_1) (-P- Action_State_exrm_6_1))([=](-V- Body_Part_pos hand) L_1_3)))))
@@ -100,19 +96,16 @@
 	(->(-P- Action_Pre_L_7_1)(&&(-P- Action_State_dn_4_1)(-P- partFixed)(-P- partTaken)([=](-V- Body_Part_pos hand) L_1_3) )) 
 	(->(-P- Action_Post_7_1) (-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" (+ i 8) 1))))
 	(->(-P- Action_Post_L_7_1)(&&(-P- Action_State_dn_4_1)(-P- partFixed)(-P- partTaken)([=](-V- Body_Part_pos hand) L_1_3) )) 
-	;; robot_homing untill op action5 is ready to start
-	; (->(!!(SomP(-P- Action_State_wt_5_1)))(-P- Robot_Homing))
+	(->(!!(SomP(-P- Action_State_wt_5_1)))(-P- Robot_Homing))
 	(->(|| (-P- Action_State_exe_7_1) (-P- Action_State_exrm_7_1)) (&& ([=](-V- Body_Part_pos hand) L_1_3)(-P- partFixed)))
-
-	; (limiting_erroneous_actions actions1-indexes 5 1) <-************************
 	))))))
 	
 (defconstant *Action8T1* 
  (alwf(&&
 
 	(-P- Action_Doer_ro_8_1)
-	; (->(-P- Action_Pre_8_1)(&& (SomP (|| (-P- Action_State_exe_7_1) (-P- Action_State_exrm_7_1))) (|| (-P- Action_State_exe_7_1) (-P- Action_State_exrm_7_1))(-P- Action_State_dn_6_1)([=](-V- Body_Part_pos hand) L_1_3)))
- 	(->(-P- Action_Pre_8_1)(Yesterday(-P- op_starts_6_1)))
+	(->(-P- Action_Pre_8_1)(&& (SomP (|| (-P- Action_State_exe_7_1) (-P- Action_State_exrm_7_1))) (|| (-P- Action_State_exe_7_1) (-P- Action_State_exrm_7_1))(-P- Action_State_dn_6_1)([=](-V- Body_Part_pos hand) L_1_3)))
+ 	; (->(-P- Action_Pre_8_1)(Yesterday(-P- op_starts_6_1)))
  	(->(-P- Action_Pre_L_8_1)(Yesterday(-P- op_starts_6_1)))
 	(->(-P- Action_Post_8_1)
 		(&& 
@@ -123,7 +116,6 @@
 			([=](-V- End_Eff_B_Position) L_1_2) 
 		))
 	(->(-P- Action_Post_L_8_1)(&& ([=](-V- Body_Part_pos hand) L_1_3)(-P- partFixed)([=](-V- End_Eff_B_Position) L_1_2) ))
-	; (limiting_erroneous_actions actions1-indexes 8 1) <-************************
 	)))
 	
 (defun Action9T1(j)
@@ -133,33 +125,32 @@
 	; (-P- ,(read-from-string (frommat nil "Action_Doer_ro_~A_~A" i 1)))
 	
 	(->(-P- ,(read-from-string (format nil "Action_Pre_~A_~A" i 1)))
-		(&& (-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" (- i 1) 1))) (|| (-P- Action_State_exe_7_1) (-P- Action_State_exrm_7_1)) (-P- preparedjig)))
+		(&& (-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" (- i 1) 1))) (|| ([=](-V- End_Eff_B_Position) L_1_2) ([=](-V- End_Eff_B_Position) L_1_3)) (|| (-P- Action_State_exe_7_1) (-P- Action_State_exrm_7_1)) (-P- preparedjig)))
 
 	(->(-P- ,(read-from-string (format nil "Action_Pre_L_~A_~A" i 1)))
 		(&& 
-			; (|| ([=](-V- Body_Part_pos hand) L_1_2)	([=](-V- Body_Part_pos hand) L_1_3)	)
 			(-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" (- i 1) 1)))
 			(|| ([=](-V- End_Eff_B_Position) L_1_2) ([=](-V- End_Eff_B_Position) L_1_3))))
 
 	(->(-P- ,(read-from-string (format nil "Action_Post_~A_~A" i 1)))
 		(&&
+			(-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" (- i 1) 1)))
 			([=](-V- Body_Part_pos hand) L_1_3)
 			(-P- partFixed)
 			([=](-V- End_Eff_B_Position) L_1_3)
-				(|| (-P- Action_State_exe_7_1) (-P- Action_State_exrm_7_1))
-				(-A- j body_indexes (->  ([!=] j hand)([!=](-V- Body_Part_pos j) (-V- End_Eff_B_Position))))
-				(-P- preparedjig)
-				)
+			(|| (-P- Action_State_exe_7_1) (-P- Action_State_exrm_7_1))
+			(-A- j body_indexes (->  ([!=] j hand)([!=](-V- Body_Part_pos j) (-V- End_Eff_B_Position))))
+			(-P- preparedjig)
+			)
 		)
 
-	(->(-P- ,(read-from-string (format nil "Action_Post_L_~A_~A" i 1))) (&& (-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" (- i 1) 1))) ([=](-V- End_Eff_B_Position) L_1_3)))
+	(->(-P- ,(read-from-string (format nil "Action_Post_L_~A_~A" i 1))) (&&  ([=](-V- End_Eff_B_Position) L_1_3)))
 
 	(->(|| (-P- Action_State_exe_9_1) (-P- Action_State_exrm_9_1)  )(&& (|| (-P- Action_State_exe_7_1) (-P- Action_State_exrm_7_1) ) (|| ([=](-V- End_Eff_B_Position) L_1_2) ([=](-V- End_Eff_B_Position) L_1_3)) (-P- preparedjig) (|| (-P- LINK2_Moving)(-P- End_Eff_Moving)) ))
 	(->(|| (-P- ,(read-from-string (format nil "Action_Post_L_~A_~A" i 1))) (-P- ,(read-from-string (format nil "Action_Post_L_~A_~A" i 1))) )
 	 (&& (|| (-P- ,(read-from-string (format nil "Action_Post_L_~A_~A" (- i 2) 1))) (-P- ,(read-from-string (format nil "Action_Post_L_~A_~A" (- i 2) 1))) ) 
 	 	(|| ([=](-V- End_Eff_B_Position) L_1_2) ([=](-V- End_Eff_B_Position) L_1_3)) (-P- preparedjig) (|| (-P- LINK2_Moving)(-P- End_Eff_Moving)) ))
 
-	; (limiting_erroneous_actions actions1-indexes ,(read-from-string (format nil "~A" i)) 1) <-************************
 	))))))
 
 (defun Action10T1(j) 
@@ -188,36 +179,17 @@
   (loop for i from j to j collect
    `(&&	
 	(-P- ,(read-from-string (format nil "Action_Doer_ro_~A_~A" i 1)))
-	; (<->(-P- ,(read-from-string (format nil "Action_Safe_L_~A_~A" i 1)))(&& ([=](-V- Body_Part_pos hand) L_1_3) ))
-	(->(-P- ,(read-from-string (format nil "Action_Pre_~A_~A" i 1)))
-	 (&&(-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" (- i 1) 1)))
-		(|| (-P- Action_State_exe_7_1) (-P- Action_State_exrm_7_1) )))
-		; (|| ([=](-V- End_Eff_F_Position) L_1_2) ([=](-V- End_Eff_F_Position) L_1_3)))) ;(-A- j body_indexes (->([!=] j hand)([!=](-V- Body_Part_pos j) (-V- Body_Part_pos hand))))
+	(<->(-P- ,(read-from-string (format nil "Action_Safe_L_~A_~A" i 1)))(&& ([=](-V- Body_Part_pos hand) L_1_3) ))
+	(->(-P- ,(read-from-string (format nil "Action_Pre_~A_~A" i 1))) (&&(-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" (- i 1) 1))) (|| ([=](-V- End_Eff_B_Position) L_1_2) ([=](-V- End_Eff_B_Position) L_1_3))(|| (-P- Action_State_exe_7_1) (-P- Action_State_exrm_7_1) )))
 
-	(-> (-P- ,(read-from-string (format nil "Action_Pre_L_~A_~A" i 1)))
-		(&&
-			(-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" (- i 1) 1)))
-			; (|| ([=](-V- Body_Part_pos hand) L_1_2)	([=](-V- Body_Part_pos hand) L_1_3))
-			(|| ([=](-V- End_Eff_B_Position) L_1_2) ([=](-V- End_Eff_B_Position) L_1_3))	
-			; (-A- j body_indexes (->([!=] j hand)([!=](-V- Body_Part_pos j) (-V- Body_Part_pos hand))))
-			))
+	(-> (-P- ,(read-from-string (format nil "Action_Pre_L_~A_~A" i 1)))(&&(-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" (- i 1) 1)))(|| ([=](-V- End_Eff_B_Position) L_1_2) ([=](-V- End_Eff_B_Position) L_1_3))))
 
-	(-> (-P- ,(read-from-string (format nil "Action_Post_~A_~A" i 1)))
-		(&&
-		(|| (-P- Action_State_exe_7_1) (-P- Action_State_exrm_7_1))
-		(|| ([=](-V- End_Eff_B_Position) L_1_2) ([=](-V- End_Eff_B_Position) L_1_3))
-		))
+	(-> (-P- ,(read-from-string (format nil "Action_Post_~A_~A" i 1)))(&&(|| (-P- Action_State_exe_7_1) (-P- Action_State_exrm_7_1))(|| ([=](-V- End_Eff_B_Position) L_1_2) ([=](-V- End_Eff_B_Position) L_1_3))))
 
-	(->(-P- ,(read-from-string (format nil "Action_Post_L_~A_~A" i 1)))
-		(&&(|| ([=](-V- Body_Part_pos hand) L_1_2)	([=](-V- Body_Part_pos hand) L_1_3)	)
-		; (|| ([=](-V- End_Eff_B_Position) L_1_2) ([=](-V- End_Eff_B_Position) L_1_3))	
-		; (-A- j body_indexes (->  ([!=] j hand)([!=](-V- Body_Part_pos j) (-V- Body_Part_pos hand))))
-		))
+	(->(-P- ,(read-from-string (format nil "Action_Post_L_~A_~A" i 1)))(&&(|| ([=](-V- Body_Part_pos hand) L_1_2)	([=](-V- Body_Part_pos hand) L_1_3))))
 
-			(->(|| (-P- ,(read-from-string (format nil "Action_State_exe_~A_~A" i 1))) (-P- ,(read-from-string (format nil "Action_State_exrm_~A_~A" i 1))) )
- 		   (&& (|| (-P- Action_State_exe_7_1) (-P- Action_State_exrm_7_1) ) (-P- partFixed) (-P- preparedjig) (|| ([=](-V- End_Eff_B_Position) L_1_2) ([=](-V- End_Eff_B_Position) L_1_3)) (|| (-P- LINK2_Moving)(-P- End_Eff_Moving))))
-	;; (limiting_erroneous_actions actions1-indexes ,(read-from-string (format nil "~A" i)) 1) <-************************
-	))))))
+	(->(|| (-P- ,(read-from-string (format nil "Action_State_exe_~A_~A" i 1))) (-P- ,(read-from-string (format nil "Action_State_exrm_~A_~A" i 1))))(&& (|| (-P- Action_State_exe_7_1) (-P- Action_State_exrm_7_1) ) (-P- partFixed) (-P- preparedjig) (|| ([=](-V- End_Eff_B_Position) L_1_2) ([=](-V- End_Eff_B_Position) L_1_3)) (|| (-P- LINK2_Moving)(-P- End_Eff_Moving))))
+))))))
 
 (defun Action12T1(j) 
  (eval (list `alwf (append `(&&)
@@ -225,11 +197,11 @@
    `(&&	
 	
 	(-P- ,(read-from-string (format nil "Action_Doer_ro_~A_~A" i 1)))
-	; (<->(-P- ,(read-from-string (format nil "Action_Safe_L_~A_~A" i 1)))(&& ([=](-V- Body_Part_pos hand) L_1_3) ))
+	(<->(-P- ,(read-from-string (format nil "Action_Safe_L_~A_~A" i 1)))(&& ([=](-V- Body_Part_pos hand) L_1_3) ))
 	
 	(->(-P- ,(read-from-string (format nil "Action_Pre_~A_~A" i 1)))
- 		(&&(-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" (- i 1) 1)))
- 			(|| (-P- Action_State_exe_7_1) (-P- Action_State_exrm_7_1) ))) ;(-A- j body_indexes (-> ([!=] j hand)([!=](-V- Body_Part_pos j)
+ 		(&&(-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" (- i 1) 1))) (|| ([=](-V- End_Eff_B_Position) L_1_2) ([=](-V- End_Eff_B_Position) L_1_3))))
+ 			; (|| (-P- Action_State_exe_7_1) (-P- Action_State_exrm_7_1) ))) ;(-A- j body_indexes (-> ([!=] j hand)([!=](-V- Body_Part_pos j)
 
 	(->(-P- ,(read-from-string (format nil "Action_Pre_L_~A_~A" i 1)))
 		(&&	(|| ([=](-V- End_Eff_B_Position) L_1_2) ([=](-V- End_Eff_B_Position) L_1_3))	
@@ -272,7 +244,7 @@
   	(-P- ,(read-from-string (format nil "Action_Doer_ro_~A_~A" i 1)))
   	; (<->(-P- ,(read-from-string (format nil "Action_Safe_L_~A_~A" i 1)))(&& ([=](-V- Body_Part_pos hand) L_1_3) ))
 	(->(-P- ,(read-from-string (format nil "Action_Pre_~A_~A" i 1)))(-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" (- i 1) 1))))
-(->(-P- ,(read-from-string (format nil "Action_Pre_L_~A_~A" i 1)))(-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" (- i 1) 1))))
+	(->(-P- ,(read-from-string (format nil "Action_Pre_L_~A_~A" i 1)))(-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" (- i 1) 1))))
 	; (->(-P- ,(read-from-string (format nil "Action_Post_~A_~A" i 1)))(!!([=](-V- End_Eff_B_Position) (-V- Body_Part_pos hand))))
 	(->(-P- ,(read-from-string (format nil "Action_Post_L_~A_~A" i 1)))(-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" (- i 1) 1))))
 	; (limiting_erroneous_actions actions1-indexes ,(read-from-string (format nil "~A" i)) 1) <-************************
@@ -284,7 +256,7 @@
 	(SeqAction actions1-indexes 1)
 	 mutually_exclusive2
  	(limiting_op_actions actions1-indexes 1)
-	(Seq-errors actions1-indexes 1 2) ;;<-************************
+	; (Seq-errors actions1-indexes 1 2) ;;<-************************
 	*Action1T1*
 	*Action2T1*
 	*Action3T1*

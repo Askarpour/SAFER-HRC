@@ -35,9 +35,10 @@
 	(|| ([=] (-V- Body_Part_pos 1) (-V- Body_Part_pos 11)) (Adj (-V- Body_Part_pos 1) (-V- Body_Part_pos 11)))	
 	  
 	  ;commented for fcm
-	  ; (Alw  (!!([=](-V- Body_Part_pos head) L3)))
-	  ; (Alw  (!!([=](-V- Body_Part_pos head) L4)))
-	  ; (Alw  (!!([=](-V- Body_Part_pos head) L10)))
+	  (Alw  (!!([=](-V- Body_Part_pos head) L3)))
+	  (Alw  (!!([=](-V- Body_Part_pos head) L4)))
+	  (Alw  (!!([=](-V- Body_Part_pos head) L10)))
+	  ;
 	  (Alw  (!!([=](-V- Body_Part_pos hand) L9)))
 	  (Alw  (!!(&& ([=](-V- Body_Part_pos head) L5) ([=](-V- Body_Part_pos hand) L3))))
 
