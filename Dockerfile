@@ -33,6 +33,7 @@ RUN apt-get -q update && apt-get install -y --no-install-recommends \
     sbcl \
     && rm -rf /var/lib/apt/lists/* \  
 # install python libs
+    && curl -L https://www.python.org/downloads/python-2.7.14-ubuntu.tar.gz -o /tmp/python-2.7.14.tar.gz \
     && pip install matplotlib \
     && pip install prettytable \
     && pip install numpy \
