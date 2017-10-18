@@ -21,7 +21,6 @@ ENV TMP_BUILD_DEPS ca-certificates \
 	   gcc \
 	   g++ \
 	   make \
-	   zlib1g-dev \
        unzip
 
 ADD . /
@@ -31,9 +30,17 @@ RUN apt-get -q update && apt-get install -y --no-install-recommends \
     $TMP_BUILD_DEPS \
     libgomp1 \
     sbcl \
+    zlib1g-dev \
+    python \
+    python-dev \
+    python-distribute \
+    python-pip \ 
+    python-tk \
+    zlib1g-dev \
+# dependencies needed for matplotlib
+     apt-get build-dep -y --force-yes python-matplotlib && \
     && rm -rf /var/lib/apt/lists/* \  
 # install python libs
-    && curl -L https://www.python.org/ftp/python-2.7.14 -o /tmp/python-2.7.14.tar.gz \
     && pip install matplotlib \
     && pip install prettytable \
     && pip install numpy \
