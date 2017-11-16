@@ -1,0 +1,48 @@
+------ time 0 ------
+------ time 1 ------
+  PARTFIXED
+------ time 2 ------
+------ time 3 ------
+  PARTFIXED
+------ time 4 ------
+------ time 5 ------
+  PARTFIXED
+------ time 6 ------
+------ time 7 ------
+  PARTFIXED
+------ time 8 ------
+------ time 9 ------
+  PARTFIXED
+------ time 10 ------
+------ time 11 ------
+------ time 12 ------
+**LOOP**
+  PARTFIXED
+------ time 13 ------
+  PARTFIXED
+------ time 14 ------
+------ time 15 ------
+  PARTFIXED
+------ time 16 ------
+------ time 17 ------
+  PARTFIXED
+------ time 18 ------
+------ time 19 ------
+  PARTFIXED
+------ time 20 ------
+------ time 21 ------
+  PARTFIXED
+------ time 22 ------
+------ time 23 ------
+  PARTFIXED
+------ time 24 ------
+------ time 25 ------
+  PARTFIXED
+------ time 26 ------
+------ time 27 ------
+  PARTFIXED
+------ time 28 ------
+------ time 29 ------
+  PARTFIXED
+------ time 30 ------
+------ end ------
