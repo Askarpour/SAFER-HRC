@@ -23,11 +23,11 @@
     ([>=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_Risk_~A" i))(loop for x = (read in nil nil) while x collect x)))) 0)
     ;;
     ([<=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_Reg_~A" i))(loop for x = (read in nil nil) while x collect x)))) L_last)
-    ([>=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_Reg_~A" i))(loop for x = (read in nil nil) while x collect x)))) 0)))))))
+    ([>=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_Reg_~A" i))(loop for x = (read in nil nil) while x collect x)))) L_first)))))))
 
 (defun hazard_reg_reset ()
  (eval (append `(&&)(loop for i in hazards-indexes collect
-    `([=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_Reg_~A" i)) (loop for x = (read in nil nil) while x collect x)))) 0)))))
+    `([=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_Reg_~A" i)) (loop for x = (read in nil nil) while x collect x)))) L_first)))))
 
 (defun hazard_hit (bodypart robotpart hazard_id other_robotpart_1 other_robotpart_2)
  (eval`(&&

@@ -9,8 +9,13 @@
 (defconstant *Robot_Structure*
  (alwf(&&
  	;;positions
-	; (|| (Adj (-V- LINK1_Position) L_last)([=] (-V- LINK1_Position) L_last))
+ 	([>=](-V- LINK1_Position) L_first)([<=](-V- LINK1_Position) L_last)	
+	([>=](-V- LINK2_Position) L_first)([<=](-V- LINK2_Position) L_last)	
+	([>=](-V- End_Eff_B_Position) L_first)([<=](-V- End_Eff_B_Position) L_last)	
+	([>=](-V- BASE_Position) L_first)([<=](-V- BASE_Position) L_last)
+
 	(|| (Adj (-V- LINK2_Position) (Yesterday (-V- LINK2_Position)))  ([=] (-V- LINK2_Position) (Yesterday (-V- LINK2_Position))))
+	(|| ([=] (-V- BASE_Position) (Yesterday(-V- BASE_Position))) (Adj (-V- BASE_Position) (Yesterday(-V- BASE_Position))) )
 	(|| (Adj (-V- End_Eff_B_Position) (Yesterday (-V- End_Eff_B_Position)))  ([=] (-V- End_Eff_B_Position) (Yesterday (-V- End_Eff_B_Position))))
 	(|| (Adj (-V- LINK1_Position) (-V- LINK2_Position)) ([=] (-V- LINK1_Position) (-V- LINK2_Position)))
 	(|| (Adj (-V- End_Eff_B_Position) (-V- LINK2_Position)) ([=] (-V- End_Eff_B_Position) (-V- LINK2_Position)))

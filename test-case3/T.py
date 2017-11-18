@@ -55,78 +55,166 @@ class switch(object):
             return False
 def element_co(strin,element):
 	for case in switch(strin):
-	    if case('0'): #L_0
-	        return (1000,700)
+	    if case('1'): #L1
+	        return (100,610)
 	        break
-	    if case('1'): #L_1_1
-	        return (1200,500)
+	    if case('2'): #L2
+	        return (300,610)
 	        break
-	    if case('2'): #L_1_2
-	        return (1250,500)
+	    if case('3'): #L3
+	        return (400,610)
 	        break
-	    if case('3'): #L_1_3
-	        # return (1500,480)
-	        if element == 'head':
-	        	return (1500,480)
-	        if element == 'hand':
-	        	return (1400,400)
-	        if element == 'ro':
-	        	return (1350,400)
+	    if case('4'): #L4
+	        return (100,550)
 	        break
-	    if case('4'): #L_2_1
-	        return (1200,700)
+	    if case('5'): #L5
+	        return (200,550)
 	        break
-	    if case('5'): #L_2_2
-	        return (1320,700)
+	    if case('6'): #L6
+	    	return (300,550)
+	    	break
+	        # if element == 'head':
+	        # 	return (1200,700)
+	        # if element == 'hand':
+	        # 	return (1200,600)
+	        # if element == 'ro':
+	        # 	return (1000,620)
 	        break
-	    if case('6'): #L_2_3
-	        return (1500,600)
+	    if case('7'): #L7
+	        return (400,550)
 	        break
-	    if case('7'): #L_2_4
-	        return (1500,800)
+	    if case('8'): #L8
+	        return (500,550)
 	        break
-	    if case('8'): #L_3_1
-	        return (1190,900)
+	    if case('9'): #L9
+	        return (600,550)
 	        break
-	    if case('9'): #L_3_2
-	        return (1250,1000)
+	    if case('10'): #L10
+	        return (700,550)
 	        break
-	    if case('10'): #L_3_4
-	        return (1500,1000)
-	        break
-	    if case('11'): #L_4_1
-	        return (1000,900)
-	        break
-	    if case('12'): #L_4_2
-	        return (1000,1100)
-	        break
-	    if case('13'): #L_5_1
-	        return (750,850)
-	        break
-	    if case('14'): #L_6_1
-	        return (750,650)
-	        break
-	    if case('15'): #L_6_2
-	        return (600,700)
-	        break
-	    if case('16'): #L_6_3
-	        return (250,600)
-	        break
-	    if case('17'): #L_7_1
-	        return (800,500)
-	        break
-	    if case('18'): #L_7_2
-	        return (700,400)
-	        break
-	    if case('19'): #L_7_3
-	        return (250,400)
-	        break
-	    if case('20'): #L_8_1
-	        return (1000,500)
-	        break
-	    if case('21'): #L_8_2
-	        return (1000,300)
-	        break        
+	    if case('11'): #L11
+	        return (800,550)
+	        break  
+	    if case('12'): #L13
+	        return (900,550)
+	        break  
+	    if case('13'): #L13
+	        return (1000,550)
+	        break  
+	    if case('14'): #L14
+	        return (1100,550)
+	        break  
+	    if case('15'): #L15
+	        return (100,450)
+	        break  
+	    if case('16'): #L16
+	        return (200,450)
+	        break  
+	    if case('17'): #L17
+	        return (300,450)
+	        break  
+	    if case('18'): #L18
+	        return (400,450)
+	        break  
+	    if case('19'): #L19
+	        return (500,450)
+	        break  
+	    if case('20'): #L20
+	        return (600,450)
+	        break  
+	    if case('21'): #L21
+	        return (700,450)
+	        break  
+	    if case('22'): #L22
+	        return (800,450)
+	        break  
+	    if case('23'): #L23
+	        return (900,450)
+	        break  
+	    if case('24'): #L24
+	        return (1000,450)
+	        break  
+	    if case('25'): #L25
+	        return (1100,450)
+	        break  
+	    if case('26'): #L26
+	        return (100,350)
+	        break  
+	    if case('27'): #L27
+	        return (200,350)
+	        break  
+	    if case('28'): #L28
+	        return (300,350)
+	        break  
+	    if case('29'): #L29
+	        return (400,350)
+	        break  
+	    if case('30'): #L30
+	        return (500,350)
+	        break 
+	    if case('31'): #L31
+	        return (600,350)
+	        break  
+	    if case('32'): #L32
+	        return (700,350)
+	        break  
+	    if case('33'): #L33
+	        return (800,350)
+	        break  
+	    if case('34'): #L34
+	        return (900,350)
+	        break  
+	    if case('35'): #L35
+	        return (1000,350)
+	        break  
+	    if case('36'): #L36
+	        return (1100,350)
+	        break  
+	    if case('37'): #L37
+	        return (550,300)
+	        break  
+	    if case('38'): #L38
+	        return (650,300)
+	        break  
+	    if case('39'): #L39
+	        return (750,300)
+	        break  
+	    if case('40'): #L40
+	        return (850,300)
+	        break 
+	    if case('41'): #L41
+	        return (950,300)
+	        break  
+	    if case('42'): #L42
+	        return (1050,300)
+	        break  
+	    if case('43'): #L43
+	        return (550,240)
+	        break  
+	    if case('44'): #L44
+	        return (650,250)
+	        break  
+	    if case('45'): #L45
+	        return (750,480)
+	        break  
+	    if case('46'): #L46
+	        return (850,480)
+	        break  
+	    if case('47'): #L47
+	        return (950,480)
+	        break  
+	    if case('48'): #L48
+	        return (1050,480)
+	        break  
+	    if case('49'): #L49
+	        return (700,650)
+	        break  
+	    if case('50'): #L50
+	        return (800,650)
+	        break   
+	    if case('51'): #L51
+	        return (950,650)
+	        break   
 	    if case(): # default, could also just omit condition or 'if True'
 	        print ("something is wrong with coordinates of the object!")
 def hazard_id(i):
@@ -216,6 +304,7 @@ def chunks(l, n):
 records = {}
 bool_set = set()
 EndEffPos={}
+BasePos={}
 EndEffStill={}
 Link1Pos={}
 Link1Still={}
@@ -306,6 +395,7 @@ def read_file():
 	               		hazards_num = temp[1]
 def parse_positions(step, records):
 	global EndEffPos
+	global BasePos
 	global EndEffStill
 	global Link1Pos
 	global Link1Still
@@ -314,12 +404,14 @@ def parse_positions(step, records):
 
 
 	EndEffPos = records['END_EFF_B_POSITION']
+	BasePos = records['BASE_POSITION']
 	Link1Pos= records['LINK1_POSITION']
 	Link2Pos= records['LINK2_POSITION']
 	EndEffStill[0] = Link1Still[0]= Link2Still[0] ='still'
 	j = 1
 	while j <= step:
 	    still_moving (EndEffPos, EndEffStill, j)
+	    still_moving (BasePos, EndEffStill, j)
 	    still_moving (Link1Pos, Link1Still, j)
 	    still_moving (Link2Pos, Link2Still, j)
 	    j += 1
@@ -394,19 +486,16 @@ def create_legend (step,plt):
 
 	return legend,
 
-def draw_layout(ee, l1, l2, op_head, op_hand, step, task_id):
+def draw_layout(base , ee, l1, l2, op_head, op_hand, step, task_id):
 	#
 	fig, ax = plt.subplots()
 	layoutA = mpimg.imread("layoutA.png")
 	ax.imshow(layoutA)
 	# Turn off tick labels
-	ax.set_yticklabels([])
-	ax.set_xticklabels([])
+	# ax.set_yticklabels([])
+	# ax.set_xticklabels([])
 	#
-	L_base = mpatches.Circle((1000,700),15, color="red")
-	ax.add_patch(L_base)
-	#
-	L_head = mpatches.Circle((element_co(op_head,'head')[0],element_co(op_head,'head')[1]),35, color="blue")
+	L_head = mpatches.Circle((element_co(op_head,'head')[0],element_co(op_head,'head')[1]),25, color="blue")
 	ax.add_patch(L_head)
 	#
 	L_hand = lines.Line2D([element_co(op_head,'head')[0], element_co(op_hand,'hand')[0]],[element_co(op_head,'head')[1], element_co(op_hand,'hand')[1]], lw=5., color="blue",zorder=1)
@@ -415,12 +504,15 @@ def draw_layout(ee, l1, l2, op_head, op_hand, step, task_id):
 	L_ee = mpatches.Circle((element_co(ee,'ro')[0],element_co(ee,'ro')[1]),15, color="red",zorder=2)
 	ax.add_patch(L_ee)
 	#
-	L_l1 = lines.Line2D([1000,element_co(l1,'ro')[0]],[700, element_co(l1,'ro')[1]], lw=9., color="red",zorder=2)
+	L_l1 = lines.Line2D([element_co(base,'ro')[0],element_co(l1,'ro')[0]],[element_co(base,'ro')[1], element_co(l1,'ro')[1]], lw=9., color="red",zorder=2)
 	ax.add_line(L_l1)
 	#
 	L_l2 = lines.Line2D([element_co(l1,'ro')[0], element_co(ee,'ro')[0] ],[element_co(l1,'ro')[1], element_co(ee,'ro')[1]], lw=9., color="red",zorder=2)
 	ax.add_line(L_l2)
 	#
+	L_base = mpatches.Circle((element_co(base,'ro')[0],element_co(base,'ro')[1]),45, color="red",fill=False)
+	ax.add_patch(L_base)
+	
 	return ax.patches,
 
 #############################creating tables#############################
@@ -453,8 +545,8 @@ def safety_analysis_table (tick,task_id):
 
 #############################executing zot and processing the output#############################
 if __name__ == '__main__':
-	os.system("zot Main1.lisp")
-	#wait for output.hist
+	# os.system("zot Main.lisp")
+	##wait for output.hist
 	while not os.path.exists('output.hist.txt'):time.sleep(1)
 	if os.path.isfile('output.hist.txt'):
 		read_file()
@@ -500,8 +592,9 @@ if __name__ == '__main__':
 			if 	velocity[i]=='CRITICAL': velocity[i]='high'
 			elif 	velocity[i]=='LOW': velocity[i]='low'
 			elif 	velocity[i]=='NORMAL': velocity[i]='mid'	
+
 		
-		# if output_type == 'fig':
+		#create the output folder		
 		index = 1
 		newpath = 'Output'
 		while 1:
@@ -512,9 +605,9 @@ if __name__ == '__main__':
 				break
 			else:
 				index += 1
-
+		# if output_type == 'fig':
 		for i in range (0, step+1):
-			draw_layout(EndEffPos[i], Link1Pos[i], Link2Pos[i], BodyPartPosition[1][i], BodyPartPosition[7][i], i, 1)
+			draw_layout(BasePos[i],EndEffPos[i], Link1Pos[i], Link2Pos[i], BodyPartPosition[1][i], BodyPartPosition[7][i], i, 1)
 			# plt.show()
 			create_legend (i,plt)
 			plt.savefig(folder+"/Time"+str(i)+".png")
