@@ -30,7 +30,7 @@
  (eval (list `alwf (append `(&&)
   (loop for i in index collect
    `(&&
-    ([=](-V- ,(read-from-string (format nil "Action_Time_~A_~A" i Tname))) 1)
+    ; ([=](-V- ,(read-from-string (format nil "Action_Time_~A_~A" i Tname))) 1)
      ;each action is done either by op or ro
     (<->(-P- ,(read-from-string (format nil "Action_Doer_ro_~A_~A" i Tname))) (!!(-P- ,(read-from-string (format nil "Action_Doer_op_~A_~A" i Tname)))))
 
@@ -144,7 +144,7 @@
         (alwf (-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" i Tname))))
         (SomP ( || (-P- ,(read-from-string (format nil "Action_State_exrm_~A_~A" i Tname))) (-P- ,(read-from-string (format nil "Action_State_exe_~A_~A" i Tname)))))
        (|| 
-        (-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" i Tname))) 
+        (Yesterday(-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" i Tname)))) 
         (&& (Yesterday(-P- ,(read-from-string (format nil "Action_State_exrm_~A_~A" i Tname)))) (-P- ,(read-from-string (format nil "Action_Post_~A_~A" i Tname))))
         (&& (Yesterday(-P- ,(read-from-string (format nil "Action_State_exe_~A_~A" i Tname)))) (-P- ,(read-from-string (format nil "Action_Post_~A_~A" i Tname))))
         )

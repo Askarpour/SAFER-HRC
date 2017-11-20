@@ -16,8 +16,8 @@
 
   (!!
     (&&
-      (||([=] i 14)([=] i 25)([=] i  36)([=] i  42)([=] i  48) ([=] i 15) ([=] i  26)([=] i  37)([=] i  43))
-      (||([=] j 14)([=] j 25)([=] j  36)([=] j  42)([=] j  48) ([=] j 15) ([=] j  26)([=] j  37)([=] j  43))
+      (||([=] i 14)([=] i 25)([=] i  36)([=] i  42)([=] i  48)([=] i  49)([=] i 15) ([=] i  26)([=] i  37)([=] i  43))
+      (||([=] j 14)([=] j 25)([=] j  36)([=] j  42)([=] j  48)([=] j  49)([=] j 15) ([=] j  26)([=] j  37)([=] j  43))
     )
   )
 
@@ -152,39 +152,32 @@
 
 (defvar body_indexes (loop for i from 1 to 11 collect i))
 
-(defconstant *relativeProperties*
+(defun relativeProperties (opID)
  (eval (list `alwf (append `(&&)
   (loop for i in body_indexes collect `(&&
-  	(<->  (-P- ,(read-from-string (format nil "relativeSeparationLink1_~A_clos" i))) ([=] (-V- LINK1_Position) (-V- Body_Part_pos ,(read-from-string (format nil "~A" i)))))
-  	(<->  (-P- ,(read-from-string (format nil "relativeSeparationLink2_~A_clos" i))) ([=] (-V- LINK2_Position) (-V- Body_Part_pos ,(read-from-string (format nil "~A" i)))))
-  	(<->  (-P- ,(read-from-string (format nil "relativeSeparationEndEff_~A_clos" i))) ([=] (-V- End_Eff_B_Position) (-V- Body_Part_pos ,(read-from-string (format nil "~A" i)))))
+    (<->  (-P- ,(read-from-string (format nil "relativeSeparationLink1_~A_~A_clos" opId i))) ([=] (-V- LINK1_Position) (-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId i))(loop for x = (read in nil nil) while x collect x)))))
+    (<->  (-P- ,(read-from-string (format nil "relativeSeparationLink2_~A_~A_clos" opId i))) ([=] (-V- LINK2_Position) (-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId i))(loop for x = (read in nil nil) while x collect x)))))
+    (<->  (-P- ,(read-from-string (format nil "relativeSeparationEndEff_~A_~A_clos" opId i))) ([=] (-V- End_Eff_B_Position) (-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId i))(loop for x = (read in nil nil) while x collect x)))))
+    (<->  (-P- ,(read-from-string (format nil "relativeSeparationLink1_~A_~A_far" opId i))) (Adj (-V- LINK1_Position) (-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId i))(loop for x = (read in nil nil) while x collect x)))))
+    (<->  (-P- ,(read-from-string (format nil "relativeSeparationLink2_~A_~A_far" opId i))) (Adj (-V- LINK2_Position) (-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId i))(loop for x = (read in nil nil) while x collect x)))))
+    (<->  (-P- ,(read-from-string (format nil "relativeSeparationEndEff_~A_~A_far" opId i))) (Adj (-V- End_Eff_B_Position) (-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId i))(loop for x = (read in nil nil) while x collect x)))))
+    (<->  (-P- ,(read-from-string (format nil "moveDirectionLink1_~A_~A_clos" opId i))) (|| (&& (-P- ,(read-from-string (format nil "relativeSeparationLink1_~A_~A_clos" opId i))) (yesterday (-P- ,(read-from-string (format nil "relativeSeparationLink1_~A_~A_far" i opId)))))  (&& (-P- ,(read-from-string (format nil "relativeSeparationLink1_~A_~A_far" i opId))) (yesterday (-P- ,(read-from-string (format nil "relativeSeparationLink1_~A_~A_very_far" i opId)))))))
+    (<->  (-P- ,(read-from-string (format nil "moveDirectionLink2_~A_~A_clos" opId i))) (||(&& (-P- ,(read-from-string (format nil "relativeSeparationLink2_~A_~A_clos" opId i))) (yesterday (-P- ,(read-from-string (format nil "relativeSeparationLink2_~A_~A_far" i opId))))) (&& (-P- ,(read-from-string (format nil "relativeSeparationLink2_~A_~A_far" i opId))) (yesterday (-P- ,(read-from-string (format nil "relativeSeparationLink2_~A_~A_very_far" i opId)))))))
+    (<->  (-P- ,(read-from-string (format nil "moveDirectionEndEff_~A_~A_clos" opId i))) (|| (&& (-P- ,(read-from-string (format nil "relativeSeparationEndEff_~A_~A_clos" opId i))) (yesterday (-P- ,(read-from-string (format nil "relativeSeparationEndEff_~A_~A_far" i opId))))) (&& (-P- ,(read-from-string (format nil "relativeSeparationEndEff_~A_~A_far" i opId))) (yesterday (-P- ,(read-from-string (format nil "relativeSeparationEndEff_~A_~A_very_far" i opId)))))))
+    (<->  (-P- ,(read-from-string (format nil "moveDirectionLink1_~A_~A_clos" opId i))) (|| (&& (-P- ,(read-from-string (format nil "relativeSeparationLink1_~A_~A_clos" opId i))) (yesterday (-P- ,(read-from-string (format nil "relativeSeparationLink1_~A_~A_far" i opId)))))  (&& (-P- ,(read-from-string (format nil "relativeSeparationLink1_~A_~A_very_far" i opId))) (yesterday (-P- ,(read-from-string (format nil "relativeSeparationLink1_~A_~A_far" i opId)))))))
+    (<->  (-P- ,(read-from-string (format nil "moveDirectionLink2_~A_~A_clos" opId i))) (||(&& (-P- ,(read-from-string (format nil "relativeSeparationLink2_~A_~A_clos" opId i))) (yesterday (-P- ,(read-from-string (format nil "relativeSeparationLink2_~A_~A_far" i opId))))) (&& (-P- ,(read-from-string (format nil "relativeSeparationLink2_~A_~A__very_far" i opId))) (yesterday (-P- ,(read-from-string (format nil "relativeSeparationLink2_~A_~A_far" i opId)))))))
+    (<->  (-P- ,(read-from-string (format nil "moveDirectionEndEff_~A_~A_clos" opId i))) (|| (&& (-P- ,(read-from-string (format nil "relativeSeparationEndEff_~A_~A_clos" opId i))) (yesterday (-P- ,(read-from-string (format nil "relativeSeparationEndEff_~A_~A_far" i opId))))) (&& (-P- ,(read-from-string (format nil "relativeSeparationEndEff_~A_~A_very_far" i opId))) (yesterday (-P- ,(read-from-string (format nil "relativeSeparationEndEff_~A_~A_far" i opId)))))))
+    (<-> (!! (|| (-P- ,(read-from-string (format nil "relativeSeparationLink1_~A_~A_clos" opId i))) (-P- ,(read-from-string (format nil "relativeSeparationLink1_~A_~A_far" opId i)))))(-P- ,(read-from-string (format nil "relativeSeparationLink1_~A_~A_very_far" opId i))))
+    (<-> (!! (|| (-P- ,(read-from-string (format nil "relativeSeparationLink2_~A_~A_clos" opId i))) (-P- ,(read-from-string (format nil "relativeSeparationLink2_~A_~A_far" opId i)))))(-P- ,(read-from-string (format nil "relativeSeparationLink2_~A_~A_very_far" opId i))))
+    (<-> (!! (|| (-P- ,(read-from-string (format nil "relativeSeparationEndEff_~A_~A_clos" opId i))) (-P- ,(read-from-string (format nil "relativeSeparationEndEff_~A_~A_far" opId i)))))(-P- ,(read-from-string (format nil "relativeSeparationEndEff_~A_~A_very_far" opId i))))
+    (<-> (-P- ,(read-from-string (format nil "relativeVelocity_low_~A_~A" opId i))) (&& (-P- Robot_Idle) (-P- OperatorStill)))
+    (<-> (!!(-P- ,(read-from-string (format nil "relativeVelocity_low_~A_~A" opId i)))) (||(!!(-P- Robot_Idle) )(!!(-P- OperatorStill))))
 
-	(<->  (-P- ,(read-from-string (format nil "relativeSeparationLink1_~A_far" i))) (Adj (-V- LINK1_Position) (-V- Body_Part_pos ,(read-from-string (format nil "~A" i)))))
-  	(<->  (-P- ,(read-from-string (format nil "relativeSeparationLink2_~A_far" i))) (Adj (-V- LINK2_Position) (-V- Body_Part_pos ,(read-from-string (format nil "~A" i)))))
-  	(<->  (-P- ,(read-from-string (format nil "relativeSeparationEndEff_~A_far" i))) (Adj (-V- End_Eff_B_Position) (-V- Body_Part_pos ,(read-from-string (format nil "~A" i)))))
+    (<-> (!!(-P- ,(read-from-string (format nil "relativeVelocity_low_~A_~A" opId i)))) (|| (-P- ,(read-from-string (format nil "relativeVelocity_critical_~A_~A" opId i))) (-P- ,(read-from-string (format nil "relativeVelocity_normal_~A_~A" opId i)))))
+    (<-> (!!(-P- ,(read-from-string (format nil "relativeVelocity_normal_~A_~A" opId i)))) (|| (-P- ,(read-from-string (format nil "relativeVelocity_critical_~A_~A" opId i))) (-P- ,(read-from-string (format nil "relativeVelocity_low_~A_~A" opId i)))))
+    (<-> (!!(-P- ,(read-from-string (format nil "relativeVelocity_critical_~A_~A" opId i)))) (|| (-P- ,(read-from-string (format nil "relativeVelocity_normal_~A_~A" opId i))) (-P- ,(read-from-string (format nil "relativeVelocity_low_~A_~A" opId i)))))
 
-  	(<->  (-P- ,(read-from-string (format nil "moveDirectionLink1_~A_clos" i))) (|| (&& (-P- ,(read-from-string (format nil "relativeSeparationLink1_~A_clos" i))) (yesterday (-P- ,(read-from-string (format nil "relativeSeparationLink1_~A_far" i)))))  (&& (-P- ,(read-from-string (format nil "relativeSeparationLink1_~A_far" i))) (yesterday (-P- ,(read-from-string (format nil "relativeSeparationLink1_~A_very_far" i)))))))
-  	(<->  (-P- ,(read-from-string (format nil "moveDirectionLink2_~A_clos" i))) (||(&& (-P- ,(read-from-string (format nil "relativeSeparationLink2_~A_clos" i))) (yesterday (-P- ,(read-from-string (format nil "relativeSeparationLink2_~A_far" i))))) (&& (-P- ,(read-from-string (format nil "relativeSeparationLink2_~A_far" i))) (yesterday (-P- ,(read-from-string (format nil "relativeSeparationLink2_~A_very_far" i)))))))
-  	(<->  (-P- ,(read-from-string (format nil "moveDirectionEndEff_~A_clos" i))) (|| (&& (-P- ,(read-from-string (format nil "relativeSeparationEndEff_~A_clos" i))) (yesterday (-P- ,(read-from-string (format nil "relativeSeparationEndEff_~A_far" i))))) (&& (-P- ,(read-from-string (format nil "relativeSeparationEndEff_~A_far" i))) (yesterday (-P- ,(read-from-string (format nil "relativeSeparationEndEff_~A_very_far" i)))))))
-
-  	(<->  (-P- ,(read-from-string (format nil "moveDirectionLink1_~A_apart" i))) (||(&& (-P- ,(read-from-string (format nil "relativeSeparationLink1_~A_far" i))) (yesterday (-P- ,(read-from-string (format nil "relativeSeparationLink1_~A_clos" i))))) (&& (-P- ,(read-from-string (format nil "relativeSeparationLink1_~A_very_far" i))) (yesterday (-P- ,(read-from-string (format nil "relativeSeparationLink1_~A_far" i)))))   ))
-  	(<->  (-P- ,(read-from-string (format nil "moveDirectionLink2_~A_apart" i))) (||(&& (-P- ,(read-from-string (format nil "relativeSeparationLink2_~A_far" i))) (yesterday (-P- ,(read-from-string (format nil "relativeSeparationLink2_~A_clos" i))))) (&& (-P- ,(read-from-string (format nil "relativeSeparationLink2_~A_very_far" i))) (yesterday (-P- ,(read-from-string (format nil "relativeSeparationLink2_~A_far" i)))))   ))
-  	(<->  (-P- ,(read-from-string (format nil "moveDirectionEndEff_~A_apart" i)))(||(&& (-P- ,(read-from-string (format nil "relativeSeparationEndEff_~A_far" i))) (yesterday (-P- ,(read-from-string (format nil "relativeSeparationEndEff_~A_clos" i))))) (&& (-P- ,(read-from-string (format nil "relativeSeparationEndEff_~A_very_far" i))) (yesterday (-P- ,(read-from-string (format nil "relativeSeparationEndEff_~A_far" i)))))   ))
-
-  	(<-> (!! (|| (-P- ,(read-from-string (format nil "relativeSeparationLink1_~A_clos" i))) (-P- ,(read-from-string (format nil "relativeSeparationLink1_~A_far" i)))))(-P- ,(read-from-string (format nil "relativeSeparationLink1_~A_very_far" i))))
-  	(<-> (!! (|| (-P- ,(read-from-string (format nil "relativeSeparationLink2_~A_clos" i))) (-P- ,(read-from-string (format nil "relativeSeparationLink2_~A_far" i)))))(-P- ,(read-from-string (format nil "relativeSeparationLink2_~A_very_far" i))))
-  	(<-> (!! (|| (-P- ,(read-from-string (format nil "relativeSeparationEndEff_~A_clos" i))) (-P- ,(read-from-string (format nil "relativeSeparationEndEff_~A_far" i)))))(-P- ,(read-from-string (format nil "relativeSeparationEndEff_~A_very_far" i))))
-  ))
- (loop for i in '(1) collect `(&&
-	(<-> (-P- relativeVelocity_low)(&& (-P- Robot_Idle) (-P- OperatorStill)))
-	(<-> (!!(-P- relativeVelocity_low))(||(!!(-P- Robot_Idle) )(!!(-P- OperatorStill))))
-	
-	(<-> (!!(-P- relativeVelocity_low)) (|| (-P- relativeVelocity_critical) (-P- relativeVelocity_normal)))
-	(<-> (!!(-P- relativeVelocity_normal)) (|| (-P- relativeVelocity_critical) (-P- relativeVelocity_low)))
-	(<-> (!!(-P- relativeVelocity_critical)) (|| (-P- relativeVelocity_low) (-P- relativeVelocity_normal)))
-
- 	(<-> (!!(-P- relativeForce_low)) (|| (-P- relativeForce_critical) (-P- relativeForce_normal)))
-	(<-> (!!(-P- relativeForce_normal)) (|| (-P- relativeForce_critical) (-P- relativeForce_low)))
-	(<-> (!!(-P- relativeForce_critical)) (|| (-P- relativeForce_low) (-P- relativeForce_normal)))
-))
-))))	
+    (<-> (!!(-P- ,(read-from-string (format nil "relativeForce_low_~A_~A" opId i)))) (|| (-P- ,(read-from-string (format nil "relativeVelocity_normal_~A_~A" opId i))) (-P- ,(read-from-string (format nil "relativeForce_critical_~A_~A" opId i)))))
+    (<-> (!!(-P- ,(read-from-string (format nil "relativeForce_normal_~A_~A" opId i)))) (|| (-P- ,(read-from-string (format nil "relativeVelocity_low_~A_~A" opId i))) (-P- ,(read-from-string (format nil "relativeForce_critical_~A_~A" opId i)))))
+    (<-> (!!(-P- ,(read-from-string (format nil "relativeForce_critical_~A_~A" opId i)))) (|| (-P- ,(read-from-string (format nil "relativeVelocity_low_~A_~A" opId i))) (-P- ,(read-from-string (format nil "relativeForce_normal_~A_~A" opId i)))))
+))))))  

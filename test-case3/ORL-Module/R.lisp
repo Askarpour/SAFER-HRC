@@ -30,13 +30,15 @@
 	(<->(-P- BASE_Moving)(!! ([=] (-V- BASE_Position) (Yesterday (-V- BASE_Position)))))
 	(<->(-P- End_Eff_Moving) (-P- End_Eff_B_Moving)) 
 	(-> (-P- BASE_Moving) (&& (-P- LINK1_Moving) (-P- LINK2_Moving) (-P- End_Eff_Moving)))
-	(-> (-P- BASE_Moving) (&& ([=] (-V- LINK1_Position) (-V- BASE_Position))  ([=] (-V- LINK2_Position) (-V- BASE_Position)) ([=] (-V- BASE_Position) (-V- End_Eff_B_Position))))
+;	(-> (-P- BASE_Moving) (&& ([=] (-V- LINK1_Position) (-V- BASE_Position))  ([=] (-V- LINK2_Position) (-V- BASE_Position)) ([=] (-V- BASE_Position) (-V- End_Eff_B_Position))))
 	;;no move no activity
 	(->(&& (|| (-P- LINK1_Moving) (-P- LINK2_Moving) (-P- End_Eff_Moving) (-P- BASE_Moving) ) (-P- no_RRM))(-P- relativeVelocity_critical))
 	;;whe occluded
-    (<->(-P- occluded)
+   (<->(-P- occluded)
     (|| (IsPallet (-V- LINK1_Position))(IsPallet (-V- LINK2_Position))(IsPallet (-V- End_Eff_B_Position))(IsPallet (-V- BASE_Position))))
 
+    ([<] (-V- BASE_Position) L_43)
+    ([>] (-V- BASE_Position) L_3)
 
 )))
 
@@ -49,3 +51,8 @@
       (|| (-P- ,(read-from-string (format nil "Action_State_exe_~A_~A" i ,(read-from-string (format nil "~A" Tname))))) (-P- ,(read-from-string (format nil "Action_State_exrm_~A_~A" i ,(read-from-string (format nil "~A" Tname))))))))))(&& (!! (-P- LINK1_Moving)) (!! (-P- LINK2_Moving)) (!! (-P- End_Eff_Moving)))))))
 
 
+;use like (robotidle (setq l '(1 2 3)) Tname)
+(defun basemoves (l Tname)
+  (eval  (list `alwf `(<-
+    (eval(append `(&&) (loop for i in l collect `(&&
+      (|| (-P- ,(read-from-string (format nil "Action_State_exe_~A_~A" i ,(read-from-string (format nil "~A" Tname))))) (-P- ,(read-from-string (format nil "Action_State_exrm_~A_~A" i ,(read-from-string (format nil "~A" Tname))))))))))(-P- BASE_Moving) ))))
