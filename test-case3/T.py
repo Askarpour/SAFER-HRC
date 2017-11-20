@@ -2,6 +2,7 @@ import numpy as np
 import sys
 import os
 import matplotlib.pyplot as plt
+from shutil import copyfile
 plt.rcParams.update({'figure.figsize': (20,20)})
 plt.matplotlib.rcParams.update({'font.size': 30})
 import matplotlib.image as mpimg
@@ -9,7 +10,7 @@ import matplotlib
 import matplotlib.patches as mpatches
 from matplotlib import lines
 import time
-from termcolor import colored
+# from termcolor import colored
 import tables
 import prettytable
 
@@ -56,22 +57,22 @@ class switch(object):
 def element_co(strin,element):
 	for case in switch(strin):
 	    if case('1'): #L1
-	        return (100,610)
+	        return (150,800)
 	        break
 	    if case('2'): #L2
-	        return (300,610)
+	        return (300,800)
 	        break
 	    if case('3'): #L3
-	        return (400,610)
+	        return (400,800)
 	        break
 	    if case('4'): #L4
-	        return (100,550)
+	        return (150,700)
 	        break
 	    if case('5'): #L5
-	        return (200,550)
+	        return (250,700)
 	        break
 	    if case('6'): #L6
-	    	return (300,550)
+	    	return (350,700)
 	    	break
 	        # if element == 'head':
 	        # 	return (1200,700)
@@ -81,139 +82,139 @@ def element_co(strin,element):
 	        # 	return (1000,620)
 	        break
 	    if case('7'): #L7
-	        return (400,550)
+	        return (450,700)
 	        break
 	    if case('8'): #L8
-	        return (500,550)
+	        return (600,700)
 	        break
 	    if case('9'): #L9
-	        return (600,550)
+	        return (700,700)
 	        break
 	    if case('10'): #L10
-	        return (700,550)
+	        return (850,700)
 	        break
 	    if case('11'): #L11
-	        return (800,550)
+	        return (950,700)
 	        break  
-	    if case('12'): #L13
-	        return (900,550)
+	    if case('12'): #L12
+	        return (1100,700)
 	        break  
 	    if case('13'): #L13
-	        return (1000,550)
+	        return (1150,700)
 	        break  
 	    if case('14'): #L14
-	        return (1100,550)
+	        return (1300,600)
 	        break  
 	    if case('15'): #L15
-	        return (100,450)
+	        return (150,600)
 	        break  
 	    if case('16'): #L16
-	        return (200,450)
+	        return (250,600)
 	        break  
 	    if case('17'): #L17
-	        return (300,450)
+	        return (350,600)
 	        break  
 	    if case('18'): #L18
-	        return (400,450)
+	        return (450,600)
 	        break  
 	    if case('19'): #L19
-	        return (500,450)
+	        return (600,600)
 	        break  
 	    if case('20'): #L20
-	        return (600,450)
+	        return (700,600)
 	        break  
 	    if case('21'): #L21
-	        return (700,450)
+	        return (850,600)
 	        break  
 	    if case('22'): #L22
-	        return (800,450)
+	        return (950,600)
 	        break  
 	    if case('23'): #L23
-	        return (900,450)
+	        return (1100,600)
 	        break  
 	    if case('24'): #L24
-	        return (1000,450)
+	        return (1150,600)
 	        break  
 	    if case('25'): #L25
-	        return (1100,450)
+	        return (1300,600)
 	        break  
 	    if case('26'): #L26
-	        return (100,350)
+	        return (150,450)
 	        break  
 	    if case('27'): #L27
-	        return (200,350)
+	        return (250,450)
 	        break  
 	    if case('28'): #L28
-	        return (300,350)
+	        return (350,450)
 	        break  
 	    if case('29'): #L29
-	        return (400,350)
+	        return (450,450)
 	        break  
 	    if case('30'): #L30
-	        return (500,350)
+	        return (600,450)
 	        break 
 	    if case('31'): #L31
-	        return (600,350)
+	        return (700,450)
 	        break  
 	    if case('32'): #L32
-	        return (700,350)
+	        return (850,450)
 	        break  
 	    if case('33'): #L33
-	        return (800,350)
+	        return (950,450)
 	        break  
 	    if case('34'): #L34
-	        return (900,350)
+	        return (1050,450)
 	        break  
 	    if case('35'): #L35
-	        return (1000,350)
+	        return (1000,450)
 	        break  
 	    if case('36'): #L36
-	        return (1100,350)
+	        return (1100,450)
 	        break  
 	    if case('37'): #L37
-	        return (550,300)
+	        return (750,350)
 	        break  
 	    if case('38'): #L38
-	        return (650,300)
+	        return (850,350)
 	        break  
 	    if case('39'): #L39
-	        return (750,300)
+	        return (950,350)
 	        break  
 	    if case('40'): #L40
-	        return (850,300)
+	        return (1100,350)
 	        break 
 	    if case('41'): #L41
-	        return (950,300)
+	        return (1200,350)
 	        break  
 	    if case('42'): #L42
-	        return (1050,300)
+	        return (1300,350)
 	        break  
 	    if case('43'): #L43
-	        return (550,240)
+	        return (750,240)
 	        break  
 	    if case('44'): #L44
-	        return (650,250)
+	        return (850,250)
 	        break  
 	    if case('45'): #L45
-	        return (750,480)
+	        return (950,250)
 	        break  
 	    if case('46'): #L46
-	        return (850,480)
+	        return (1050,250)
 	        break  
 	    if case('47'): #L47
-	        return (950,480)
+	        return (1150,250)
 	        break  
 	    if case('48'): #L48
-	        return (1050,480)
+	        return (1300,250)
 	        break  
 	    if case('49'): #L49
-	        return (700,650)
+	        return (900,850)
 	        break  
 	    if case('50'): #L50
-	        return (800,650)
+	        return (1100,850)
 	        break   
 	    if case('51'): #L51
-	        return (950,650)
+	        return (1200,850)
 	        break   
 	    if case(): # default, could also just omit condition or 'if True'
 	        print ("something is wrong with coordinates of the object!")
@@ -421,7 +422,7 @@ def parse_positions(step, records):
 	global BodypartStill
 	i = 1
 	while i <= body_parts_num:
-	    BodyPartPosition[i] = records['BODY_PART_POS('+str(i)+')']
+	    BodyPartPosition[i] = records['BODY_PART_POS_1('+str(i)+')']
 	    i += 1
 
 	j = 1
@@ -510,7 +511,8 @@ def draw_layout(base , ee, l1, l2, op_head, op_hand, step, task_id):
 	L_l2 = lines.Line2D([element_co(l1,'ro')[0], element_co(ee,'ro')[0] ],[element_co(l1,'ro')[1], element_co(ee,'ro')[1]], lw=9., color="red",zorder=2)
 	ax.add_line(L_l2)
 	#
-	L_base = mpatches.Circle((element_co(base,'ro')[0],element_co(base,'ro')[1]),45, color="red",fill=False)
+	L_base = mpatches.Rectangle((element_co(base,'ro')[0]-50,element_co(base,'ro')[1]-50),200,100,angle=0.0, color="red",fill=False)
+	# L_base = mpatches.Circle((element_co(base,'ro')[0],element_co(base,'ro')[1]),45, color="red",fill=False)
 	ax.add_patch(L_base)
 	
 	return ax.patches,
@@ -591,33 +593,38 @@ if __name__ == '__main__':
 		for i in velocity:
 			if 	velocity[i]=='CRITICAL': velocity[i]='high'
 			elif 	velocity[i]=='LOW': velocity[i]='low'
-			elif 	velocity[i]=='NORMAL': velocity[i]='mid'	
+			elif 	velocity[i]=='NORMAL': velocity[i]='mid'
 
-		
-		#create the output folder		
+
+		#create the output folder	
 		index = 1
 		newpath = 'Output'
 		while 1:
 			name = str(index)
-			if not os.path.exists(newpath+name):
-				os.makedirs(newpath+name)
-				folder = newpath+name
-				break
-			else:
-				index += 1
-		# if output_type == 'fig':
-		for i in range (0, step+1):
-			draw_layout(BasePos[i],EndEffPos[i], Link1Pos[i], Link2Pos[i], BodyPartPosition[1][i], BodyPartPosition[7][i], i, 1)
-			# plt.show()
-			create_legend (i,plt)
-			plt.savefig(folder+"/Time"+str(i)+".png")
+		 	if not os.path.exists(newpath+name):
+		 		os.makedirs(newpath+name)
+		 		folder = newpath+name
+		 		break
+		 	else:
+		 		index += 1
+		 #save output files
+	 	copyfile("output.1.txt", folder+"/output.1.txt")
+		copyfile("output.dict.txt", folder+"/output.dict.txt")
+		copyfile("output.hist.txt", folder+"/output.hist.txt")
+		copyfile("output.smt.txt", folder+"/output.smt.txt")
+		 # if output_type == 'fig':		
 
-		# elif output_type == 'table':
-		f = open(folder+'/Table.txt','w')
-		for i in range (0, step+1):
-			table = safety_analysis_table(i, task_id)
-			table_txt = table.get_string()
-			f.write(table_txt)
+ 		for i in range (0, step+1):
+		 	draw_layout(BasePos[i],EndEffPos[i], Link1Pos[i], Link2Pos[i], BodyPartPosition[1][i], BodyPartPosition[7][i], i, 1)
+		 	# plt.show()
+		 	create_legend (i,plt)
+		 	plt.savefig(folder+"/Time"+str(i)+".png")
+		 # elif output_type == 'table':	
+	 	f = open(folder+'/Table.txt','w')
+	 	for i in range (0, step+1):
+		 	table = safety_analysis_table(i, task_id)
+		 	table_txt = table.get_string()
+		 	f.write(table_txt)
 
 	else:
 		raise ValueError("output.hist.txt not found!")
