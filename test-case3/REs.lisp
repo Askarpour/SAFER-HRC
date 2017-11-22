@@ -36,14 +36,16 @@
 	))))))	
 
 
-(defun nothing_comes_close (body_indexes)
+(defun nothing_comes_close (opID)
   (eval (append `(&&)
    (loop for bp in body_indexes collect
-		 `(!!(-P- ,(read-from-string (format nil "moveDirectionLink1_~A_clos" bp)))))
+		 `(!!(-P- ,(read-from-string (format nil "moveDirection_Link1_operator_~A_~A_clos" opId bp)))))
    (loop for bp in body_indexes collect
-		 `(!!(-P- ,(read-from-string (format nil "moveDirectionLink2_~A_clos" bp)))))
+		 `(!!(-P- ,(read-from-string (format nil "moveDirection_Link2_operator_~A_~A_clos" opId bp)))))
    (loop for bp in body_indexes collect
-		 `(!!(-P- ,(read-from-string (format nil "moveDirectionEndEff_~A_clos" bp)))))
+		 `(!!(-P- ,(read-from-string (format nil "moveDirection_EndEff_operator_~A_~A_clos" opId bp)))))
+   (loop for bp in body_indexes collect
+		 `(!!(-P- ,(read-from-string (format nil "moveDirection_Base_operator_~A_~A_clos" opId bp)))))
    )))
 
 ;;severity calculation
@@ -52,43 +54,43 @@
 	(-> ([=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_Se_~A" hazard_id))  (loop for x = (read in nil nil) while x collect x)))) 4)
 		(|| 
 			(&& (-P- relativeVelocity_critical) (-P- relativeForce_critical))
-			(&& (-P- relativeVelocity_critical)(-P- relativeForce_normal) (!!(nothing_comes_close body_indexes)))
-			(&& (-P- relativeVelocity_normal) (-P- relativeForce_critical) (!!(nothing_comes_close body_indexes)))
+			(&& (-P- relativeVelocity_critical)(-P- relativeForce_normal) (!!(nothing_comes_close 1)))
+			(&& (-P- relativeVelocity_normal) (-P- relativeForce_critical) (!!(nothing_comes_close 1)))
 		))
 	(-> ([=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_Se_~A" hazard_id))  (loop for x = (read in nil nil) while x collect x)))) 3)
 		(||
-			(&& (-P- relativeVelocity_critical) (|| (-P- relativeForce_critical) (-P- relativeForce_normal)) (nothing_comes_close body_indexes))
-			(&& (|| (-P- relativeVelocity_critical) (-P- relativeVelocity_normal)) (-P- relativeForce_critical) (nothing_comes_close body_indexes))
-			(&& (-P- relativeVelocity_critical) (-P- relativeForce_low) (-P- OperatorStill) (!!(nothing_comes_close body_indexes)))
-			(&& (-P- relativeVelocity_low) (-P- relativeForce_critical)  (-P- OperatorStill) (!!(nothing_comes_close body_indexes)))
+			(&& (-P- relativeVelocity_critical) (|| (-P- relativeForce_critical) (-P- relativeForce_normal)) (nothing_comes_close 1))
+			(&& (|| (-P- relativeVelocity_critical) (-P- relativeVelocity_normal)) (-P- relativeForce_critical) (nothing_comes_close 1))
+			(&& (-P- relativeVelocity_critical) (-P- relativeForce_low) (-P- OperatorStill) (!!(nothing_comes_close 1)))
+			(&& (-P- relativeVelocity_low) (-P- relativeForce_critical)  (-P- OperatorStill) (!!(nothing_comes_close 1)))
 		))
 	(-> ([=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_Se_~A" hazard_id))  (loop for x = (read in nil nil) while x collect x)))) 2)
 		(||
-			(&& (-P- relativeVelocity_critical) (-P- relativeForce_low)  (!!(-P- OperatorStill)) (!!(nothing_comes_close body_indexes)))
-			(&& (-P- relativeVelocity_low) (-P- relativeForce_critical) (!!(-P- OperatorStill)) (!!(nothing_comes_close body_indexes)))
+			(&& (-P- relativeVelocity_critical) (-P- relativeForce_low)  (!!(-P- OperatorStill)) (!!(nothing_comes_close 1)))
+			(&& (-P- relativeVelocity_low) (-P- relativeForce_critical) (!!(-P- OperatorStill)) (!!(nothing_comes_close 1)))
 
-			(&& (-P- relativeVelocity_critical) (-P- relativeForce_low) (nothing_comes_close body_indexes))
-			(&& (-P- relativeVelocity_low) (-P- relativeForce_critical) (nothing_comes_close body_indexes))
+			(&& (-P- relativeVelocity_critical) (-P- relativeForce_low) (nothing_comes_close 1))
+			(&& (-P- relativeVelocity_low) (-P- relativeForce_critical) (nothing_comes_close 1))
 
-			(&& (-P- relativeVelocity_normal) (-P- relativeForce_low) (!!(nothing_comes_close body_indexes)) (-P- OperatorStill))
-			(&& (-P- relativeVelocity_low) (-P- relativeForce_normal) (!!(nothing_comes_close body_indexes)) (-P- OperatorStill))
+			(&& (-P- relativeVelocity_normal) (-P- relativeForce_low) (!!(nothing_comes_close 1)) (-P- OperatorStill))
+			(&& (-P- relativeVelocity_low) (-P- relativeForce_normal) (!!(nothing_comes_close 1)) (-P- OperatorStill))
 		))
 	(-> ([=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_Se_~A" hazard_id))  (loop for x = (read in nil nil) while x collect x)))) 1)
 		(||
-			(&& (-P- relativeVelocity_normal) (-P- relativeForce_low)  (!!(-P- OperatorStill)) (!!(nothing_comes_close body_indexes)))
-			(&& (-P- relativeVelocity_low) (-P- relativeForce_normal) (!!(-P- OperatorStill)) (!!(nothing_comes_close body_indexes)))
+			(&& (-P- relativeVelocity_normal) (-P- relativeForce_low)  (!!(-P- OperatorStill)) (!!(nothing_comes_close 1)))
+			(&& (-P- relativeVelocity_low) (-P- relativeForce_normal) (!!(-P- OperatorStill)) (!!(nothing_comes_close 1)))
 
-			(&& (-P- relativeVelocity_normal) (-P- relativeForce_low) (nothing_comes_close body_indexes))
-			(&& (-P- relativeVelocity_low) (-P- relativeForce_normal)(nothing_comes_close body_indexes))
+			(&& (-P- relativeVelocity_normal) (-P- relativeForce_low) (nothing_comes_close 1))
+			(&& (-P- relativeVelocity_low) (-P- relativeForce_normal)(nothing_comes_close 1))
 
-			(&& (-P- relativeVelocity_low)  (-P- relativeForce_low) (!!(nothing_comes_close body_indexes)) (-P- OperatorStill))
-			(&& (-P- relativeVelocity_low)  (-P- relativeForce_low) (!!(nothing_comes_close body_indexes))(-P- OperatorStill))
+			(&& (-P- relativeVelocity_low)  (-P- relativeForce_low) (!!(nothing_comes_close 1)) (-P- OperatorStill))
+			(&& (-P- relativeVelocity_low)  (-P- relativeForce_low) (!!(nothing_comes_close 1))(-P- OperatorStill))
 		))
 		
 	(-> ([=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_Se_~A" hazard_id))  (loop for x = (read in nil nil) while x collect x)))) 0)
 		(||
-			(&& (-P- relativeVelocity_low)  (-P- relativeForce_low) (!!(nothing_comes_close body_indexes)) (!!(-P- OperatorStill)))
-			(&& (-P- relativeVelocity_low)  (-P- relativeForce_low) (nothing_comes_close body_indexes))
+			(&& (-P- relativeVelocity_low)  (-P- relativeForce_low) (!!(nothing_comes_close 1)) (!!(-P- OperatorStill)))
+			(&& (-P- relativeVelocity_low)  (-P- relativeForce_low) (nothing_comes_close 1))
 
 		))		
  ))))))

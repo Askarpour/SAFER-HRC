@@ -1,183 +1,197 @@
 
-(defvar L_indexes (loop for i from 1 to 48 collect i))
-(loop for i in L_indexes collect
-  (progn 
-        (eval `(defvar ,(read-from-string (format nil "L_~A" i)) ,(read-from-string (format nil "~A" i))))))
+(defvar L_indexes (loop for i from 1 to 15 collect i))
 
-(defvar L_bin1 49)
-(defvar L_bin2 50)
-(defvar L_bin3 51)
-
-(defvar L_last 51)
+(defvar L_bin 15)
+(defvar L_last 15)
 (defvar L_first 1)
 
-(defun Adj (i j)
- (&&
-
-  (!!
-    (&&
-      (||([=] i 14)([=] i 25)([=] i  36)([=] i  42)([=] i  48)([=] i  49)([=] i 15) ([=] i  26)([=] i  37)([=] i  43))
-      (||([=] j 14)([=] j 25)([=] j  36)([=] j  42)([=] j  48)([=] j  49)([=] j 15) ([=] j  26)([=] j  37)([=] j  43))
-    )
-  )
-
-  (||
-    ;rhs
-    (&&
-      (!! ([=] i 14)) (!!([=] i 25)) (!!([=] i  36)) (!!([=] i  42)) (!!([=] i  48))
-      (-E- x  L_indexes (&& ([=] x i) ([=] (- x 1) j)))
-    )
-
-    (&&
-      (!! ([=] j 14)) (!!([=] j 25)) (!!([=] j  36)) (!!([=] j  42)) (!!([=] j  48))
-      (-E- x  L_indexes (&& ([=] x j) ([=] (- x 1) i)))
-      ; ([=] j (+ i 1))
-    )
-
-    ;lhs
-    (&&
-      (!!([=] i 15)) (!!([=] i  26))  (!!([=] i  37))(!!([=] i  43)) 
-      (-E- x  L_indexes (&& ([=] x i) ([=] (+ x 1) j)))
-      ; ([=] i (- j 1))
-    )
-
-    (&&
-      (!!([=] j 15)) (!!([=] j  26))  (!!([=] j  37))(!!([=] j  43)) 
-      (-E- x  L_indexes (&& ([=] x j) ([=] (+ x 1) i)))
-      ; ([=] j (- i 1))
-    )
-
-    ;up or down
-    (&& 
-      ([>=] i 15) ([<=] i 25) 
-      (||
-        (-E- x  L_indexes (&& ([=] x i) ([=] (- x 11) j)))
-        (-E- x  L_indexes (&& ([=] x i) ([=] (+ x 11) j)))
-        )
-      ; (|| ([=] j (- i 11)) ([=] j (+ i 11)))
-    )
-
-    (&&
-      ([>=] j 15) ([<=] j 25) 
-      (||
-        (-E- x  L_indexes (&& ([=] x j) ([=] (- x 11) i)))
-        (-E- x  L_indexes (&& ([=] x j) ([=] (+ x 11) i)))
-      )
-      ; (|| ([=] i (- j 11)) ([=] i (+ j 11)))
-    )
-
-    (&&
-      ([>=] j 37) ([<=] j 42)
-      (||
-        (-E- x  L_indexes (&& ([=] x i) ([=] (- x 6) j)))
-        (-E- x  L_indexes (&& ([=] x i) ([=] (+ x 6) j)))
-        )
-      ; (|| ([=] j (- i 6)) ([=] j (+ i 6)))
-    )
-
-    (&&
-      ([>=] i 37) ([<=] i 42)
-      (||
-        (-E- x  L_indexes (&& ([=] x j) ([=] (- x 6) i)))
-        (-E- x  L_indexes (&& ([=] x j) ([=] (+ x 6) i)))
-        )
-      ; (|| ([=] i (- j 6)) ([=] i (+ j 6)))
-    )
-
-    (&&
-      ([>=] j 1) ([<=] j 6)([>=] i 1) ([<=] i 6)
-      (||
-        (-E- x  L_indexes (&& ([=] x i) ([=] (- x 3) j)))
-        (-E- x  L_indexes (&& ([=] x i) ([=] (+ x 3) j)))
-      )
-
-      ; (|| ([=] j (- i 3)) ([=] j (+ i 3)))
-    )
-
-    (&&
-      ([>=] i 1) ([<=] i 6) ([>=] j 1) ([<=] j 6)
-      (||
-        (-E- x  L_indexes (&& ([=] x j) ([=] (- x 3) i)))
-        (-E- x  L_indexes (&& ([=] x j) ([=] (+ x 3) i)))
-        )
-      ; (|| ([=] i (- j 3)) ([=] i (+ j 3)))
-    )
-
-    ;close to bin1
-    (&&([=] i L_bin1) (||([=] j 10) ([=] j 11)))    
-    (&&([=] j L_bin1) (||([=] i 10) ([=] i 11)))
-
-    ;close to bin2
-    (&&([=] i L_bin2) (||([=] j 11) ([=] j 12)))
-    (&&([=] j L_bin2) (||([=] i 11) ([=] i 12)))
-
-    ;close to bin3
-    (&&([=] i L_bin3) (||([=] j 12) ([=] j 13)))
-    (&&([=] j L_bin3) (||([=] i 12) ([=] i 13)))
-
-  )
- )
-)
+(defun IsPallet1 (i) (eval `(-P- ,(read-from-string (format nil "~A_In_L_~A" i 14)))))
+(defun IsPallet2 (i) (eval `(-P- ,(read-from-string (format nil "~A_In_L_~A" i 12)))))
+(defun IsPallet3 (i) (eval `(|| (-P- ,(read-from-string (format nil "~A_In_L_~A" i 5))) (-P- ,(read-from-string (format nil "~A_In_L_~A" i 6))))))
+(defun IsPallet(i) (eval `(|| (IsPallet1 ,(read-from-string (format nil "`~A" i))) (IsPallet2 ,(read-from-string (format nil "`~A" i))) (IsPallet3 ,(read-from-string (format nil "`~A" i))))))
 
 
-(defun IsPallet (i)
-  (||
-    ([=] i L_2)
-    ([=] i L_3)
-    ([=] i L_5)
-    ([=] i L_6)
-  
-    ([=] i L_37)
-    ([=] i L_38)
-    ([=] i L_43)
-    ([=] i L_44)
-  
-    ([=] i L_40)
-    ([=] i L_41)
-    ([=] i L_46)
-    ([=] i L_47)
-  )
-)
+;i has always a position. write (always_in_an_L `Link1)
+(defun always_in_an_L (i)
+  (eval `(Alwf (!!(in_no_L ,(read-from-string (format nil "`~A" i)))))))
+(defun in_no_L (i)
+    (eval  (append `(&&) (loop for l_i in L_indexes collect `(!!
+    (Inside ,(read-from-string (format nil "`~A" i)) ,(read-from-string (format nil "~A" l_i))))))))
 
-(defun IsBin1 (i)
-  ([=] i L_bin1)
-)
+; i inside j. write like (inside `Link1 1)
+(defun Inside (i j)
+  (eval
+    `(&& (-P- ,(read-from-string (format nil "~A_In_L_~A" i j))) (only_in_one_L ,(read-from-string (format nil "`~A" i)) ,(read-from-string (format nil "~A" j)) ) )))
 
-(defun IsBin2 (i)
-  ([=] i L_bin2)
-)
-(defun IsBin2 (i)
-  ([=] i L_bin2)
-)
+; i only in j. write (only_in_one_L `Link1 1)
+(defun only_in_one_L (i j)
+  (-A- l L_indexes
+    (eval `(<->
+        (!! ([=] ,(read-from-string (format nil "~A" j)) ,(read-from-string (format nil "~A" l))))
+        (!! (-P- ,(read-from-string (format nil "~A_In_L_~A" i l))))))))
 
-(defvar body_indexes (loop for i from 1 to 11 collect i))
+;i and j are two adjacent elements. write (In_Adj_L `Link1 `Link2)
+(defun In_Adj_L (i j)
+  (eval (append `(||)  
+   (loop for l_i in L_indexes collect
+    `(&& (-P- ,(read-from-string (format nil "~A_In_L_~A" i l_i))) (In_Adj_L_help ,(read-from-string (format nil "`~A" j)) ,(read-from-string (format nil "~A" l_i)) ))
+    ))))
+;i is adjacent to location j. write (In_Adj_L `Link1 1)
+(defun In_Adj_with_L (i j)
+  (eval (append `(||)  
+   (loop for l_i in L_indexes collect
+    `(&& (-P- ,(read-from-string (format nil "~A_In_L_~A" i l_i))) (Adj ,(read-from-string (format nil "~A" l_i)) ,(read-from-string (format nil "~A" j)))
+    )))))
+
+(defun In_Adj_L_with_yesterday (i)
+  (eval (append `(||)  
+   (loop for l_i in L_indexes collect
+    `(&& (-P- ,(read-from-string (format nil "~A_In_L_~A" i l_i))) (In_Adj_L_with_yesterday_help ,(read-from-string (format nil "`~A" i)) ,(read-from-string (format nil "~A" l_i)) ))
+    ))))
+
+;auxiliary function, because lisp sucks
+(defun In_Adj_L_help(j l_i)
+  (eval (append `(||)  
+   (loop for l_j in L_indexes collect
+    `(&& (-P- ,(read-from-string (format nil "~A_In_L_~A" j l_j))) (Adj ,(read-from-string (format nil "~A" l_i)) ,(read-from-string (format nil "~A" l_j))))
+    ))))
+
+(defun In_Adj_L_with_yesterday_help(j l_i)
+  (eval (append `(||)  
+   (loop for l_j in L_indexes collect
+    `(&& (Next (-P- ,(read-from-string (format nil "~A_In_L_~A" j l_j)))) (Adj ,(read-from-string (format nil "~A" l_i)) ,(read-from-string (format nil "~A" l_j))))
+    ))))
+
+;i and j are in the same L. write (In_same_L `Link1 `Link2)
+(defun In_same_L (i j)
+  (-E- l L_indexes
+  (eval `(&&
+    (-P- ,(read-from-string (format nil "~A_In_L_~A" i l)))
+    (-P- ,(read-from-string (format nil "~A_In_L_~A" j l)))))))
+
+(defun In_same_L_with_yesterday (i)
+  (-E- l L_indexes
+  (eval `(&&
+    (-P- ,(read-from-string (format nil "~A_In_L_~A" i l)))
+    (yesterday(-P- ,(read-from-string (format nil "~A_In_L_~A" i l))))))))
+
+(defun Adj (i j) 
+ (||
+    (&& ([=] i 1) (||([=] j 2) ([=] j 6) ([=] j 7)))
+    (&& ([=] j 1) (||([=] i 2) ([=] i 6) ([=] i 7)))
+
+    (&& ([=] i 2) (||([=] j 1) ([=] j 3) ([=] j 7)))
+    (&& ([=] j 2) (||([=] i 1) ([=] i 3) ([=] i 7)))
+
+    (&& ([=] i 3) (||([=] j 2) ([=] j 4) ([=] j L_bin)))
+    (&& ([=] j 3) (||([=] i 2) ([=] i 4) ([=] i L_bin)))
+
+    (&& ([=] i 4) (||([=] j 3) ([=] j L_bin)))
+    (&& ([=] j 4) (||([=] i 3) ([=] i L_bin)))
+
+    (&& ([=] i 5) (||([=] j 6) ([=] j 10) ([=] j 11)))
+    (&& ([=] j 5) (||([=] i 6) ([=] i 10) ([=] i 11)))
+
+    (&& ([=] i 6) (||([=] j 5) ([=] j 7)  ([=] j 10) ([=] j 11) ([=] j 12)))
+    (&& ([=] j 6) (||([=] i 5) ([=] i 7)  ([=] i 10) ([=] i 11) ([=] i 12)))
+
+    (&& ([=] i 7) (||([=] j 6) ([=] j 8)  ([=] j 13) ([=] j 11) ([=] j 12)))
+    (&& ([=] j 7) (||([=] i 6) ([=] i 8)  ([=] i 13) ([=] i 11) ([=] i 12)))
+
+    (&& ([=] i 8) (||([=] j 7) ([=] j 9)  ([=] j 13) ([=] j 14) ([=] j 12) ([=] j L_bin)))
+    (&& ([=] j 8) (||([=] i 7) ([=] i 9)  ([=] i 13) ([=] i 14) ([=] i 12) ([=] i L_bin)))
+
+    (&& ([=] i 9) (||([=] j 8) ([=] j 13) ([=] j 14)([=] j L_bin)))
+    (&& ([=] j 9) (||([=] i 8) ([=] i 13) ([=] i 14)([=] i L_bin)))
+  ))
+
+(defun relative_separation (opID bodypart)
+  (eval (append `(&&)  
+    (loop for robotpart in ro_indexes collect `(&&
+    (<->
+      (-P- ,(read-from-string (format nil "relativeSeparation_~A_operator_~A_~A_clos" robotpart opId bodypart)))
+      (In_same_L ,(read-from-string (format nil "`~A" robotpart)) ,(read-from-string (format nil "`operator_~A_~A" opID bodypart))))
+    (<->
+      (-P- ,(read-from-string (format nil "relativeSeparation_~A_operator_~A_~A_far" robotpart opId bodypart)))
+      (In_Adj_L ,(read-from-string (format nil "`~A" robotpart)) ,(read-from-string (format nil "`operator_~A_~A" opID bodypart))))
+    (<->  (-P- ,(read-from-string (format nil "relativeSeparation_~A_operator_~A_~A_very_far" robotpart opId bodypart)))
+     (&& (!!(-P- ,(read-from-string (format nil "relativeSeparation_~A_operator_~A_~A_clos" robotpart opId bodypart)))) (!!(-P- ,(read-from-string (format nil "relativeSeparation_~A_~A_~A_far" robotpart opId bodypart))))))
+
+)))))
+
+(defun moving_direction (opID bodypart)
+  (eval (append `(&&)  
+    (loop for robotpart in ro_indexes collect `(&&
+     (<->  (-P- ,(read-from-string (format nil "moveDirection_~A_~A_~A_clos" robotpart opId bodypart))) 
+      (|| (&& (-P- ,(read-from-string (format nil "relativeSeparation_~A_operator_~A_~A_clos" robotpart opId bodypart))) 
+      (yesterday (-P- ,(read-from-string (format nil "relativeSeparation_~A_operator_~A_~A_far" robotpart opId bodypart))))) 
+       (&& (-P- ,(read-from-string (format nil "relativeSeparation_~A_operator_~A_~A_far" robotpart opId bodypart))) 
+        (yesterday (-P- ,(read-from-string (format nil "relativeSeparation_~A_operator_~A_~A_very_far" robotpart opId bodypart)))))))
+     (<->  (-P- ,(read-from-string (format nil "moveDirection_~A_~A_~A_far" robotpart opId bodypart))) 
+      (!!   (-P- ,(read-from-string (format nil "moveDirection_~A_~A_~A_clos" robotpart opId bodypart))) ))
+     )))))
+
+(defun relative_velocity (opID bodypart)
+ (eval (append `(&&)  
+    (loop for robotpart in ro_indexes collect `(&&
+    (<->
+      (-P- ,(read-from-string (format nil "relativeVelocity_~A_operator_~A_~A_low" robotpart opId bodypart)))
+      (&& (operatorStill ,(read-from-string (format nil "~A" opID))) (-P- roStill)))
+    (<->
+      (-P- ,(read-from-string (format nil "relativeVelocity_~A_operator_~A_~A_normal" robotpart opId bodypart)))
+      (&& (!!(-P- ,(read-from-string (format nil "relativeVelocity_~A_operator_~A_~A_low" robotpart opId bodypart)))) (!!(-P- ,(read-from-string (format nil "relativeVelocity_~A_operator_~A_~A_critical" robotpart opId bodypart))))))
+    (<->
+      (-P- ,(read-from-string (format nil "relativeVelocity_~A_operator_~A_~A_critical" robotpart opId bodypart)))
+      (&& (!!(-P- ,(read-from-string (format nil "relativeVelocity_~A_operator_~A_~A_low" robotpart opId bodypart)))) (!!(-P- ,(read-from-string (format nil "relativeVelocity_~A_operator_~A_~A_normal" robotpart opId bodypart))))))
+    (<->
+      (-P- ,(read-from-string (format nil "relativeVelocity_~A_operator_~A_~A_low" robotpart opId bodypart)))
+      (&& (!!(-P- ,(read-from-string (format nil "relativeVelocity_~A_operator_~A_~A_critical" robotpart opId bodypart)))) (!!(-P- ,(read-from-string (format nil "relativeVelocity_~A_operator_~A_~A_normal" robotpart opId bodypart)))))
+       ))))))
+
+(defun relative_force (opID bodypart)
+ (eval (append `(&&)  
+    (loop for robotpart in ro_indexes collect `(&&
+    (<->
+      (-P- ,(read-from-string (format nil "relativeForce_~A_operator_~A_~A_normal" robotpart opId bodypart)))
+      (&& (-P- ,(read-from-string (format nil "relativeForce_~A_operator_~A_~A_low" robotpart opId bodypart))) (-P- ,(read-from-string (format nil "relativeForce_~A_operator_~A_~A_critical" robotpart opId bodypart)))))
+    (<->
+      (-P- ,(read-from-string (format nil "relativeForce_~A_operator_~A_~A_critical" robotpart opId bodypart)))
+      (&& (-P- ,(read-from-string (format nil "relativeForce_~A_operator_~A_~A_low" robotpart opId bodypart))) (-P- ,(read-from-string (format nil "relativeForce_~A_operator_~A_~A_normal" robotpart opId bodypart)))))
+    (<->
+      (-P- ,(read-from-string (format nil "relativeForce_~A_operator_~A_~A_low" robotpart opId bodypart)))
+      (&& (-P- ,(read-from-string (format nil "relativeForce_~A_operator_~A_~A_critical" robotpart opId bodypart))) (-P- ,(read-from-string (format nil "relativeForce_~A_operator_~A_~A_normal" robotpart opId bodypart))))))))))
+
 
 (defun relativeProperties (opID)
  (eval (list `alwf (append `(&&)
   (loop for i in body_indexes collect `(&&
-    (<->  (-P- ,(read-from-string (format nil "relativeSeparationLink1_~A_~A_clos" opId i))) ([=] (-V- LINK1_Position) (-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId i))(loop for x = (read in nil nil) while x collect x)))))
-    (<->  (-P- ,(read-from-string (format nil "relativeSeparationLink2_~A_~A_clos" opId i))) ([=] (-V- LINK2_Position) (-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId i))(loop for x = (read in nil nil) while x collect x)))))
-    (<->  (-P- ,(read-from-string (format nil "relativeSeparationEndEff_~A_~A_clos" opId i))) ([=] (-V- End_Eff_B_Position) (-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId i))(loop for x = (read in nil nil) while x collect x)))))
-    (<->  (-P- ,(read-from-string (format nil "relativeSeparationLink1_~A_~A_far" opId i))) (Adj (-V- LINK1_Position) (-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId i))(loop for x = (read in nil nil) while x collect x)))))
-    (<->  (-P- ,(read-from-string (format nil "relativeSeparationLink2_~A_~A_far" opId i))) (Adj (-V- LINK2_Position) (-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId i))(loop for x = (read in nil nil) while x collect x)))))
-    (<->  (-P- ,(read-from-string (format nil "relativeSeparationEndEff_~A_~A_far" opId i))) (Adj (-V- End_Eff_B_Position) (-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId i))(loop for x = (read in nil nil) while x collect x)))))
-    (<->  (-P- ,(read-from-string (format nil "moveDirectionLink1_~A_~A_clos" opId i))) (|| (&& (-P- ,(read-from-string (format nil "relativeSeparationLink1_~A_~A_clos" opId i))) (yesterday (-P- ,(read-from-string (format nil "relativeSeparationLink1_~A_~A_far" i opId)))))  (&& (-P- ,(read-from-string (format nil "relativeSeparationLink1_~A_~A_far" i opId))) (yesterday (-P- ,(read-from-string (format nil "relativeSeparationLink1_~A_~A_very_far" i opId)))))))
-    (<->  (-P- ,(read-from-string (format nil "moveDirectionLink2_~A_~A_clos" opId i))) (||(&& (-P- ,(read-from-string (format nil "relativeSeparationLink2_~A_~A_clos" opId i))) (yesterday (-P- ,(read-from-string (format nil "relativeSeparationLink2_~A_~A_far" i opId))))) (&& (-P- ,(read-from-string (format nil "relativeSeparationLink2_~A_~A_far" i opId))) (yesterday (-P- ,(read-from-string (format nil "relativeSeparationLink2_~A_~A_very_far" i opId)))))))
-    (<->  (-P- ,(read-from-string (format nil "moveDirectionEndEff_~A_~A_clos" opId i))) (|| (&& (-P- ,(read-from-string (format nil "relativeSeparationEndEff_~A_~A_clos" opId i))) (yesterday (-P- ,(read-from-string (format nil "relativeSeparationEndEff_~A_~A_far" i opId))))) (&& (-P- ,(read-from-string (format nil "relativeSeparationEndEff_~A_~A_far" i opId))) (yesterday (-P- ,(read-from-string (format nil "relativeSeparationEndEff_~A_~A_very_far" i opId)))))))
-    (<->  (-P- ,(read-from-string (format nil "moveDirectionLink1_~A_~A_clos" opId i))) (|| (&& (-P- ,(read-from-string (format nil "relativeSeparationLink1_~A_~A_clos" opId i))) (yesterday (-P- ,(read-from-string (format nil "relativeSeparationLink1_~A_~A_far" i opId)))))  (&& (-P- ,(read-from-string (format nil "relativeSeparationLink1_~A_~A_very_far" i opId))) (yesterday (-P- ,(read-from-string (format nil "relativeSeparationLink1_~A_~A_far" i opId)))))))
-    (<->  (-P- ,(read-from-string (format nil "moveDirectionLink2_~A_~A_clos" opId i))) (||(&& (-P- ,(read-from-string (format nil "relativeSeparationLink2_~A_~A_clos" opId i))) (yesterday (-P- ,(read-from-string (format nil "relativeSeparationLink2_~A_~A_far" i opId))))) (&& (-P- ,(read-from-string (format nil "relativeSeparationLink2_~A_~A__very_far" i opId))) (yesterday (-P- ,(read-from-string (format nil "relativeSeparationLink2_~A_~A_far" i opId)))))))
-    (<->  (-P- ,(read-from-string (format nil "moveDirectionEndEff_~A_~A_clos" opId i))) (|| (&& (-P- ,(read-from-string (format nil "relativeSeparationEndEff_~A_~A_clos" opId i))) (yesterday (-P- ,(read-from-string (format nil "relativeSeparationEndEff_~A_~A_far" i opId))))) (&& (-P- ,(read-from-string (format nil "relativeSeparationEndEff_~A_~A_very_far" i opId))) (yesterday (-P- ,(read-from-string (format nil "relativeSeparationEndEff_~A_~A_far" i opId)))))))
-    (<-> (!! (|| (-P- ,(read-from-string (format nil "relativeSeparationLink1_~A_~A_clos" opId i))) (-P- ,(read-from-string (format nil "relativeSeparationLink1_~A_~A_far" opId i)))))(-P- ,(read-from-string (format nil "relativeSeparationLink1_~A_~A_very_far" opId i))))
-    (<-> (!! (|| (-P- ,(read-from-string (format nil "relativeSeparationLink2_~A_~A_clos" opId i))) (-P- ,(read-from-string (format nil "relativeSeparationLink2_~A_~A_far" opId i)))))(-P- ,(read-from-string (format nil "relativeSeparationLink2_~A_~A_very_far" opId i))))
-    (<-> (!! (|| (-P- ,(read-from-string (format nil "relativeSeparationEndEff_~A_~A_clos" opId i))) (-P- ,(read-from-string (format nil "relativeSeparationEndEff_~A_~A_far" opId i)))))(-P- ,(read-from-string (format nil "relativeSeparationEndEff_~A_~A_very_far" opId i))))
-    (<-> (-P- ,(read-from-string (format nil "relativeVelocity_low_~A_~A" opId i))) (&& (-P- Robot_Idle) (-P- OperatorStill)))
-    (<-> (!!(-P- ,(read-from-string (format nil "relativeVelocity_low_~A_~A" opId i)))) (||(!!(-P- Robot_Idle) )(!!(-P- OperatorStill))))
 
-    (<-> (!!(-P- ,(read-from-string (format nil "relativeVelocity_low_~A_~A" opId i)))) (|| (-P- ,(read-from-string (format nil "relativeVelocity_critical_~A_~A" opId i))) (-P- ,(read-from-string (format nil "relativeVelocity_normal_~A_~A" opId i)))))
-    (<-> (!!(-P- ,(read-from-string (format nil "relativeVelocity_normal_~A_~A" opId i)))) (|| (-P- ,(read-from-string (format nil "relativeVelocity_critical_~A_~A" opId i))) (-P- ,(read-from-string (format nil "relativeVelocity_low_~A_~A" opId i)))))
-    (<-> (!!(-P- ,(read-from-string (format nil "relativeVelocity_critical_~A_~A" opId i)))) (|| (-P- ,(read-from-string (format nil "relativeVelocity_normal_~A_~A" opId i))) (-P- ,(read-from-string (format nil "relativeVelocity_low_~A_~A" opId i)))))
+    (relative_separation ,(read-from-string (format nil "~A" opId)) ,(read-from-string (format nil "`~A" i)))
 
-    (<-> (!!(-P- ,(read-from-string (format nil "relativeForce_low_~A_~A" opId i)))) (|| (-P- ,(read-from-string (format nil "relativeVelocity_normal_~A_~A" opId i))) (-P- ,(read-from-string (format nil "relativeForce_critical_~A_~A" opId i)))))
-    (<-> (!!(-P- ,(read-from-string (format nil "relativeForce_normal_~A_~A" opId i)))) (|| (-P- ,(read-from-string (format nil "relativeVelocity_low_~A_~A" opId i))) (-P- ,(read-from-string (format nil "relativeForce_critical_~A_~A" opId i)))))
-    (<-> (!!(-P- ,(read-from-string (format nil "relativeForce_critical_~A_~A" opId i)))) (|| (-P- ,(read-from-string (format nil "relativeVelocity_low_~A_~A" opId i))) (-P- ,(read-from-string (format nil "relativeForce_normal_~A_~A" opId i)))))
-))))))  
+    (moving_direction ,(read-from-string (format nil "~A" opId)) ,(read-from-string (format nil "`~A" i)))
+
+    (relative_velocity ,(read-from-string (format nil "~A" opId)) ,(read-from-string (format nil "`~A" i)))
+
+    (relative_force ,(read-from-string (format nil "~A" opId)) ,(read-from-string (format nil "`~A" i))) 
+    ))))))
+
+;;locations where human cannot reach
+(defun forbiden_for_human (opId l)
+  (eval (append `(&&)  
+    (loop for i in l collect `(&&
+      (forbiden_for_human_help ,(read-from-string (format nil "~A" opId)) ,(read-from-string (format nil "~A" i))))))))
+
+(defun forbiden_for_human_help (opId i)
+  (eval 
+    (append `(&&) (loop for b in body_indexes collect 
+      `(!! (-P- ,(read-from-string (format nil "operator_~A_~A_In_~A" opId b i))))))))
+
+(defun forbiden_for_ro (roId l)
+  (eval (append `(&&)  
+    (loop for i in l collect `(&&
+      (forbiden_for_ro_help ,(read-from-string (format nil "~A" roId)) ,(read-from-string (format nil "~A" i))))))))
+
+(defun forbiden_for_ro_help (roId i)
+  (eval 
+    (append `(&&) (loop for b in ro_indexes collect 
+      `(!! (-P- ,(read-from-string (format nil "operator_~A_~A_In_~A" roId b i))))))))

@@ -1,5 +1,15 @@
 (defvar actions-index (loop for i from 1 to 16 collect i))
 
+;operator moves
+(defun op_moves (actionid Traceid source dest opId)
+  (eval (list `alwf (append `(&&)
+   (loop for i from actionid to actionid collect
+   `(&&
+         (-P- ,(read-from-string (format nil "Action_Doer_op_~A_~A" actionid Traceid)))
+         (->(-P- ,(read-from-string (format nil "Action_Pre_~A_~A" actionid Traceid))) (&& (-P- opEnters)(-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" (- actionid 1) Traceid)))(inside ,(read-from-string (format nil "`operator_~A_~A" opId `arm_area)) ,(read-from-string (format nil "~A" source)))))
+         (->(-P- ,(read-from-string (format nil "Action_Post_~A_~A" actionid Traceid))) (inside ,(read-from-string (format nil "`operator_~A_~A" opId `arm_area)) ,(read-from-string (format nil "~A" dest))))
+))))))
+
 ;operator inserts the wp on a pallet
 (defun insertp(actionid Traceid bin opId)
  (eval (list `alwf (append `(&&)
@@ -7,14 +17,14 @@
    `(&&	
    		 (-P- ,(read-from-string (format nil "Action_Doer_ro_~A_~A" actionid Traceid)))
 
-       (->(-P- ,(read-from-string (format nil "Action_Pre_~A_~A" actionid Traceid))) (&&(-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" (- actionid 1) Traceid)))([=](-V- End_Eff_B_Position) ,(read-from-string (format nil "~A" bin)))))
+       (->(-P- ,(read-from-string (format nil "Action_Pre_~A_~A" actionid Traceid))) (&&(-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" (- actionid 1) Traceid)))(inside `EndEff ,(read-from-string (format nil "~A" bin)))))
 
-       (->(-P- ,(read-from-string (format nil "Action_Pre_L_~A_~A" actionid Traceid)))([=](-V- End_Eff_B_Position) ,(read-from-string (format nil "~A" bin))))
+       (->(-P- ,(read-from-string (format nil "Action_Pre_L_~A_~A" actionid Traceid)))(inside `EndEff ,(read-from-string (format nil "~A" bin))))
 
-       (->(-P- ,(read-from-string (format nil "Action_Post_~A_~A" actionid Traceid))) ([=](-V- End_Eff_B_Position) ,(read-from-string (format nil "~A" bin))))
+       (->(-P- ,(read-from-string (format nil "Action_Post_~A_~A" actionid Traceid))) (inside `EndEff ,(read-from-string (format nil "~A" bin))))
 
-       (->(-P- ,(read-from-string (format nil "Action_Post_L_~A_~A" actionid Traceid))) ([=](-V- End_Eff_B_Position) ,(read-from-string (format nil "~A" bin))))
-       (->(|| (-P- ,(read-from-string (format nil "Action_State_exe_~A_~A" actionid Traceid))) (-P- ,(read-from-string (format nil "Action_State_exrm_~A_~A" actionid Traceid)))) ([=](-V- End_Eff_B_Position) ,(read-from-string (format nil "~A" bin))))
+       (->(-P- ,(read-from-string (format nil "Action_Post_L_~A_~A" actionid Traceid))) (inside `EndEff ,(read-from-string (format nil "~A" bin))))
+       (->(|| (-P- ,(read-from-string (format nil "Action_State_exe_~A_~A" actionid Traceid))) (-P- ,(read-from-string (format nil "Action_State_exrm_~A_~A" actionid Traceid)))) (inside `EndEff ,(read-from-string (format nil "~A" bin))))
 
  	 ))))))
 
@@ -24,15 +34,15 @@
    (loop for i from actionid to actionid collect
    `(&&  
        (-P- ,(read-from-string (format nil "Action_Doer_op_~A_~A" actionid Traceid)))
-       (->(-P- ,(read-from-string (format nil "Action_Pre_~A_~A" actionid Traceid))) (&&(-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" (- actionid 1) Traceid)))([=](-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId hand)) (loop for x = (read in nil nil) while x collect x))) ,(read-from-string (format nil "~A" inspection-pos))) ([=](-V- End_Eff_B_Position) ,(read-from-string (format nil "~A" inspection-pos))) (-P- Robot_Idle)))   
+       (->(-P- ,(read-from-string (format nil "Action_Pre_~A_~A" actionid Traceid))) (&&(-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" (- actionid 1) Traceid))) (inside ,(read-from-string (format nil "`operator_~A_~A" opId `arm_area)) ,(read-from-string (format nil "~A" inspection-pos))) (inside `EndEff ,(read-from-string (format nil "~A" inspection-pos))) (-P- Robot_Idle)))   
 
-    (->(-P- ,(read-from-string (format nil "Action_Pre_L_~A_~A" actionid Traceid))) (&&([=](-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId hand)) (loop for x = (read in nil nil) while x collect x))) ,(read-from-string (format nil "~A" inspection-pos))) ([=](-V- End_Eff_B_Position) ,(read-from-string (format nil "~A" inspection-pos)))))
+       (->(-P- ,(read-from-string (format nil "Action_Pre_L_~A_~A" actionid Traceid))) (&& (inside ,(read-from-string (format nil "`operator_~A_~A" opId `arm_area)) ,(read-from-string (format nil "~A" inspection-pos))) (inside `EndEff ,(read-from-string (format nil "~A" inspection-pos)))))
 
-    (->(-P- ,(read-from-string (format nil "Action_Post_~A_~A" actionid Traceid))) (&& ([=](-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId hand)) (loop for x = (read in nil nil) while x collect x))) ,(read-from-string (format nil "~A" inspection-pos))) ([=](-V- End_Eff_B_Position) ,(read-from-string (format nil "~A" inspection-pos))) (-P- Robot_Idle))) 
+       (->(-P- ,(read-from-string (format nil "Action_Post_~A_~A" actionid Traceid))) (&& (inside ,(read-from-string (format nil "`operator_~A_~A" opId `arm_area)) ,(read-from-string (format nil "~A" inspection-pos)))  (inside `EndEff ,(read-from-string (format nil "~A" inspection-pos))) (-P- Robot_Idle))) 
 
-    (->(-P- ,(read-from-string (format nil "Action_Post_L_~A_~A" actionid Traceid)))(&&([=](-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId hand)) (loop for x = (read in nil nil) while x collect x))) ,(read-from-string (format nil "~A" inspection-pos))) ([=](-V- End_Eff_B_Position) ,(read-from-string (format nil "~A" inspection-pos))))) 
+       (->(-P- ,(read-from-string (format nil "Action_Post_L_~A_~A" actionid Traceid)))(&&(inside ,(read-from-string (format nil "`operator_~A_~A" opId `arm_area)) ,(read-from-string (format nil "~A" inspection-pos)))  (inside `EndEff ,(read-from-string (format nil "~A" inspection-pos)))))
 
-    (->(|| (-P- ,(read-from-string (format nil "Action_State_exe_~A_~A" actionid Traceid))) (-P- ,(read-from-string (format nil "Action_State_exrm_~A_~A" actionid Traceid)))) (&& ([=](-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId hand)) (loop for x = (read in nil nil) while x collect x))) ,(read-from-string (format nil "~A" inspection-pos)))(-P- Robot_Idle)))
+       (->(|| (-P- ,(read-from-string (format nil "Action_State_exe_~A_~A" actionid Traceid))) (-P- ,(read-from-string (format nil "Action_State_exrm_~A_~A" actionid Traceid)))) (&& (inside ,(read-from-string (format nil "`operator_~A_~A" opId `arm_area)) ,(read-from-string (format nil "~A" inspection-pos))) (-P- Robot_Idle)))
     
 ))))))      
 
@@ -43,15 +53,15 @@
    `(&&
          (-P- ,(read-from-string (format nil "Action_Doer_ro_~A_~A" actionid Traceid)))
 
-         (->(-P- ,(read-from-string (format nil "Action_Pre_~A_~A" actionid Traceid))) (&&(-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" (- actionid 1) Traceid)))([=](-V- End_Eff_B_Position) ,(read-from-string (format nil "~A" source)))))   
+         (->(-P- ,(read-from-string (format nil "Action_Pre_~A_~A" actionid Traceid))) (&&(-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" (- actionid 1) Traceid)))(inside `EndEff ,(read-from-string (format nil "~A" source)))))
 
-         (->(-P- ,(read-from-string (format nil "Action_Pre_L_~A_~A" actionid Traceid))) ([=](-V- End_Eff_B_Position) ,(read-from-string (format nil "~A" source))))
+         (->(-P- ,(read-from-string (format nil "Action_Pre_L_~A_~A" actionid Traceid))) (inside `EndEff ,(read-from-string (format nil "~A" source))))
 
-         (->(-P- ,(read-from-string (format nil "Action_Safe_L_~A_~A" actionid Traceid))) (&& (!!( Adj (-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId hand)) (loop for x = (read in nil nil) while x collect x))) ,(read-from-string (format nil "~A" dest))))  (!!([=](-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId hand)) (loop for x = (read in nil nil) while x collect x))) ,(read-from-string (format nil "~A" dest))))))
+         ; (->(-P- ,(read-from-string (format nil "Action_Safe_L_~A_~A" actionid Traceid))) (&& (!!( Adj (-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId hand)) (loop for x = (read in nil nil) while x collect x))) ,(read-from-string (format nil "~A" dest))))  (!!([=](-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId hand)) (loop for x = (read in nil nil) while x collect x))) ,(read-from-string (format nil "~A" dest))))))
 
-         (->(-P- ,(read-from-string (format nil "Action_Post_~A_~A" actionid Traceid))) ([=](-V- End_Eff_B_Position) ,(read-from-string (format nil "~A" dest))))
+         (->(-P- ,(read-from-string (format nil "Action_Post_~A_~A" actionid Traceid))) (inside `EndEff ,(read-from-string (format nil "~A" source))))
 
-         (->(-P- ,(read-from-string (format nil "Action_Post_L~A_~A" actionid Traceid))) ([=](-V- End_Eff_B_Position) ,(read-from-string (format nil "~A" dest)))) 
+         (->(-P- ,(read-from-string (format nil "Action_Post_L~A_~A" actionid Traceid))) (inside `EndEff ,(read-from-string (format nil "~A" source))))
 ))))))
 
 ;robot-ee is moving
@@ -61,13 +71,13 @@
    `(&&
          (-P- ,(read-from-string (format nil "Action_Doer_ro_~A_~A" actionid Traceid)))
 
-         (->(-P- ,(read-from-string (format nil "Action_Pre_~A_~A" actionid Traceid))) (&&([=](-V- End_Eff_B_Position) ,(read-from-string (format nil "~A" source)))))   
+         (->(-P- ,(read-from-string (format nil "Action_Pre_~A_~A" actionid Traceid))) (&&(inside `EndEff ,(read-from-string (format nil "~A" source)))))
 
-         (->(-P- ,(read-from-string (format nil "Action_Pre_L_~A_~A" actionid Traceid))) ([=](-V- End_Eff_B_Position) ,(read-from-string (format nil "~A" source))))
+         (->(-P- ,(read-from-string (format nil "Action_Pre_L_~A_~A" actionid Traceid))) (&&(inside `EndEff ,(read-from-string (format nil "~A" source)))))
 
-         (->(-P- ,(read-from-string (format nil "Action_Post_~A_~A" actionid Traceid))) ([=](-V- End_Eff_B_Position) ,(read-from-string (format nil "~A" dest))))
+         (->(-P- ,(read-from-string (format nil "Action_Post_~A_~A" actionid Traceid))) (&&(inside `EndEff ,(read-from-string (format nil "~A" source)))))
 
-         (->(-P- ,(read-from-string (format nil "Action_Post_L~A_~A" actionid Traceid))) ([=](-V- End_Eff_B_Position) ,(read-from-string (format nil "~A" dest)))) 
+         (->(-P- ,(read-from-string (format nil "Action_Post_L~A_~A" actionid Traceid))) (&&(inside `EndEff ,(read-from-string (format nil "~A" source)))))
 ))))))
 
 ; ro picks a wp
@@ -77,15 +87,15 @@
    `(&&
          (-P- ,(read-from-string (format nil "Action_Doer_ro_~A_~A" actionid Traceid)))
 
-         (<->(-P- ,(read-from-string (format nil "Action_Pre_~A_~A" actionid Traceid))) (&& (|| (Adj(-V- End_Eff_B_Position) ,(read-from-string (format nil "~A" dest))) ([=](-V- End_Eff_B_Position) ,(read-from-string (format nil "~A" dest)))) (-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" (- actionid 1) Traceid))))) 
+         (<->(-P- ,(read-from-string (format nil "Action_Pre_~A_~A" actionid Traceid))) (&& (||   (In_Adj_with_L `EndEff ,(read-from-string (format nil "~A" dest))) (inside `EndEff ,(read-from-string (format nil "~A" dest)))) (-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" (- actionid 1) Traceid))))) 
 
-         (->(-P- ,(read-from-string (format nil "Action_Post_~A_~A" actionid Traceid))) (&& ([=](-V- End_Eff_B_Position) ,(read-from-string (format nil "~A" dest))) (-P- PP_empty)))
+         (->(-P- ,(read-from-string (format nil "Action_Post_~A_~A" actionid Traceid))) (&& (inside `EndEff ,(read-from-string (format nil "~A" dest))) (-P- PP_empty)))
 
-         (->(-P- ,(read-from-string (format nil "Action_Post_L_~A_~A" actionid Traceid))) ([=](-V- End_Eff_B_Position) ,(read-from-string (format nil "~A" dest))))
+         ; (->(-P- ,(read-from-string (format nil "Action_Post_L_~A_~A" actionid Traceid))) (inside `EndEff ,(read-from-string (format nil "~A" dest))))
 
-         (->(-P- ,(read-from-string (format nil "Action_Safe_L_~A_~A" actionid Traceid))) (&& (!!( Adj (-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId hand)) (loop for x = (read in nil nil) while x collect x))) ,(read-from-string (format nil "~A" dest))))  (!!([=](-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId hand)) (loop for x = (read in nil nil) while x collect x))) ,(read-from-string (format nil "~A" dest))))))
+         ; (->(-P- ,(read-from-string (format nil "Action_Safe_L_~A_~A" actionid Traceid))) (&& (!!( Adj (-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId hand)) (loop for x = (read in nil nil) while x collect x))) ,(read-from-string (format nil "~A" dest))))  (!!([=](-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId hand)) (loop for x = (read in nil nil) while x collect x))) ,(read-from-string (format nil "~A" dest))))))
 
-         (->(|| (-P- ,(read-from-string (format nil "Action_State_exe_~A_~A" actionid Traceid))) (-P- ,(read-from-string (format nil "Action_State_exrm_~A_~A" actionid Traceid)))) ([=](-V- End_Eff_B_Position) ,(read-from-string (format nil "~A" dest))))
+         (->(|| (-P- ,(read-from-string (format nil "Action_State_exe_~A_~A" actionid Traceid))) (-P- ,(read-from-string (format nil "Action_State_exrm_~A_~A" actionid Traceid)))) (inside `EndEff ,(read-from-string (format nil "~A" dest))))
 
 ))))))
 
@@ -98,11 +108,11 @@
 
       (->(-P- ,(read-from-string (format nil "Action_Pre_~A_~A" actionid Traceid))) (-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" (- actionid 1) Traceid))))
       
-      (->(-P- ,(read-from-string (format nil "Action_Post_~A_~A" actionid Traceid))) (&& ([=](-V- End_Eff_B_Position) ,(read-from-string (format nil "~A" pallet))) (-P- BP1_empty)))
+      (->(-P- ,(read-from-string (format nil "Action_Post_~A_~A" actionid Traceid))) (&& (inside `EndEff ,(read-from-string (format nil "~A" pallet))) (-P- BP1_empty)))
 
-      (->(-P- ,(read-from-string (format nil "Action_Post_L_~A_~A" actionid Traceid))) ([=](-V- End_Eff_B_Position) ,(read-from-string (format nil "~A" pallet))))
+      (->(-P- ,(read-from-string (format nil "Action_Post_L_~A_~A" actionid Traceid))) (inside `EndEff ,(read-from-string (format nil "~A" pallet))))
 
-      (->(|| (-P- ,(read-from-string (format nil "Action_State_exe_~A_~A" actionid Traceid))) (-P- ,(read-from-string (format nil "Action_State_exrm_~A_~A" actionid Traceid)))) (&& ([=](-V- End_Eff_B_Position) ,(read-from-string (format nil "~A" pallet))) (-P- remove-going-on)))
+      (->(|| (-P- ,(read-from-string (format nil "Action_State_exe_~A_~A" actionid Traceid))) (-P- ,(read-from-string (format nil "Action_State_exrm_~A_~A" actionid Traceid)))) (&& (inside `EndEff ,(read-from-string (format nil "~A" pallet))) (-P- remove-going-on)))
 
 ))))))
 
@@ -114,15 +124,15 @@
    `(&&
       (-P- ,(read-from-string (format nil "Action_Doer_op_~A_~A" actionid Traceid)))
 
-      (->(-P- ,(read-from-string (format nil "Action_Pre_~A_~A" actionid Traceid))) (&&(-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" (- actionid 1) Traceid))) ([=](-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId hand)) (loop for x = (read in nil nil) while x collect x))) ,(read-from-string (format nil "~A" piece-pos)))))
+      (->(-P- ,(read-from-string (format nil "Action_Pre_~A_~A" actionid Traceid))) (&&(-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" (- actionid 1) Traceid))) (inside ,(read-from-string (format nil "`operator_~A_~A" opId `arm_area)) ,(read-from-string (format nil "~A" piece-pos)))))
 
-      (->(-P- ,(read-from-string (format nil "Action_Pre_L_~A_~A" actionid Traceid))) ([=](-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId hand)) (loop for x = (read in nil nil) while x collect x))),(read-from-string (format nil "~A" piece-pos))))
+      (->(-P- ,(read-from-string (format nil "Action_Pre_L_~A_~A" actionid Traceid))) (inside ,(read-from-string (format nil "`operator_~A_~A" opId `arm_area)) ,(read-from-string (format nil "~A" piece-pos))))
 
-      (->(-P- ,(read-from-string (format nil "Action_Post_~A_~A" actionid Traceid))) ([=](-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId hand)) (loop for x = (read in nil nil) while x collect x))) ,(read-from-string (format nil "~A" piece-pos))))
+      (->(-P- ,(read-from-string (format nil "Action_Post_~A_~A" actionid Traceid))) (inside ,(read-from-string (format nil "`operator_~A_~A" opId `arm_area)) ,(read-from-string (format nil "~A" piece-pos))))
 
-      (->(-P- ,(read-from-string (format nil "Action_Post_L_~A_~A" actionid Traceid))) ([=](-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId hand)) (loop for x = (read in nil nil) while x collect x))) ,(read-from-string (format nil "~A" piece-pos))))
+      (->(-P- ,(read-from-string (format nil "Action_Post_L_~A_~A" actionid Traceid))) (inside ,(read-from-string (format nil "`operator_~A_~A" opId `arm_area)) ,(read-from-string (format nil "~A" piece-pos))))
 
-      (->(|| (-P- ,(read-from-string (format nil "Action_State_exe_~A_~A" actionid Traceid))) (-P- ,(read-from-string (format nil "Action_State_exrm_~A_~A" actionid Traceid)))) ([=](-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId hand)) (loop for x = (read in nil nil) while x collect x))) ,(read-from-string (format nil "~A" piece-pos))))
+      (->(|| (-P- ,(read-from-string (format nil "Action_State_exe_~A_~A" actionid Traceid))) (-P- ,(read-from-string (format nil "Action_State_exrm_~A_~A" actionid Traceid)))) (inside ,(read-from-string (format nil "`operator_~A_~A" opId `arm_area)) ,(read-from-string (format nil "~A" piece-pos))))
       
 ;      (->(|| (-P- ,(read-from-string (format nil "Action_State_exe_~A_~A" actionid Traceid))) (-P- ,(read-from-string (format nil "Action_State_exrm_~A_~A" actionid Traceid)))) (&& ([=](-V- End_Eff_B_Position) ,(read-from-string (format nil "~A" piece-pos)))))
 
@@ -139,7 +149,7 @@
          (->(-P- ,(read-from-string (format nil "Action_Pre_~A_~A" actionid Traceid))) (&& (-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" (- actionid 1) Traceid))) ))
 ;         (->(-P- ,(read-from-string (format nil "Action_Pre_L_~A_~A" actionid Traceid))) ([=](-V- BASE_Position) ,(read-from-string (format nil "~A" source))))
  
-         (->(-P- ,(read-from-string (format nil "Action_Post_~A_~A" actionid Traceid))) ([=](-V- BASE_Position) ,(read-from-string (format nil "~A" dest))))
+         (->(-P- ,(read-from-string (format nil "Action_Post_~A_~A" actionid Traceid))) (inside `Base ,(read-from-string (format nil "~A" dest))))
 
 ;         (->(-P- ,(read-from-string (format nil "Action_Post_L~A_~A" actionid Traceid))) ([=](-V- BASE_Position) ,(read-from-string (format nil "~A" dest)))) 
 
@@ -152,7 +162,7 @@
    `(&&
  ;        (-P- ,(read-from-string (format nil "Action_Doer_ro_~A_~A" actionid Traceid)))
  
-         (->(-P- ,(read-from-string (format nil "Action_Post_~A_~A" actionid Traceid))) ([=](-V- BASE_Position) ,(read-from-string (format nil "~A" dest))))
+         (->(-P- ,(read-from-string (format nil "Action_Post_~A_~A" actionid Traceid))) (&&(inside `EndEff ,(read-from-string (format nil "~A" dest)))))
 	
 ))))))
 
@@ -170,15 +180,15 @@
 ))))))
 
 
-(defconstant mutually_exclusive2
+(defun mutually_exclusive2 (index Tname)
   (&&
-    (mutually_exclusive "Action_State_ns" "Action_State_wt" "Action_State_exe" "Action_State_dn" "Action_State_exrm" "Action_State_hd" "Action_State_ex"  actions-index 1)
-    (mutually_exclusive "Action_State_wt" "Action_State_ns" "Action_State_exe" "Action_State_dn" "Action_State_exrm" "Action_State_hd" "Action_State_ex"  actions-index 1)
-    (mutually_exclusive "Action_State_exe" "Action_State_ns" "Action_State_wt" "Action_State_dn" "Action_State_exrm" "Action_State_hd" "Action_State_ex"  actions-index 1)
-    (mutually_exclusive "Action_State_dn" "Action_State_ns" "Action_State_wt" "Action_State_exe" "Action_State_exrm" "Action_State_hd" "Action_State_ex"  actions-index 1)
-    (mutually_exclusive "Action_State_exrm" "Action_State_ns" "Action_State_wt" "Action_State_exe" "Action_State_dn" "Action_State_hd" "Action_State_ex"  actions-index 1)
-    (mutually_exclusive "Action_State_hd" "Action_State_ns" "Action_State_wt" "Action_State_exe" "Action_State_dn" "Action_State_exrm" "Action_State_ex"  actions-index 1)
-    (mutually_exclusive "Action_State_ex" "Action_State_ns" "Action_State_wt" "Action_State_exe" "Action_State_dn" "Action_State_exrm" "Action_State_hd"  actions-index 1)))
+    (mutually_exclusive "Action_State_ns" "Action_State_wt" "Action_State_exe" "Action_State_dn" "Action_State_exrm" "Action_State_hd" "Action_State_ex"  index Tname)
+    (mutually_exclusive "Action_State_wt" "Action_State_ns" "Action_State_exe" "Action_State_dn" "Action_State_exrm" "Action_State_hd" "Action_State_ex"  index Tname)
+    (mutually_exclusive "Action_State_exe" "Action_State_ns" "Action_State_wt" "Action_State_dn" "Action_State_exrm" "Action_State_hd" "Action_State_ex"  index Tname)
+    (mutually_exclusive "Action_State_dn" "Action_State_ns" "Action_State_wt" "Action_State_exe" "Action_State_exrm" "Action_State_hd" "Action_State_ex"  index Tname)
+    (mutually_exclusive "Action_State_exrm" "Action_State_ns" "Action_State_wt" "Action_State_exe" "Action_State_dn" "Action_State_hd" "Action_State_ex"  index Tname)
+    (mutually_exclusive "Action_State_hd" "Action_State_ns" "Action_State_wt" "Action_State_exe" "Action_State_dn" "Action_State_exrm" "Action_State_ex"  index Tname)
+    (mutually_exclusive "Action_State_ex" "Action_State_ns" "Action_State_wt" "Action_State_exe" "Action_State_dn" "Action_State_exrm" "Action_State_hd"  index Tname)))
 
 ;;  
 ;; robot base moves to bin 1
@@ -201,23 +211,32 @@
 (defconstant ConfigT1
  (alwf(&&
    (SeqAction actions-index 1)
-   mutually_exclusive2
+   (mutually_exclusive2 actions-index 1)
    (limiting_op_actions actions-index 1)
   ; (Seq-errors actions-index 1 2)
-   (base_move 1 1 L_30 L_10)
-   (pick 2 1 L_bin1 1)
-   (base_move 3 1 L_bin1 L_41)
-   (insertp 4 1 L_46 1)
-   (unscrew 5 1 L_46 1)
-   (removep 6 1 L_46)
-   (base_move 7 1 L_46 L_37)
-   (move 8 1 L_37 L_44 1)
-   (ee_hold 9 1 7)
-   (insertp 10 1 L_44 1)
-   (unscrew 11 1 L_44 1)
-   (removep 12 1 L_44)
-   (base_move 13 1 L_44 L_3)
-   (ee_hold 14 1 13)
-   (insertp 15 1 L_3 1)
-   (inspectp 16 1 L_3 1)
+   (base_move 1 1 11 8)
+   (pick 2 1 `L_bin 1)
+   (base_move 3 1 8 14)
+   (insertp 4 1 14 1)
+   (unscrew 5 1 14 1)
+   (removep 6 1 14)
+   (base_move 7 1 14 12)
+   ; (move 8 1 L_37 L_44 1)
+   (ee_hold 8 1 7)
+   (insertp 9 1 12 1)
+   (unscrew 10 1 12 1)
+   (removep 11 1 12)
+   (base_move 12 1 12 6)
+   (ee_hold 13 1 12)
+   (insertp 14 1 6 1)
+   (inspectp 15 1 6 1)
+)))
+
+(defconstant theotherop
+ (alwf(&&
+   (SeqAction `(1) 2)
+   (mutually_exclusive2 `(1) 2)
+   (limiting_op_actions `(1) 2)
+   (Lasts(!!(-P- opEnters)) 15)
+   (op_moves 1 2 9 5 2)
 )))

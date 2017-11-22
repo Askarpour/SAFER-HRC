@@ -1,6 +1,6 @@
 
   (defvar notcall 0)
-  (defvar exetime 1)
+  (defvar exetime 3)
   ; things to export
   (defvar Threshold 2)
   (define-tvar Risk *int*) ;;max risk in the system  

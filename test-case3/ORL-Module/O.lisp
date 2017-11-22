@@ -1,47 +1,43 @@
-;; Operator
-(defvar body_indexes (loop for i from 1 to 11 collect i))
 (defvar operatorNum 1)
 
 (loop for i in (loop for x from 1 to operatorNum collect x) collect (progn (eval `(define-tvar ,(read-from-string (format nil "Body_Part_pos_~A" i)) *int* *int*))))
 
-(defvar Head 1)
-(defvar Shoulders 2)
-(defvar Chest 3)
-(defvar Belly 4)
-(defvar Pelvis 5)
-(defvar Upper_Arm 6)
-(defvar Hand 7)
-(defvar Thigh 8)
-(defvar Leg 9)
-(defvar Neck 10)
-(defvar Lower_Arm 11)
+; (defvar body_indexes_for_risk `(head Shoulders Chest Belly Pelvis Upper_Arm Hand Thigh Leg Neck Lower_Arm))
+(defvar body_indexes `(head_area chest_area arm_area leg_area))
 
-(defun Operator_Body (opId)
+(defun Operator_Body (opID)
  (eval (list `alwf (append `(&&
- 	(<->(-P- ,(read-from-string (format nil "OperatorStill_~A" opId))) (Operator_still ,(read-from-string (format nil "~A" opId))))
- 	([>=](-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId 1)) (loop for x = (read in nil nil) while x collect x))) L_first)
-	([<=](-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId 1))(loop for x = (read in nil nil) while x collect x))) L_last)
-	(||(Adj (-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId 1))(loop for x = (read in nil nil) while x collect x))) (yesterday(-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId 1))(loop for x = (read in nil nil) while x collect x))))) ([=] (-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId 1))(loop for x = (read in nil nil) while x collect x))) (yesterday(-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId 1))(loop for x = (read in nil nil) while x collect x))))))
-	(||(Adj (-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId 1))(loop for x = (read in nil nil) while x collect x))) (yesterday(-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId 7))(loop for x = (read in nil nil) while x collect x)))))([=] (-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId 1))(loop for x = (read in nil nil) while x collect x))) (yesterday (-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId 7))(loop for x = (read in nil nil) while x collect x))))))	
-	([=] (-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId 1))(loop for x = (read in nil nil) while x collect x))) (-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId 2))(loop for x = (read in nil nil) while x collect x))))
-	([=] (-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId 1))(loop for x = (read in nil nil) while x collect x))) (-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId 3))(loop for x = (read in nil nil) while x collect x))))
-	([=] (-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId 1))(loop for x = (read in nil nil) while x collect x))) (-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId 4))(loop for x = (read in nil nil) while x collect x))))
-	([=] (-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId 1))(loop for x = (read in nil nil) while x collect x))) (-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId 5))(loop for x = (read in nil nil) while x collect x))))
-	([=] (-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId 1))(loop for x = (read in nil nil) while x collect x))) (-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId 6))(loop for x = (read in nil nil) while x collect x))))
-	([=] (-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId 7))(loop for x = (read in nil nil) while x collect x))) (-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId 11))(loop for x = (read in nil nil) while x collect x))))
-	([=] (-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId 1))(loop for x = (read in nil nil) while x collect x))) (-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId 8))(loop for x = (read in nil nil) while x collect x))))
-	([=] (-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId 1))(loop for x = (read in nil nil) while x collect x))) (-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId 9))(loop for x = (read in nil nil) while x collect x))))
-	([=] (-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId 1)) (loop for x = (read in nil nil) while x collect x))) (-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId 10))(loop for x = (read in nil nil) while x collect x))))
-	(||(Adj (-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId 1))(loop for x = (read in nil nil) while x collect x))) (yesterday(-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId 11))(loop for x = (read in nil nil) while x collect x))))) ([=] (-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId 1))(loop for x = (read in nil nil) while x collect x))) (yesterday(-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId 11))(loop for x = (read in nil nil) while x collect x))))))
-	(!! ([=] (-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId 1)) (loop for x = (read in nil nil) while x collect x))) (-V- BASE_Position)))
-	([<] (-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId 1)) (loop for x = (read in nil nil) while x collect x))) L_43)
-	([>] (-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId 1)) (loop for x = (read in nil nil) while x collect x))) L_3)
+ 	
+ 	(operatorStill ,(read-from-string (format nil "~A" opID)))
+
+ 	(moving_gradually ,(read-from-string (format nil "`operator_~A_~A" opID `head_area)))
+ 	(moving_gradually ,(read-from-string (format nil "`operator_~A_~A" opID `chest_area)))
+ 	(moving_gradually ,(read-from-string (format nil "`operator_~A_~A" opID `arm_area)))
+ 	(moving_gradually ,(read-from-string (format nil "`operator_~A_~A" opID `leg_area)))
+
+ 	(moving ,(read-from-string (format nil "`operator_~A_~A" opID `head_area)))
+ 	(moving ,(read-from-string (format nil "`operator_~A_~A" opID `chest_area)))
+ 	(moving ,(read-from-string (format nil "`operator_~A_~A" opID `arm_area)))
+ 	(moving ,(read-from-string (format nil "`operator_~A_~A" opID `leg_area)))
+
+ 	(always_attached ,(read-from-string (format nil "`operator_~A_~A" opID `head_area)) ,(read-from-string (format nil "`operator_~A_~A" opID `arm_area)))
+ 	(always_attached ,(read-from-string (format nil "`operator_~A_~A" opID `head_area)) ,(read-from-string (format nil "`operator_~A_~A" opID `chest_area)))
+ 	(always_attached ,(read-from-string (format nil "`operator_~A_~A" opID `chest_area)) ,(read-from-string (format nil "`operator_~A_~A" opID `leg_area)))
+
+ 	(!! (In_same_L `Base `head_area))
+ 	(!! (In_same_L `Base `chest_area))
+ 	(!! (In_same_L `Base `arm_area))
+ 	(!! (In_same_L `Base `leg_area))
+
+	(forbiden_for_human ,(read-from-string (format nil "~A" opID)) (setq l '(`L_bin)))
  )))))
 
+(defun operatorStill (opId)
+	 (eval `(alwf (<->
+		(-P- ,(read-from-string (format nil "OperatorStill_~A" opId)))
+		(no_limb_moving ,(read-from-string (format nil "~A" opId)))))))
 
-(defun Operator_still (opID)
-	(eval (append `(&&)(loop for i in body_indexes collect
-	`([=] (-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId i)) (loop for x = (read in nil nil) while x collect x)))
- 			(yesterday (-V- ,(with-input-from-string (in (format nil "Body_Part_pos_~A ~A" opId i)) (loop for x = (read in nil nil) while x collect x)))))))))
-
- 
+(defun no_limb_moving (opId)
+	 (eval (append `(&&)  
+		(loop for i in body_indexes collect `(&&
+			(!!(-P- ,(read-from-string (format nil "operator_~A_~A_Moving" opId i)))))))))
