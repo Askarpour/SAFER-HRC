@@ -10,16 +10,12 @@ import matplotlib
 import matplotlib.patches as mpatches
 from matplotlib import lines
 import time
-# from termcolor import colored
 import tables
 import prettytable
+from collections import defaultdict
 
 
 #############################parsing the output file#############################
-# File_name = sys.argv[1]
-# output_type = sys.argv[1]
-step = -1
-body_parts_num = 11
 
 class switch(object):
     def __init__(self, value):
@@ -30,7 +26,7 @@ class switch(object):
         """Return the match method once, then stop"""
         yield self.match
         raise StopIteration
-   
+
     def pallet(element):
     	for case in switch(elelemnt):
     		 if case('head'):
@@ -44,7 +40,7 @@ class switch(object):
     		 	break
     		 if case():
     		 	print ("something is wrong with coordinates of the object!")
-	        		
+
     def match(self, *args):
         """Indicate whether or not to enter a case suite"""
         if self.fall or not args:
@@ -56,23 +52,23 @@ class switch(object):
             return False
 def element_co(strin,element):
 	for case in switch(strin):
-	    if case('1'): #L1
-	        return (150,800)
+	    if case([1]): #L1
+	        return (500,1000)
 	        break
-	    if case('2'): #L2
-	        return (300,800)
+	    if case([2]): #L2
+	        return (700,1000)
 	        break
-	    if case('3'): #L3
-	        return (400,800)
+	    if case([3]): #L3
+	        return (900,1100)
 	        break
-	    if case('4'): #L4
-	        return (150,700)
+	    if case([4]): #L4
+	        return (1200,1100)
 	        break
-	    if case('5'): #L5
-	        return (250,700)
+	    if case([5]): #L5
+	        return (200,600)
 	        break
-	    if case('6'): #L6
-	    	return (350,700)
+	    if case([6]): #L6
+	    	return (500,600)
 	    	break
 	        # if element == 'head':
 	        # 	return (1200,700)
@@ -81,417 +77,279 @@ def element_co(strin,element):
 	        # if element == 'ro':
 	        # 	return (1000,620)
 	        break
-	    if case('7'): #L7
-	        return (450,700)
-	        break
-	    if case('8'): #L8
-	        return (600,700)
-	        break
-	    if case('9'): #L9
-	        return (700,700)
-	        break
-	    if case('10'): #L10
-	        return (850,700)
-	        break
-	    if case('11'): #L11
-	        return (950,700)
-	        break  
-	    if case('12'): #L12
-	        return (1100,700)
-	        break  
-	    if case('13'): #L13
-	        return (1150,700)
-	        break  
-	    if case('14'): #L14
-	        return (1300,600)
-	        break  
-	    if case('15'): #L15
-	        return (150,600)
-	        break  
-	    if case('16'): #L16
-	        return (250,600)
-	        break  
-	    if case('17'): #L17
-	        return (350,600)
-	        break  
-	    if case('18'): #L18
-	        return (450,600)
-	        break  
-	    if case('19'): #L19
-	        return (600,600)
-	        break  
-	    if case('20'): #L20
+	    if case([7]): #L7
 	        return (700,600)
-	        break  
-	    if case('21'): #L21
-	        return (850,600)
-	        break  
-	    if case('22'): #L22
-	        return (950,600)
-	        break  
-	    if case('23'): #L23
-	        return (1100,600)
-	        break  
-	    if case('24'): #L24
-	        return (1150,600)
-	        break  
-	    if case('25'): #L25
-	        return (1300,600)
-	        break  
-	    if case('26'): #L26
-	        return (150,450)
-	        break  
-	    if case('27'): #L27
-	        return (250,450)
-	        break  
-	    if case('28'): #L28
-	        return (350,450)
-	        break  
-	    if case('29'): #L29
-	        return (450,450)
-	        break  
-	    if case('30'): #L30
-	        return (600,450)
-	        break 
-	    if case('31'): #L31
-	        return (700,450)
-	        break  
-	    if case('32'): #L32
-	        return (850,450)
-	        break  
-	    if case('33'): #L33
-	        return (950,450)
-	        break  
-	    if case('34'): #L34
-	        return (1050,450)
-	        break  
-	    if case('35'): #L35
-	        return (1000,450)
-	        break  
-	    if case('36'): #L36
-	        return (1100,450)
-	        break  
-	    if case('37'): #L37
-	        return (750,350)
-	        break  
-	    if case('38'): #L38
-	        return (850,350)
-	        break  
-	    if case('39'): #L39
-	        return (950,350)
-	        break  
-	    if case('40'): #L40
-	        return (1100,350)
-	        break 
-	    if case('41'): #L41
-	        return (1200,350)
-	        break  
-	    if case('42'): #L42
-	        return (1300,350)
-	        break  
-	    if case('43'): #L43
-	        return (750,240)
-	        break  
-	    if case('44'): #L44
-	        return (850,250)
-	        break  
-	    if case('45'): #L45
-	        return (950,250)
-	        break  
-	    if case('46'): #L46
-	        return (1050,250)
-	        break  
-	    if case('47'): #L47
-	        return (1150,250)
-	        break  
-	    if case('48'): #L48
-	        return (1300,250)
-	        break  
-	    if case('49'): #L49
-	        return (900,850)
-	        break  
-	    if case('50'): #L50
-	        return (1100,850)
-	        break   
-	    if case('51'): #L51
-	        return (1200,850)
-	        break   
+	        break
+	    if case([8]): #L8
+	        return (900,600)
+	        break
+	    if case([9]): #L9
+	        return (1200,600)
+	        break
+	    if case([10]): #L10
+	        return (200,400)
+	        break
+	    if case([11]): #L11
+	        return (500,400)
+	        break
+	    if case([12]): #L12
+	        return (700,400)
+	        break
+	    if case([13]): #L13
+	        return (900,400)
+	        break
+	    if case([14]): #L14
+	        return (1200,400)
+	        break
+	    if case([15]): #L15
+	        return (1200,1200)
+	        break
 	    if case(): # default, could also just omit condition or 'if True'
 	        print ("something is wrong with coordinates of the object!")
-def hazard_id(i):
-	for case in switch(i):
-	    if case(1):
-	        return (hazard_occured_1, hazard_risk_1, hazard_se_1, 'Tr on Head area by EE')
-	        # break
-	    if case(2):
-	        return (hazard_occured_2, hazard_risk_2, hazard_se_2, 'Tr on Waist area by EE')
-	        # break
-	    if case(3):
-	        return (hazard_occured_3, hazard_risk_3, hazard_se_3, 'Tr on Arm area by EE')
-	    	# break
-	    if case(4):
-	        return (hazard_occured_4, hazard_risk_4, hazard_se_4, 'Tr on Head area by R1')
-        	# break
-	    if case(5):
-	        return (hazard_occured_5, hazard_risk_5, hazard_se_5, 'Tr on Waist area by R1')
-	        # break
-	    if case(6):
-	        return (hazard_occured_6, hazard_risk_6, hazard_se_6, 'Tr on Arm area by R1')
-	        # break
-	    if case(7):
-	        return (hazard_occured_7, hazard_risk_7, hazard_se_7, 'Tr on Head area by R2')
-	        # break
-	    if case(8):
-	        return (hazard_occured_8, hazard_risk_8, hazard_se_8, 'Tr on Waist area by R2')
-	        # break
-	    if case(9):
-	        return (hazard_occured_9, hazard_risk_9, hazard_se_9, 'Tr on Arm area by R2')
-	        # break
-	    if case(10):
-	        return (hazard_occured_10, hazard_risk_10, hazard_se_10, 'Qs on Head area by EE')
-	        # break
-	    if case(11):
-	        return (hazard_occured_11, hazard_risk_11, hazard_se_11, 'Qs on Waist area by EE')
-	        # break
-	    if case(12):
-	        return (hazard_occured_12, hazard_risk_12, hazard_se_12, 'Qs on Arm area by EE')
-	        # break
-	    if case(13):
-	    	return (hazard_occured_13, hazard_risk_13, hazard_se_13, 'Qs of Head area by R1')
-	        # break
-	    if case(14):
-        	return (hazard_occured_14, hazard_risk_14, hazard_se_14, 'Qs of Waist area by R1')
-	        # break
-	    if case(15):
-        	return (hazard_occured_15, hazard_risk_15, hazard_se_15, 'Qs of Arm area by R1')
-	    if case(16):
-	    	return (hazard_occured_16, hazard_risk_16, hazard_se_16, 'Qs of Head area by R2')
-	        # break
-	    if case(17):
-        	return (hazard_occured_17, hazard_risk_17, hazard_se_17, 'Qs of Waist area by R2')
-	        # break
-	    if case(18):
-        	return (hazard_occured_18, hazard_risk_18, hazard_se_18, 'Qs of Arm area by R2')
-	        # break
-	    if case	():
-        	print ("something is wrong with hazards list!")
-def low_mid (x):
-    return{
-            '1': 'low',
-            '2': 'mid',
-            '3': 'high',
-    }[x]  
-def close_far (x):
-    return{
-            '1': 'far',
-            '2': 'mid',
-            '3': 'close',
-    }[x]    
 def still_moving (strin, strout, j):
     if strin[j] == strin[j-1]: strout[j] = 'still'
     if strin[j] != strin[j-1]: strout[j] = 'moving'
-    return 
-def reach_leave (strin, strout, i, j, body_parts_num):
-    if strin[i][j] == '0':
-        if i == body_parts_num: strout[j] = 'leave'
-    if strin[i][j] == '1':
-        strout[j] = 'reach'
-        i = body_parts_num
-    return  
-def chunks(l, n):
-    n = max(1, n)
-    return [l[i:i + n] for i in range(0, len(l), n)]
+    return
 
-records = {}
-bool_set = set()
-EndEffPos={}
-BasePos={}
-EndEffStill={}
-Link1Pos={}
-Link1Still={}
-Link2Pos={}
-Link2Still={}
-BodyPartPosition={}
-BodyPartPosition_name={}
-BodypartStill={}
-velocity={}
-force={}
-actions_num = 0
-hazards_num = 0
+def read_Layout(filename):
+    file = open(filename,"r")
+    line = ""
+    index = ""
+    elements =[]
+    Num=""
+    while "(defvar L_indexes" not in line:
+        line = file.readline()
+    if "collect" in line:
+    	str1 = line.split("to ")
+    	index = str1[1].split("collect")[0]
+    file.close()
+    return index
 
-def import_act_names(filename):
-    in_file = open(filename,"r")
-    act_names = []
-    while 1:
-        in_line = in_file.readline()
-        if in_line == "":
-            break
+def read_agents(filename):
+    file = open(filename,"r")
+    line = ""
+    index = ""
+    elements =[]
+    Num=""
+    if filename == "ORL-Module/O.lisp":
+        target_string1 = "(defvar body_indexes"
+        target_string2 = "(defvar operatorNum"
+        numSplit = "operatorNum "
+    elif filename == "ORL-Module/R.lisp":
+        target_string1 = "(defvar ro_indexes"
+        target_string2 = "(defvar roNum"
+        numSplit = "roNum "
+    while target_string1 not in line:
+        if target_string2 in line:
+            Num = line.split(numSplit)[1].split(")")[0]
+    	line = file.readline()
+    if "collect" in line:
+    	str1 = line.split("to ")
+    	index = str1[1].split("collect")[0]
+    elif "`("  in line:
+    	str1 = line.split("`(")
+    	elements = str1[1].split(" ")
+    	elements[len(elements)-1] = elements[len(elements)-1].split(")")[0]
+    	index = len(elements)
+    file.close()
+    return index, elements, Num
+
+def read_hazards():
+    file = open("Hazards.lisp","r")
+    line = ""
+    index = ""
+    hazardname =  defaultdict(list)
+    while  "(defvar hazard" not in line:
+    	line = file.readline()
+    if "collect" in line:
+    	str1 = line.split("to ")
+    	index = str1[1].split("collect")[0]
+	while ";;*** hits" not in line:
+		line = file.readline()
+    i = 0
+    while ")))" not in line:
+        i += 1
+        line = file.readline()
+        if "hit" in line:
+            hazardname[i] = "Tr on " + line.split("`")[1].split("_area")[0] + " by " + line.split("`")[2].split(" ")[0] + " of robot " + line.split("`")[2].split(" ")[1] + " \n"
+        if "entg" in line:
+            hazardname[i] = "Qs on " + line.split("`")[1].split("_area")[0] + " by " + line.split("`")[2].split(" ")[0] + " of robot " + line.split("`")[2].split(" ")[1] + " \n"
+
+    file.close()
+    return index, hazardname
+
+def read_actions ():
+    file = open("TaskLib/T1.lisp","r")
+    line = ""
+    index = ""
+    actions = ""
+    TaskNum = 0
+    while  "(defvar action" not in line:
+    	line = file.readline()
+    if "collect" in line:
+    	str1 = line.split("to ")
+    	index = str1[1].split("collect")[0]
+	while ";;List of actions" not in line:
+            if "(defvar T" in line:
+                TaskNum += 1
+            line = file.readline()
+    line = file.readline()
+    while ";; " in line:
+        line = file.readline()
+        if ';;' in line:
+            actions += line.split(";;")[1] + " \n"
+    file.close()
+    return index, actions, TaskNum
+
+def parse_outPut ():
+    line = ""
+    bool_set = set()
+    tspace = -1
+    records = {}
+    file = open("output.hist.txt","r")
+    for line in file:
+        if "------ time" in line:
+            tspace += 1
+        elif line.startswith("------ end") or line.strip() == "**LOOP**":
+            pass
         else:
-            str1 = str.split(in_line,";;")
-        if str1[0]=="":
-            act_names.append(str1[1])
-    in_file.close()
-    return act_names
+            value = tspace
+            line = line.split("\n")[0]
+            line=line.replace(" ","")
+            bool_set.add(line)
+            if line in records:
+                records[line].append(value)
+            else:
+             records[line] = [value]
+    return tspace, records
 
-def import_layout_sec(filename):
-    in_file = open(filename,"r")
-    sec_ids = []
-    while 1:
-        in_line = in_file.readline()
-        if in_line == "(defun Adj (i j)\n":
-            break
-        else:
-            str1 = in_line.split("defvar")
-        if str1[0]=="(":
-            str1 = str1[1].split()
-            sec_ids.append(str1[0])
-    in_file.close()
-    return sec_ids
+def parse_hazards(hazard_indexes, records,step):
+    hazards = defaultdict(list)
+    risks = defaultdict(list)
+    severities = defaultdict(list)
+    for t in range (0 , step+1):
+        for h in range (1 , int(hazard_indexes) + 1):
+            hzd = "HAZARD_OCCURED_"+str(h)
+            rsk = "HAZARD_RISK_" + str(h)
+            svty= "HAZARD_SE_" + str(h)
+            if hzd in records:
+                if t in records[hzd]:
+                    hazards[t].append(h)
+                    for r in records:
+                        if rsk+"=0" in r and t in records[r]:
+                            risks[t].append('0')
+                        if rsk+"=1" in r and t in records[r]:
+                            risks[t].append('1')
+                        if rsk+"=2" in r and t in records[r]:
+                            risks[t].append('2')
+                    for r in records:
+                        if svty+"=0" in r and t in records[r]:
+                            severities[t].append('0')
+                        if svty+"=1" in r and t in records[r]:
+                            severities[t].append('1')
+                        if svty+"=2" in r and t in records[r]:
+                            severities[t].append('2')
+    return (hazards,risks,severities)
 
-def read_file():
-	global step
-	global records
-	global actions_num
-	global hazards_num
-	global Action_states
+def parse_positions (element_index, records,step, ID, l_index, agenttype):
+    result = {}
+    for i in element_index:
+        result[i] = find_position (i, records,step, ID, l_index,agenttype)
+    return result
 
-	
-	f = open('output.hist.txt')
-	for line in f:
-	       line = line.strip()   # strip out carriage return
-	       if line.startswith("------ time"):
-	           step += 1
-	       elif line.startswith("------ end"):
-	           pass
-	       elif line.strip() == "**LOOP**":
-	           records["LOOP"] = step
-	       else:
-	           key_value = line.split(" = ")   # split line, into key and value
-	           key = key_value[0]   # key is first item in list
-	           if len(key_value) > 1:
-	               value = key_value[1]   # value is 2nd item
-	           else:
-	               value = step
-	               bool_set.add(key)
+def find_position (i, records,step, task_id, l_index,agenttype):
+    position = defaultdict(list)
+    for ID in range (1 , int(task_id)+1):
+        for t in range (0 , step+1):
+            for l in range (1 , int(l_index) + 1):
+                if agenttype== 'ro':
+                    element = str(i).upper() + "_" + str(ID)+"_IN_L_" + str(l)
+                elif agenttype== 'op':
+                    element = "OPERATOR_" + str(ID)+ "_" + str(i).upper() + "_IN_L_" + str(l)
+                if element in records:
+                    if t in records[element]:
+                        position[t].append(l)
+    return position
 
-	           if key in records:
+def parse_actions (actions_index,id,step,records):
+    executing_actions = defaultdict(list)
+    safe_executing_actions = defaultdict(list)
+    for t in range (0 , step+1):
+        for i in range(1, int(actions_index)+1, 1):
+            exe = "ACTION_STATE_EXE_"+ str(i) + "_"+ str(id)
+            exrm = "ACTION_STATE_EXRM_" + str(i) + "_"+ str(id)
+            for r in records:
+                if exe in r:
+                    if t in records[r]:
+                        executing_actions[t].append(i)
+                elif exe in r:
+                    if t in records[r]:
+                        safe_executing_actions[t].append(i)
 
-	              records[key].append(value)
+    return executing_actions, safe_executing_actions
 
-	           else:
-	               records[key] = [value]
+def parse_attributes (step, records, opid):
+    velocity = defaultdict(list)
+    force = defaultdict(list)
+    separation = defaultdict(list)
+    operator = "OPERATOR_" + str(opid)
+    for t in range (0 , step+1):
+        for r in records:
+            for x in ("CRITICAL", "NORMAL","LOW"):
+                if x in r and operator in r and t in records[r]:
+                 if "VELOCITY" in r and velocity[t] != "CRITICAL":
+                     if velocity[t] == "NORMAL" and x == "LOW":
+                         break
+                     velocity[t] = x
+                 elif  "FORCE" in r and force[t] != "CRITICAL":
+                     if force[t] == "NORMAL" and x == "LOW":
+                         break
+                     force[t] = x
+            for x in ("CLOS", "FAR","VERY_FAR"):
+                if x in r and operator in r and t in records[r]:
+                 if "SEPARATION" in r and separation[t] != "CLOS":
+                     if force[t] == "FAR" and x == "VERY_FAR":
+                         break
+                     separation[t] = x
+    return separation, velocity, force
 
-	               if 'ACTION_STATE_NS_' in key:
-	               	temp = key.split('_NS_')
-	               	temp = temp[1].split('_')
-	               	temp[0]= int(temp[0])
-	               	if temp[0] > actions_num:
-	               		actions_num = temp[0]
-
-	               if 'HAZARD_RISK' in key:
-	               	temp = key.split('_RISK_')
-	               	temp[1]= int(temp[1])
-	               	records[key] = [value]
-	               	if temp[1] > hazards_num:
-	               		hazards_num = temp[1]
-def parse_positions(step, records):
-	global EndEffPos
-	global BasePos
-	global EndEffStill
-	global Link1Pos
-	global Link1Still
-	global Link2Pos
-	global Link2Still
-
-
-	EndEffPos = records['END_EFF_B_POSITION']
-	BasePos = records['BASE_POSITION']
-	Link1Pos= records['LINK1_POSITION']
-	Link2Pos= records['LINK2_POSITION']
-	EndEffStill[0] = Link1Still[0]= Link2Still[0] ='still'
-	j = 1
-	while j <= step:
-	    still_moving (EndEffPos, EndEffStill, j)
-	    still_moving (BasePos, EndEffStill, j)
-	    still_moving (Link1Pos, Link1Still, j)
-	    still_moving (Link2Pos, Link2Still, j)
-	    j += 1
-
-	global BodyPartPosition
-	global BodyPartPosition_name
-	global BodypartStill
-	i = 1
-	while i <= body_parts_num:
-	    BodyPartPosition[i] = records['BODY_PART_POS_1('+str(i)+')']
-	    i += 1
-
-	j = 1
-	while j <= step:
-	    i = 1
-	    while i <= body_parts_num:
-	        if BodyPartPosition[i][j] == BodyPartPosition[i][j-1]:
-	            if i == body_parts_num: BodypartStill[j] = 'still'
-	        if BodyPartPosition[i][j] != BodyPartPosition[i][j-1]:
-	            BodypartStill[j] = 'moving'
-	            i = body_parts_num   
-
-	        i += 1
-	    j += 1
-
-	i = 1
-
+# def parse_errors (step, records, opid):
+#     errors = defaultdict(list)
+#     for t in range (0 , step+1):
+#         for i in range(1, int(actions_index)+1, 1):
+#             for x in ('REPETITION', 'OMISSION', 'LATE', 'EARLY_START', 'EARLY_END', 'INTRUSION','ERR_F', 'ERR_L' ):
+#                 for r in records:
+#                     if x in r :
+#                         errors[t].append(x)
+#     print errors
+#     return errors
 
 #############################creating the layout vision#############################
 # create the figure and the axis in one shot
-def create_legend (step,plt):
-	legend = ''
-	legendexe = ''
-	legendexrm = ''
-	legendex = ''
-	legendhz = ''
-	target = ''
-	legendinex = ''
-	legendintrusion = ''
-	legenderror=''
-	for i in range(1, actions_num+1,1):
-		exec("if step in actions_EXE_%s_%s: legendexe +=  caseAact[i]" % (i,task_id))
-	for i in range(1, actions_num+1,1):
-		exec("if step in actions_EXRM_%s_%s: legendexrm += caseAact[i]" % (i,task_id))
-	for i in range(1, actions_num+1,1):
-		exec("if step in actions_INEX_%s_%s: legendexrm += caseAact[i] " % (i,task_id))
-	for i in range(1, actions_num+1,1):
-		exec("if step in actions_INEX_%s_%s: legendexrm += caseAact[i] " % (i,task_id))
+def create_legend (step,plt,actions_num,executing_actions,safe_executing_actions,hazards, risks,hazard_names):
+    legendexe = legendexrm = "-"
+    legendhz = "hazards: "
+    for a in  executing_actions:
+        legendexe +=  str(caseAact[a])
+    for a in  safe_executing_actions:
+        legendexrm +=  str(caseAact[a])
+    riskcounter = 0
+    for h in hazards:
+        legendhz += str(hazard_names[h]) + "with risk " + str(risks[riskcounter]) + "\n"
+        riskcounter += 1
 
-	for i in range(1, actions_num+1, 1):
-			for x in ('REPETITION', 'OMISSION', 'LATE', 'EARLY_START', 'EARLY_END','ERR_F', 'ERR_L' ):
-				exec ("if step in %s_%s_%s:	legenderror += '%s of ' + caseAact[i]" % ( x, i, task_id,x))			
-	for i in range(1, actions_num+1, 1):
-			exec ("if step in INTRUSION_%s_%s:	legenderror += 'INTRUSION during ' + caseAact[i]" % (i, task_id))						
+    plt.xlabel(legendhz)
+    plt.ylabel("time "+str(step))
+    plt.title("executing: " + legendexe + legendexrm)
 
-	for i in range (1, hazards_num+1,1):
-		temp =''
-		if step in hazard_id(i)[0]: temp = hazard_id(i)[3]
-		if (int (hazard_id(i)[1][step])== 0) and (temp != ''): legendhz += temp +'(0)' +'\n' 
-		if int (hazard_id(i)[1][step])== 1: legendhz += temp + '(1)'  + '\n'
-		if int (hazard_id(i)[1][step])== 2: legendhz += temp + '(2)'  + '\n'
-	if 	legendhz =='': legendhz += '-'	
-
-	labely = "time "+str(step)
-	label  = legendexe + legendexrm + '\n' + "errors: " + legenderror
-	if label == '': label += '-'
-	labelx = "executing: " + label
-	title = "hazards: " + legendhz 
-	plt.xlabel(title)
-	plt.ylabel(labely)
-	plt.title(labelx)
-
-	return legend,
+    return plt,
 
 def draw_layout(base , ee, l1, l2, op_head, op_hand, step, task_id):
-	#
+
 	fig, ax = plt.subplots()
 	layoutA = mpimg.imread("layoutA.png")
 	ax.imshow(layoutA)
+
 	# Turn off tick labels
 	# ax.set_yticklabels([])
 	# ax.set_xticklabels([])
@@ -512,25 +370,25 @@ def draw_layout(base , ee, l1, l2, op_head, op_hand, step, task_id):
 	ax.add_line(L_l2)
 	#
 	L_base = mpatches.Rectangle((element_co(base,'ro')[0]-50,element_co(base,'ro')[1]-50),200,100,angle=0.0, color="red",fill=False)
-	# L_base = mpatches.Circle((element_co(base,'ro')[0],element_co(base,'ro')[1]),45, color="red",fill=False)
+    #
 	ax.add_patch(L_base)
-	
+
 	return ax.patches,
 
 #############################creating tables#############################
-def safety_analysis_table (tick,task_id):
+def safety_analysis_table (tick,task_id,actions_num):
 
 	actions = ''
 	hzs = ''
 	risks = ''
 	severities = ''
-	
+
 	for i in range(1, actions_num+1,1):
 		exec("if tick in actions_EXE_%s_%s: actions += caseAact[i]  " % (i,task_id))
 	for i in range(1, actions_num+1,1):
 		exec("if tick in actions_EXRM_%s_%s: actions += caseAact[i] " % (i,task_id))
 	for i in range(1, actions_num+1,1):
-		exec("if tick in actions_INEX_%s_%s: actions += caseAact[i] " % (i,task_id))	
+		exec("if tick in actions_INEX_%s_%s: actions += caseAact[i] " % (i,task_id))
 	#
 	from prettytable import PrettyTable
 	GstateSA = PrettyTable()
@@ -538,95 +396,90 @@ def safety_analysis_table (tick,task_id):
 	GstateSA.add_row([tick, "actions - V1" ,"","","","",""])
 	GstateSA.add_row(["", actions ,"","","",force[tick],velocity[tick]])
 	for i in range (1, hazards_num+1,1):
-		if tick in hazard_id(i)[0]: 
+		if tick in hazard_id(i)[0]:
 			exec("hzs = hazard_id(%s)[3]" % (i))
 			exec("risks = hazard_risk_%s[tick]" % (i))
 			exec("severities = hazard_se_%s[tick]" % (i))
 			GstateSA.add_row(["", "",hzs,severities,risks,"",""])
-	return GstateSA	
+	return GstateSA
 
-#############################executing zot and processing the output#############################
+# #############################executing zot and processing the output#############################
 if __name__ == '__main__':
 	# os.system("zot Main.lisp")
 	##wait for output.hist
-	while not os.path.exists('output.hist.txt'):time.sleep(1)
-	if os.path.isfile('output.hist.txt'):
-		read_file()
-		task_id = 1
-		# parse actions
-		for i in range(1, actions_num+1, 1):
-			for x in ('NS', 'WT', 'EXE', 'EXRM', 'HD', 'DN','INEX', 'EX' ):
-				exec ("actions_%s_%s_%s={}" % (x, i ,task_id))
-				exec ("if 'ACTION_STATE_%s_%s_%s' in records.keys():	actions_%s_%s_%s = records['ACTION_STATE_%s_%s_%s']" % ( x, i, task_id, x, i,task_id, x,i,task_id))	
-		
-		# parse hazards
-		for i in range (1, hazards_num+1, 1):
-			exec("hazard_occured_%s = {}" % (i))
-			exec("hazard_risk_%s = {}" % (i))
-			exec ("if 'HAZARD_OCCURED_%s' in records.keys():	hazard_occured_%s = records['HAZARD_OCCURED_%s']" % (i ,i, i))
-			exec ("hazard_risk_%s = records['HAZARD_RISK_%s']" % (i ,i))
-			exec ("hazard_se_%s = records['HAZARD_SE_%s']" % (i ,i))
+    while not os.path.exists('output.hist.txt'):time.sleep(1)
+    if os.path.isfile('output.hist.txt'):
+        step , records = parse_outPut()
+        hazard_num, hazard_names = read_hazards()
+        action_num,action_names, task_id =read_actions()
+        roPart_indexes,ro_segments, ro_num = read_agents("ORL-Module/R.lisp")
+        body_indexes,op_segments, op_num = read_agents("ORL-Module/O.lisp")
+        l_indexes = read_Layout("ORL-Module/L.lisp")
 
-		# parse errors
-		for i in range(1, actions_num+1, 1):
-			for x in ('REPETITION', 'OMISSION', 'LATE', 'EARLY_START', 'EARLY_END', 'INTRUSION','ERR_F', 'ERR_L' ):
-				exec ("%s_%s_%s={}" % (x, i , task_id))
-				exec ("if '%s_%s_%s' in records.keys():	%s_%s_%s = records['%s_%s_%s']" % ( x, i, task_id, x, i, task_id, x,i, task_id))	
-		
-		# parse positions
-		parse_positions(step, records)
-		caseAact = import_act_names("TaskLib/T1.lisp")
-		caseAlayout = import_layout_sec("ORL-Module/L.lisp")
-		errors = import_act_names("TaskLib/fcm.lisp")
+        # parse hazards
+        # use as: if hazard_x is in  hazards[time], risks[time]
+        hazards = parse_hazards(hazard_num, records, step)
+        hazards, risks, severities = hazards[0], hazards[1], hazards[2]
+        #
 
-		# parse relative attributes
-		for i in range (0, step+1):
-			for x in ('LOW', 'CRITICAL', 'NORMAL'):
-				exec ("if 'RELATIVEVELOCITY_%s' in records.keys() and i in records['RELATIVEVELOCITY_%s']:	velocity[i] = x" % (x,x))
-				exec ("if 'RELATIVEFORCE_%s' in records.keys() and i in records['RELATIVEFORCE_%s']:	force[i] = x" % (x,x))
-
-		for i in force:
-			if 	force[i]=='CRITICAL': force[i]='high'
-			elif 	force[i]=='LOW': force[i]='low'
-			elif 	force[i]=='NORMAL': force[i]='mid'
-
-		for i in velocity:
-			if 	velocity[i]=='CRITICAL': velocity[i]='high'
-			elif 	velocity[i]=='LOW': velocity[i]='low'
-			elif 	velocity[i]=='NORMAL': velocity[i]='mid'
+        # parse ro positions
+        # use as:  EndEff[time]
+        ro_positions = parse_positions (ro_segments, records, step, 1, l_indexes, 'ro')
+        EndEff, Base, Link1, Link2 = ro_positions['EndEff'], ro_positions['Base'], ro_positions['Link1'], ro_positions['Link2']
+        # parse human positions
+        # use as:  head[opId][time]
+        leg= defaultdict(list)
+        chest = defaultdict(list)
+        arm = defaultdict(list)
+        head = defaultdict(list)
+        # for i in range (1 , int(op_num)+1):
+        op_positions = parse_positions (op_segments, records, step, 1, l_indexes, 'op')
+        leg_1, chest_1, arm_1, head_1 = op_positions['leg_area'], op_positions['chest_area'], op_positions['arm_area'], op_positions['head_area']
 
 
-		#create the output folder	
-		index = 1
-		newpath = 'Output'
-		while 1:
+        op_positions = parse_positions (op_segments, records, step, 2, l_indexes, 'op')
+        leg_2, chest_2, arm_2, head_2 = op_positions['leg_area'], op_positions['chest_area'], op_positions['arm_area'], op_positions['head_area']
+
+        # parse actions
+        # use executing_actions[time] to have list of exe actions at time
+        executing_actions= defaultdict(list)
+        safe_executing_actions = defaultdict(list)
+        executing_actions, safe_executing_actions = parse_actions (action_num,id,step,records)
+
+        #parse relative attributes
+        # use as : velocity[t]
+        # for i in range (1 , int(op_num)+1):
+        attributes_1 =parse_attributes (step, records, 1)
+        separation_1 , velocity_1 , force_1 = attributes_1[0] , attributes_1[1], attributes_1[2]
+
+        attributes_2 =parse_attributes (step, records, 2)
+        separation_2 , velocity_2 , force_2 = attributes_2[0] , attributes_2[1], attributes_2[2]
+
+
+    #
+        # if output_type == 'fig':
+        index = 1
+        newpath = 'Output'
+        while 1:
 			name = str(index)
-		 	if not os.path.exists(newpath+name):
-		 		os.makedirs(newpath+name)
-		 		folder = newpath+name
-		 		break
-		 	else:
-		 		index += 1
-		 #save output files
-	 	copyfile("output.1.txt", folder+"/output.1.txt")
-		copyfile("output.dict.txt", folder+"/output.dict.txt")
-		copyfile("output.hist.txt", folder+"/output.hist.txt")
-		copyfile("output.smt.txt", folder+"/output.smt.txt")
-		 # if output_type == 'fig':		
+			if not os.path.exists(newpath+name):
+				os.makedirs(newpath+name)
+				folder = newpath+name
+				break
+			else:
+				index += 1
 
- 		for i in range (0, step+1):
-		 	draw_layout(BasePos[i],EndEffPos[i], Link1Pos[i], Link2Pos[i], BodyPartPosition[1][i], BodyPartPosition[7][i], i, 1)
-		 	# plt.show()
-		 	create_legend (i,plt)
-		 	plt.savefig(folder+"/Time"+str(i)+".png")
-		 # elif output_type == 'table':	
-	 	f = open(folder+'/Table.txt','w')
-	 	for i in range (0, step+1):
-		 	table = safety_analysis_table(i, task_id)
-		 	table_txt = table.get_string()
-		 	f.write(table_txt)
-
-	else:
-		raise ValueError("output.hist.txt not found!")
-	
-	
+        for i in range (0, step+1):
+            draw_layout(Base[i],EndEff[i], Link1[i], Link2[i], head_1[i], arm_1[i], i, 1)
+            create_legend (i,plt, action_num, executing_actions[i], safe_executing_actions[i],hazards[i], risks[i],hazard_names)
+            plt.savefig(folder+"/Time"+str(i)+".png")
+    # #
+        # elif output_type == 'table':
+        # f = open(folder+'/Table.txt','w')
+        # for i in range (0, step+1):
+		# 	table = safety_analysis_table(i, task_id)
+		# 	table_txt = table.get_string()
+		# 	f.write(table_txt)
+    #
+	# else:
+	# 	raise ValueError("output.hist.txt not found!")
