@@ -35,7 +35,6 @@
 	([<=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_Risk_~A" hazard_id))  (loop for x = (read in nil nil) while x collect x)))) (-V- Risk))
 	))))))	
 
-
 (defun nothing_comes_close (opID)
   (eval (append `(&&)
    (loop for bp in body_indexes collect
@@ -49,74 +48,106 @@
    )))
 
 ;;severity calculation
-(defun REs (index)
+(defun REs (index opID roID)
  (eval (list `alwf (append `(&&) (loop for hazard_id in index collect `(&&
 	(-> ([=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_Se_~A" hazard_id))  (loop for x = (read in nil nil) while x collect x)))) 4)
 		(|| 
-			(&& (-P- relativeVelocity_critical) (-P- relativeForce_critical))
-			(&& (-P- relativeVelocity_critical)(-P- relativeForce_normal) (!!(nothing_comes_close 1)))
-			(&& (-P- relativeVelocity_normal) (-P- relativeForce_critical) (!!(nothing_comes_close 1)))
-		))
+			(&& (attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `high `force) (attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `high `velocity))
+			(&& (!!(nothing_comes_close ,(read-from-string (format nil "~A" opID))))  (attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `mid `force) (attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `high `velocity))
+			(&& (!!(nothing_comes_close ,(read-from-string (format nil "~A" opID))))  (attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `high `force) (attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `mid `velocity))))
 	(-> ([=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_Se_~A" hazard_id))  (loop for x = (read in nil nil) while x collect x)))) 3)
 		(||
-			(&& (-P- relativeVelocity_critical) (|| (-P- relativeForce_critical) (-P- relativeForce_normal)) (nothing_comes_close 1))
-			(&& (|| (-P- relativeVelocity_critical) (-P- relativeVelocity_normal)) (-P- relativeForce_critical) (nothing_comes_close 1))
-			(&& (-P- relativeVelocity_critical) (-P- relativeForce_low) (-P- OperatorStill) (!!(nothing_comes_close 1)))
-			(&& (-P- relativeVelocity_low) (-P- relativeForce_critical)  (-P- OperatorStill) (!!(nothing_comes_close 1)))
-		))
+			(&& (nothing_comes_close ,(read-from-string (format nil "~A" opID)))  (!!(attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `low `force) )(attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `high `velocity))
+			(&& (nothing_comes_close ,(read-from-string (format nil "~A" opID)))  (attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `high `force)(!!(attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `low `velocity)))
+			(&& (-P-  ,(read-from-string (format nil "OperatorStill_~A" opID))) (!! (nothing_comes_close ,(read-from-string (format nil "~A" opID)))) 
+				(||
+					(&& (attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `low `force) (attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `high `velocity))
+					(&& (attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `high `force) (attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `low `velocity))))))
 	(-> ([=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_Se_~A" hazard_id))  (loop for x = (read in nil nil) while x collect x)))) 2)
 		(||
-			(&& (-P- relativeVelocity_critical) (-P- relativeForce_low)  (!!(-P- OperatorStill)) (!!(nothing_comes_close 1)))
-			(&& (-P- relativeVelocity_low) (-P- relativeForce_critical) (!!(-P- OperatorStill)) (!!(nothing_comes_close 1)))
+			(&& (!!(nothing_comes_close ,(read-from-string (format nil "~A" opID)))) (!!(-P-  ,(read-from-string (format nil "OperatorStill_~A" opID))))
+			 (attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `low `force)
+			 (attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `high `velocity))
 
-			(&& (-P- relativeVelocity_critical) (-P- relativeForce_low) (nothing_comes_close 1))
-			(&& (-P- relativeVelocity_low) (-P- relativeForce_critical) (nothing_comes_close 1))
+			(&& (!!(nothing_comes_close ,(read-from-string (format nil "~A" opID)))) (!!(-P-  ,(read-from-string (format nil "OperatorStill_~A" opID))))
+			 (attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `high `force)
+			 (attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `low `velocity))
 
-			(&& (-P- relativeVelocity_normal) (-P- relativeForce_low) (!!(nothing_comes_close 1)) (-P- OperatorStill))
-			(&& (-P- relativeVelocity_low) (-P- relativeForce_normal) (!!(nothing_comes_close 1)) (-P- OperatorStill))
-		))
+
+			(&& (nothing_comes_close ,(read-from-string (format nil "~A" opID)))  
+				(attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `high `force)
+				(attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `low `velocity))
+			(&& (nothing_comes_close ,(read-from-string (format nil "~A" opID)))  
+				(attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `low `force)
+				(attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `high `velocity))
+
+
+			(&& (!!(nothing_comes_close ,(read-from-string (format nil "~A" opID)))) (-P-  ,(read-from-string (format nil "OperatorStill_~A" opID)))
+				(attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `mid `force)
+				(attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `low `velocity))
+
+			(&& (!!(nothing_comes_close ,(read-from-string (format nil "~A" opID)))) (-P-  ,(read-from-string (format nil "OperatorStill_~A" opID)))
+				(attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `low `force)
+				(attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `mid `velocity))))
 	(-> ([=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_Se_~A" hazard_id))  (loop for x = (read in nil nil) while x collect x)))) 1)
 		(||
-			(&& (-P- relativeVelocity_normal) (-P- relativeForce_low)  (!!(-P- OperatorStill)) (!!(nothing_comes_close 1)))
-			(&& (-P- relativeVelocity_low) (-P- relativeForce_normal) (!!(-P- OperatorStill)) (!!(nothing_comes_close 1)))
 
-			(&& (-P- relativeVelocity_normal) (-P- relativeForce_low) (nothing_comes_close 1))
-			(&& (-P- relativeVelocity_low) (-P- relativeForce_normal)(nothing_comes_close 1))
+			(&& (!!(nothing_comes_close ,(read-from-string (format nil "~A" opID)))) (!!(-P-  ,(read-from-string (format nil "OperatorStill_~A" opID))))
+			 (attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `low `force)
+			 (attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `mid `velocity))
 
-			(&& (-P- relativeVelocity_low)  (-P- relativeForce_low) (!!(nothing_comes_close 1)) (-P- OperatorStill))
-			(&& (-P- relativeVelocity_low)  (-P- relativeForce_low) (!!(nothing_comes_close 1))(-P- OperatorStill))
-		))
-		
+			(&& (!!(nothing_comes_close ,(read-from-string (format nil "~A" opID)))) (!!(-P-  ,(read-from-string (format nil "OperatorStill_~A" opID))))
+			 (attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `mid `force)
+			 (attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `low `velocity))			
+
+
+			(&& (nothing_comes_close ,(read-from-string (format nil "~A" opID)))  
+				(attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `mid `force)
+				(attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `low `velocity))
+			(&& (nothing_comes_close ,(read-from-string (format nil "~A" opID)))  
+				(attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `low `force)
+				(attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `mid `velocity))
+
+
+			(&& (!!(nothing_comes_close ,(read-from-string (format nil "~A" opID)))) (-P-  ,(read-from-string (format nil "OperatorStill_~A" opID)))
+				(attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `low `force)
+				(attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `low `velocity))
+
+			(&& (!!(nothing_comes_close ,(read-from-string (format nil "~A" opID)))) (-P-  ,(read-from-string (format nil "OperatorStill_~A" opID)))
+				(attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `low `force)
+				(attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `low `velocity))))		
 	(-> ([=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_Se_~A" hazard_id))  (loop for x = (read in nil nil) while x collect x)))) 0)
 		(||
-			(&& (-P- relativeVelocity_low)  (-P- relativeForce_low) (!!(nothing_comes_close 1)) (!!(-P- OperatorStill)))
-			(&& (-P- relativeVelocity_low)  (-P- relativeForce_low) (nothing_comes_close 1))
+			(&& (!!(nothing_comes_close ,(read-from-string (format nil "~A" opID)))) (!!(-P-  ,(read-from-string (format nil "OperatorStill_~A" opID))))
+			 (attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `low `force)
+			 (attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `low `velocity))
 
-		))		
- ))))))
+			(&& (!!(nothing_comes_close ,(read-from-string (format nil "~A" opID)))) (!!(-P-  ,(read-from-string (format nil "OperatorStill_~A" opID))))
+			 (attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `low `force)
+			 (attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `low `velocity))
+
+			(&& (nothing_comes_close ,(read-from-string (format nil "~A" opID)))
+			 (attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `low `force)
+			 (attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `low `velocity))))
+	))))))
+
+(defun severity_estimation (operatorNum hazard_indexes roId)
+	(eval (list `alwf (append `(&&) (loop for i from 1 to operatorNum collect `(&&
+		; (REs ,(read-from-string (format nil "~A" hazard_indexes)) ,(read-from-string (format nil "~A" i)) ,(read-from-string (format nil "~A" roId)))))))))
+		(REs  hazard_indexes ,(read-from-string (format nil "~A" i)) ,(read-from-string (format nil "~A" roId)))))))))
+
+(defun risk_value_constraints (index)
+	(eval (list `alwf (append `(&&) (loop for hazard_id in index collect `(||
+		([=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_Risk_~A" hazard_id)) (loop for x = (read in nil nil) while x collect x)))) (-V- Risk))))))))
 
 ;;total risk
-(defconstant *total_risk_value*
+(defun Risk_estimation ()
  (alw (&&
- 		(||
- 	     ([=](-V- Risk) (-V- Hazard_Risk_1))
- 	     ([=](-V- Risk) (-V- Hazard_Risk_2))
- 	     ([=](-V- Risk) (-V- Hazard_Risk_3))
- 	     ([=](-V- Risk) (-V- Hazard_Risk_4))
- 	     ([=](-V- Risk) (-V- Hazard_Risk_5))
- 	     ([=](-V- Risk) (-V- Hazard_Risk_6))
- 	     ([=](-V- Risk) (-V- Hazard_Risk_7))
- 	     ([=](-V- Risk) (-V- Hazard_Risk_8))
- 	     ([=](-V- Risk) (-V- Hazard_Risk_9))
- 	     ([=](-V- Risk) (-V- Hazard_Risk_10))
- 	     ([=](-V- Risk) (-V- Hazard_Risk_11))
- 	     ([=](-V- Risk) (-V- Hazard_Risk_12))
- 	     ([=](-V- Risk) (-V- Hazard_Risk_13))
- 	     ([=](-V- Risk) (-V- Hazard_Risk_14))
- 	     ([=](-V- Risk) (-V- Hazard_Risk_15)))
+ 	(risk_value_constraints hazard_indexes)	
  	([>=](-V- Risk) 0)
  	([<=](-V- Risk) 2)
- 	(REs hazards-indexes)
- 	(REs-Hazards hazards-indexes)
+ 	(REs hazard_indexes 1 1)
+ 	(severity_estimation operatorNum hazard_indexes 1)
+ 	(REs-Hazards hazard_indexes)
 
   )))	

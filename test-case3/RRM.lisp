@@ -1,30 +1,37 @@
 (defvar RRMnum 6)
-	
-(defconstant *RRMProperties*
- (alw(&&
 
-	(->(-P- RRM_1)(Next(&&(-P- relativeVelocity_low) (-P- relativeForce_low))))
-	; (->(-P- RRM_2)(Next(&&(-P- relativeVelocity_low) (-P- relativeForce_low))))
-	; (->(-P- RRM_3)(Next(&&(-P- relativeVelocity_low) (-P- relativeForce_low))))
-	; (->(-P- RRM_4)(Next(&&(-P- relativeVelocity_low) (-P- relativeForce_low))))
-	; (->(-P- RRM_5)(Next(&&(-P- relativeVelocity_low) (-P- relativeForce_low))))
-	; (->(-P- RRM_6)(Next(&&(-P- relativeVelocity_low) (-P- relativeForce_low))))
+(defun RRMProperties (roId opId)
+(eval (list `alwf (append `(&&
 
+	(->(-P- RRM_1)
+		(Next(&&
+			(attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `low `force)
+			(attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `low `velocity))))
 
-	;;velocity kept low
-	(->(-P- RRM_2) (Next(&&(-P- relativeVelocity_low) (-P- relativeForce_normal))))
-	
-	;;force kept low
-	(->(-P- RRM_3)(Next (-P- relativeForce_low)))
+	(->(-P- RRM_2)
+		(Next(&&
+			(attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `mid `force)
+			(attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `low `velocity))))
 
- 	;;velocity and force kept medium
-	(->(-P- RRM_4)(Next(&& (-P- relativeForce_normal) (|| (-P- relativeVelocity_normal) (-P- relativeVelocity_low) ))))
+	(->(-P- RRM_3)
+		(Next
+			(attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `low `force)))
 
-	;;velocity decrease
-	(->(-P- RRM_5)(Next(&& (-P- relativeVelocity_low) (|| (-P- relativeForce_normal) (-P- relativeForce_low)))))
+	(->(-P- RRM_4)
+		(Next(&&
+			(attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `mid `force)
+			(!!(attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `high `velocity)))))
 
-	 ;;force decrease
-	 (->(-P- RRM_6)(Next(|| (-P- relativeForce_normal) (-P- relativeForce_low))))
+	(->(-P- RRM_5)
+		(Next(&&
+			(!!(attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `high `force))
+			(attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `low `velocity))))
 
-	(<->(-P- no_RRM) (&& (!! (-P- RRM_1)) (!! (-P- RRM_2)) (!! (-P- RRM_3)) (!! (-P- RRM_4)) (!! (-P- RRM_5)) (!! (-P- RRM_6))))
-)))
+	(->(-P- RRM_6)
+		(Next
+			(!!(attributes  ,(read-from-string (format nil "~A" roID)) ,(read-from-string (format nil "~A" opID)) `high `force))))
+
+	(<->(-P- no_RRM) 
+		(&& 
+			(!! (-P- RRM_1)) (!! (-P- RRM_2)) (!! (-P- RRM_3)) (!! (-P- RRM_4)) (!! (-P- RRM_5)) (!! (-P- RRM_6))))
+)))))

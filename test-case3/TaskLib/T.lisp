@@ -1,9 +1,17 @@
 
   (defvar notcall 0)
-  (defvar exetime 3)
+  (defvar exetime 1)
   ; things to export
   (defvar Threshold 2)
   (define-tvar Risk *int*) ;;max risk in the system  
+
+  
+  
+
+(load "ORL-Module/L.lisp")
+(load "ORL-Module/O.lisp")
+(load "ORL-Module/R.lisp")
+
   (load "Hazards.lisp")
   (load "RRM.lisp")
   (load "REs.lisp")
