@@ -13,8 +13,7 @@ import time
 import tables
 import prettytable
 from collections import defaultdict
-
-
+from shutil import copyfile
 #############################parsing the output file#############################
 
 class switch(object):
@@ -102,7 +101,7 @@ def element_co(strin,element):
 	        return (1200,400)
 	        break
 	    if case([15]): #L15
-	        return (1200,1200)
+	        return (1200,900)
 	        break
 	    if case(): # default, could also just omit condition or 'if True'
 	        print ("something is wrong with coordinates of the object!")
@@ -184,6 +183,7 @@ def read_actions ():
     index = ""
     actions = ""
     TaskNum = 0
+    actions =  defaultdict(list)
     while  "(defvar action" not in line:
     	line = file.readline()
     if "collect" in line:
@@ -194,10 +194,12 @@ def read_actions ():
                 TaskNum += 1
             line = file.readline()
     line = file.readline()
+    i = 0
     while ";; " in line:
+        i += 1
         line = file.readline()
         if ';;' in line:
-            actions += line.split(";;")[1] + " \n"
+            actions[i] = line.split(";;")[1]
     file.close()
     return index, actions, TaskNum
 
@@ -271,13 +273,13 @@ def find_position (i, records,step, task_id, l_index,agenttype):
                         position[t].append(l)
     return position
 
-def parse_actions (actions_index,id,step,records):
+def parse_actions (actions_index,taskid,step,records):
     executing_actions = defaultdict(list)
     safe_executing_actions = defaultdict(list)
     for t in range (0 , step+1):
         for i in range(1, int(actions_index)+1, 1):
-            exe = "ACTION_STATE_EXE_"+ str(i) + "_"+ str(id)
-            exrm = "ACTION_STATE_EXRM_" + str(i) + "_"+ str(id)
+            exe = "ACTION_STATE_EXE_"+ str(i) + "_"+ str(taskid)
+            exrm = "ACTION_STATE_EXRM_" + str(i) + "_"+ str(taskid)
             for r in records:
                 if exe in r:
                     if t in records[r]:
@@ -285,7 +287,6 @@ def parse_actions (actions_index,id,step,records):
                 elif exe in r:
                     if t in records[r]:
                         safe_executing_actions[t].append(i)
-
     return executing_actions, safe_executing_actions
 
 def parse_attributes (step, records, opid):
@@ -326,13 +327,13 @@ def parse_attributes (step, records, opid):
 
 #############################creating the layout vision#############################
 # create the figure and the axis in one shot
-def create_legend (step,plt,actions_num,executing_actions,safe_executing_actions,hazards, risks,hazard_names):
+def create_legend (step,plt,actions_num,executing_actions,safe_executing_actions,hazards, risks,hazard_names,action_names):
     legendexe = legendexrm = "-"
     legendhz = "hazards: "
     for a in  executing_actions:
-        legendexe +=  str(caseAact[a])
+        legendexe +=  str(action_names[a])
     for a in  safe_executing_actions:
-        legendexrm +=  str(caseAact[a])
+        legendexrm +=  str(action_names[a])
     riskcounter = 0
     for h in hazards:
         legendhz += str(hazard_names[h]) + "with risk " + str(risks[riskcounter]) + "\n"
@@ -405,8 +406,7 @@ def safety_analysis_table (tick,task_id,actions_num):
 
 # #############################executing zot and processing the output#############################
 if __name__ == '__main__':
-	# os.system("zot Main.lisp")
-	##wait for output.hist
+    os.system("zot Main.lisp")
     while not os.path.exists('output.hist.txt'):time.sleep(1)
     if os.path.isfile('output.hist.txt'):
         step , records = parse_outPut()
@@ -444,7 +444,8 @@ if __name__ == '__main__':
         # use executing_actions[time] to have list of exe actions at time
         executing_actions= defaultdict(list)
         safe_executing_actions = defaultdict(list)
-        executing_actions, safe_executing_actions = parse_actions (action_num,id,step,records)
+        # for task one
+        executing_actions, safe_executing_actions = parse_actions (action_num,1,step,records)
 
         #parse relative attributes
         # use as : velocity[t]
@@ -468,10 +469,14 @@ if __name__ == '__main__':
 				break
 			else:
 				index += 1
+        copyfile("output.1.txt", folder+"/output.1.txt")
+        copyfile("output.dict.txt", folder+"/output.dict.txt")
+        copyfile("output.hist.txt", folder+"/output.hist.txt")
+        copyfile("output.smt.txt", folder+"/output.smt.txt")
 
         for i in range (0, step+1):
             draw_layout(Base[i],EndEff[i], Link1[i], Link2[i], head_1[i], arm_1[i], i, 1)
-            create_legend (i,plt, action_num, executing_actions[i], safe_executing_actions[i],hazards[i], risks[i],hazard_names)
+            create_legend (i,plt, action_num, executing_actions[i], safe_executing_actions[i],hazards[i], risks[i],hazard_names,action_names)
             plt.savefig(folder+"/Time"+str(i)+".png")
     # #
         # elif output_type == 'table':
