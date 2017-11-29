@@ -7,40 +7,39 @@
  (eval (list `alwf (append `(&&)
   (loop for i in `(1) collect `(&&
 
- 	(always_in_an_L ,(read-from-string (format nil "`Link1_~A" roID)))
- 	(always_in_an_L ,(read-from-string (format nil "`Link2_~A" roID)))
- 	(always_in_an_L ,(read-from-string (format nil "`Base_~A" roID)))
- 	(always_in_an_L ,(read-from-string (format nil "`EndEff_~A" roID)))
-
- 	; (moving_gradually ,(read-from-string (format nil "`Link1_~A" roID)))
- 	; (moving_gradually ,(read-from-string (format nil "`Link2_~A" roID)))
- 	; (moving_gradually ,(read-from-string (format nil "`Base_~A" roID)))
- 	; (moving_gradually ,(read-from-string (format nil "`EndEff_~A" roID)))
+ 	(positioning_rules ,(read-from-string (format nil "`Link1_~A" roID)))
+ 	(positioning_rules ,(read-from-string (format nil "`Link2_~A" roID)))
+ 	(positioning_rules ,(read-from-string (format nil "`Base_~A" roID)))
+ 	(positioning_rules ,(read-from-string (format nil "`EndEff_~A" roID)))
 
 	(always_attached ,(read-from-string (format nil "`Link1_~A" roID)) ,(read-from-string (format nil "`Link2_~A" roID)))
 	(always_attached ,(read-from-string (format nil "`EndEff_~A" roID)) ,(read-from-string (format nil "`Link2_~A" roID)))
 	(always_attached ,(read-from-string (format nil "`Link1_~A" roID)) ,(read-from-string (format nil "`Base_~A" roID)))
-	(always_attached ,(read-from-string (format nil "`Link1_~A" roID)) ,(read-from-string (format nil "`EndEff_~A" roID)))
 
 	(moving ,(read-from-string (format nil "`Link1_~A" roID)))
 	(moving ,(read-from-string (format nil "`Link2_~A" roID)))
 	(moving ,(read-from-string (format nil "`EndEff_~A" roID)))
 	(moving ,(read-from-string (format nil "`Base_~A" roID)))
 
+  (robotStill ,(read-from-string (format nil "~A" roID)))
+
 	(move_together ,(read-from-string (format nil "`EndEff_~A" roID)) (setq l '(,(read-from-string (format nil "Link2_~A" roID)) )))
 	(move_together ,(read-from-string (format nil "`Base_~A" roID)) (setq l '(,(read-from-string (format nil "Link1_~A" roID)) ,(read-from-string (format nil "Link2_~A" roID)) ,(read-from-string (format nil "EndEff_~A" roID)))))
 	
   (occluded (setq l '(,(read-from-string (format nil "`Link1_~A" roID)) ,(read-from-string (format nil "`Link2_~A" roID)) ,(read-from-string (format nil "`EndEff_~A" roID)) ,(read-from-string (format nil "`Base_~A" roID)))))
+ 
+  (!!(-P- Base_1_in_L_15))
 
- ;  (forbiden_for_ro ,(read-from-string (format nil "~A" roID)) (setq l '(`L_1 `L_15)))
+  (moving_gradually ,(read-from-string (format nil "`Link1_~A" roID)))
+  (moving_gradually ,(read-from-string (format nil "`Link2_~A" roID)))
+  (moving_gradually ,(read-from-string (format nil "`Base_~A" roID)))
+  (moving_gradually ,(read-from-string (format nil "`EndEff_~A" roID)))
 
   (-> (-P- Base_1_moving) (&& (In_same_L `Base_1 `EndEff_1) (In_same_L `Base_1 `link1_1) (In_same_L `Base_1 `link2_1) ))
-  (!! (In_same_L `Base_1 `head_area))
+  (In_same_L ,(read-from-string (format nil "`Link2_~A" roID)) ,(read-from-string (format nil "`EndEff_~A" roID)))
 
-  
-
-  (robotStill ,(read-from-string (format nil "~A" roID)))
-
+;;;  (forbiden_for_ro ,(read-from-string (format nil "~A" roID)) (setq l '(`L_1 `L_15)))
+;;; (!! (In_same_L `Base_1 `head_area))
 ))))))
 
 
@@ -58,13 +57,18 @@
   (eval `(alwf 
     (|| 
       (In_same_L ,(read-from-string (format nil "`~A" i)) ,(read-from-string (format nil "`~A" j)))
-      (In_Adj_L ,(read-from-string (format nil "`~A" i)) ,(read-from-string (format nil "`~A" j)))))))
+      (In_Adj_L ,(read-from-string (format nil "`~A" i)) ,(read-from-string (format nil "`~A" j)))
+      ))))
 
 (defun moving_gradually (i)
-  (eval `(alwf 
-    (|| 
-    (In_same_L_with_yesterday ,(read-from-string (format nil "`~A" i)))
-    (In_Adj_L_with_yesterday ,(read-from-string (format nil "`~A" i)))))))
+  (eval (append `(&&)  
+  (loop for l in L_indexes collect
+  `(->
+    (-P- ,(read-from-string (format nil "~A_In_L_~A" i l))) 
+    (yesterday(||
+          (-P- ,(read-from-string (format nil "~A_In_L_~A" i l)))
+          (In_Adj_with_L ,(read-from-string (format nil "`~A" i)) ,(read-from-string (format nil "~A" l)))
+          )))))))
 
 (defun occluded (l)
   (eval  (list `alwf `(<-> (-P- occluded)
@@ -79,15 +83,16 @@
 
 ;use like (robotidle (setq l '(1 2 3)) Tname)
 (defun robotidle (l Tname)
-  (eval  (list `alwf `(<->
+  (eval  (list `alwf `(->
     (eval(append `(&&) (loop for i in l collect `(&&
-      (|| (-P- ,(read-from-string (format nil "Action_State_exe_~A_~A" i ,(read-from-string (format nil "~A" Tname))))) (-P- ,(read-from-string (format nil "Action_State_exrm_~A_~A" i ,(read-from-string (format nil "~A" Tname))))))))))(&& (!! (-P- LINK1_Moving)) (!! (-P- LINK2_Moving)) (!! (-P- End_Eff_Moving)))))))
+      (|| (-P- ,(read-from-string (format nil "Action_State_exe_~A_~A" i ,(read-from-string (format nil "~A" Tname))))) (-P- ,(read-from-string (format nil "Action_State_exrm_~A_~A" i ,(read-from-string (format nil "~A" Tname)))))))))) (no_part_moving 1)))))
 
 ;use like (robotidle (setq l '(1 2 3)) Tname)
 (defun basemoves (l Tname)
-  (eval  (list `alwf `(<-
-    (eval(append `(&&) (loop for i in l collect `(&&
-      (|| (-P- ,(read-from-string (format nil "Action_State_exe_~A_~A" i ,(read-from-string (format nil "~A" Tname))))) (-P- ,(read-from-string (format nil "Action_State_exrm_~A_~A" i ,(read-from-string (format nil "~A" Tname))))))))))(-P- BASE_Moving) ))))
+  (eval (append `(&&)  
+  (loop for i in l collect `(!! (|| (-P- ,(read-from-string (format nil "Action_State_exe_~A_~A" i Tname))) (-P- ,(read-from-string (format nil "Action_State_exrm_~A_~A" i Tname)))))))))
+
+
 (defun robotStill (roId)
    (eval `(alwf (<->
     (-P- ,(read-from-string (format nil "roStill")))
@@ -95,5 +100,5 @@
 
 (defun no_part_moving (roId)
    (eval (append `(&&)  
-    (loop for i in ro_indexes collect `(&&
-      (!!(-P- ,(read-from-string (format nil "~A_~A_Moving" i roId)))))))))
+    (loop for i in ro_indexes collect 
+      `(!!(-P- ,(read-from-string (format nil "~A_~A_Moving" i roId))))))))

@@ -13,7 +13,7 @@ import time
 import tables
 import prettytable
 from collections import defaultdict
-from shutil import copyfile
+from shutil import move
 #############################parsing the output file#############################
 
 class switch(object):
@@ -103,7 +103,28 @@ def element_co(strin,element):
 	    if case([15]): #L15
 	        return (1200,900)
 	        break
-	    if case(): # default, could also just omit condition or 'if True'
+	    if case([16]): #L16
+	        return (1100,400)
+	        break
+        if case([17]): #L17
+            return (1100,350)
+            # break
+        if case([18]): #L18
+	        return (850,400)
+	        # break
+        if case([19]): #L19
+	        return (850,350)
+	        # break
+        if case([20]): #L20
+	        return (450,600)
+	        # break
+        if case([21]): #L21
+	        return (450,650)
+	        # break
+        if case([22]): #L22
+	        return (900,600)
+	        # break
+        if case():
 	        print ("something is wrong with coordinates of the object!")
 def still_moving (strin, strout, j):
     if strin[j] == strin[j-1]: strout[j] = 'still'
@@ -276,18 +297,33 @@ def find_position (i, records,step, task_id, l_index,agenttype):
 def parse_actions (actions_index,taskid,step,records):
     executing_actions = defaultdict(list)
     safe_executing_actions = defaultdict(list)
+    ns_actions = defaultdict(list)
+    wt_actions = defaultdict(list)
+    dn_actions = defaultdict(list)
     for t in range (0 , step+1):
         for i in range(1, int(actions_index)+1, 1):
             exe = "ACTION_STATE_EXE_"+ str(i) + "_"+ str(taskid)
             exrm = "ACTION_STATE_EXRM_" + str(i) + "_"+ str(taskid)
+            ns = "ACTION_STATE_NS_" + str(i) + "_"+ str(taskid)
+            wt = "ACTION_STATE_WT_" + str(i) + "_"+ str(taskid)
+            dn = "ACTION_STATE_DN_" + str(i) + "_"+ str(taskid)
             for r in records:
                 if exe in r:
                     if t in records[r]:
                         executing_actions[t].append(i)
-                elif exe in r:
+                elif exrm in r:
                     if t in records[r]:
                         safe_executing_actions[t].append(i)
-    return executing_actions, safe_executing_actions
+                elif ns in r:
+                    if t in records[r]:
+                        ns_actions[t].append(i)
+                elif wt in r:
+                    if t in records[r]:
+                        wt_actions[t].append(i)
+                elif dn in r:
+                    if t in records[r]:
+                        dn_actions[t].append(i)
+    return  ns_actions, wt_actions, executing_actions, safe_executing_actions, dn_actions
 
 def parse_attributes (step, records, opid):
     velocity = defaultdict(list)
@@ -352,8 +388,8 @@ def draw_layout(base , ee, l1, l2, op_head, op_hand, step, task_id):
 	ax.imshow(layoutA)
 
 	# Turn off tick labels
-	# ax.set_yticklabels([])
-	# ax.set_xticklabels([])
+	ax.set_yticklabels([])
+	ax.set_xticklabels([])
 	#
 	L_head = mpatches.Circle((element_co(op_head,'head')[0],element_co(op_head,'head')[1]),25, color="blue")
 	ax.add_patch(L_head)
@@ -444,8 +480,11 @@ if __name__ == '__main__':
         # use executing_actions[time] to have list of exe actions at time
         executing_actions= defaultdict(list)
         safe_executing_actions = defaultdict(list)
+        ns_actions = defaultdict(list)
+        wt_actions = defaultdict(list)
+        dn_actions = defaultdict(list)
         # for task one
-        executing_actions, safe_executing_actions = parse_actions (action_num,1,step,records)
+        ns_actions, wt_actions, executing_actions, safe_executing_actions, dn_actions = parse_actions (action_num,1,step,records)
 
         #parse relative attributes
         # use as : velocity[t]
@@ -456,6 +495,18 @@ if __name__ == '__main__':
         attributes_2 =parse_attributes (step, records, 2)
         separation_2 , velocity_2 , force_2 = attributes_2[0] , attributes_2[1], attributes_2[2]
 
+        for i in range (0, step+1):
+            print("ns actons:")
+            print(ns_actions[i])
+            print (" \n wt actons:")
+            print( wt_actions[i])
+            print (" \n executing actons:")
+            print (executing_actions[i])
+            print ("\n safe-executing actons:")
+            print(safe_executing_actions[i])
+            print ("dn actons: ")
+            print( dn_actions[i])
+            print ("______________________________________")
 
     #
         # if output_type == 'fig':
@@ -469,22 +520,22 @@ if __name__ == '__main__':
 				break
 			else:
 				index += 1
-        copyfile("output.1.txt", folder+"/output.1.txt")
-        copyfile("output.dict.txt", folder+"/output.dict.txt")
-        copyfile("output.hist.txt", folder+"/output.hist.txt")
-        copyfile("output.smt.txt", folder+"/output.smt.txt")
+        move("output.1.txt", folder+"/output.1.txt")
+        move("output.dict.txt", folder+"/output.dict.txt")
+        move("output.hist.txt", folder+"/output.hist.txt")
+        move("output.smt.txt", folder+"/output.smt.txt")
 
-        for i in range (0, step+1):
+        for i in range (1, step+1):
             draw_layout(Base[i],EndEff[i], Link1[i], Link2[i], head_1[i], arm_1[i], i, 1)
             create_legend (i,plt, action_num, executing_actions[i], safe_executing_actions[i],hazards[i], risks[i],hazard_names,action_names)
             plt.savefig(folder+"/Time"+str(i)+".png")
     # #
-        # elif output_type == 'table':
-        # f = open(folder+'/Table.txt','w')
-        # for i in range (0, step+1):
-		# 	table = safety_analysis_table(i, task_id)
-		# 	table_txt = table.get_string()
-		# 	f.write(table_txt)
-    #
-	# else:
-	# 	raise ValueError("output.hist.txt not found!")
+    #     # elif output_type == 'table':
+    #     # f = open(folder+'/Table.txt','w')
+    #     # for i in range (0, step+1):
+	# 	# 	table = safety_analysis_table(i, task_id)
+	# 	# 	table_txt = table.get_string()
+	# 	# 	f.write(table_txt)
+    # #
+	# # else:
+	# # 	raise ValueError("output.hist.txt not found!")

@@ -9,17 +9,12 @@
 (defun Operator_Body (opID)
  (eval (list `alwf (append `(&&
  	
- 	(always_in_an_L ,(read-from-string (format nil "`operator_~A_~A" opID `head_area)))
- 	(always_in_an_L ,(read-from-string (format nil "`operator_~A_~A" opID `chest_area)))
- 	(always_in_an_L ,(read-from-string (format nil "`operator_~A_~A" opID `arm_area)))
- 	(always_in_an_L ,(read-from-string (format nil "`operator_~A_~A" opID `leg_area)))
+ 	(positioning_rules ,(read-from-string (format nil "`operator_~A_~A" opID `head_area)))
+ 	(positioning_rules ,(read-from-string (format nil "`operator_~A_~A" opID `chest_area)))
+ 	(positioning_rules ,(read-from-string (format nil "`operator_~A_~A" opID `arm_area)))
+ 	(positioning_rules ,(read-from-string (format nil "`operator_~A_~A" opID `leg_area)))
  	
  	(operatorStill ,(read-from-string (format nil "~A" opID)))
-
- 	; (moving_gradually ,(read-from-string (format nil "`operator_~A_~A" opID `head_area)))
- 	; (moving_gradually ,(read-from-string (format nil "`operator_~A_~A" opID `chest_area)))
- 	; (moving_gradually ,(read-from-string (format nil "`operator_~A_~A" opID `arm_area)))
- 	; (moving_gradually ,(read-from-string (format nil "`operator_~A_~A" opID `leg_area)))
 
  	(moving ,(read-from-string (format nil "`operator_~A_~A" opID `head_area)))
  	(moving ,(read-from-string (format nil "`operator_~A_~A" opID `chest_area)))
@@ -36,6 +31,13 @@
  	(!! (In_same_L `Base_1 `leg_area))
 
 	(forbiden_for_human ,(read-from-string (format nil "~A" opID)) (setq l '(`L_15)))
+
+
+ 	(moving_gradually ,(read-from-string (format nil "`operator_~A_~A" opID `head_area)))
+ 	(moving_gradually ,(read-from-string (format nil "`operator_~A_~A" opID `chest_area)))
+ 	(moving_gradually ,(read-from-string (format nil "`operator_~A_~A" opID `arm_area)))
+ 	(moving_gradually ,(read-from-string (format nil "`operator_~A_~A" opID `leg_area)))
+
  )))))
 
 (defun operatorStill (opId)
