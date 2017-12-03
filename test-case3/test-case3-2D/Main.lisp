@@ -1,6 +1,6 @@
 (asdf:operate 'asdf:load-op 'ae2sbvzot)
 (use-package :trio-utils)
-(defvar TSPACE 40)
+(defvar TSPACE 45)
 
 
 (load "TaskLib/T.lisp")
@@ -11,9 +11,9 @@
   (AlwF (!! (-P- hold)))
   (-P- Base_1_in_L_6)
    (relativeProperties 1 1)
-   (relativeProperties 2 1)
+; ;  (relativeProperties 2 1)
    (Operator_Body 1)
-   (Operator_Body 2)
+  ; ;  (Operator_Body 2)
    (Robot_Structure 1)
 
   ;;execution
@@ -26,10 +26,9 @@
   ;;risks
   (Risk_estimation )
   (RRMProperties 1 1)
-
-  ; (ALwF (!! (-P- Base_1_Moving)))
-  ; (SomF (|| (-P- Action_State_exrm_2_1) (-P- Action_State_exe_2_1)))
+  
   (SomF (-P- Action_State_dn_23_1))
+  ; ; (next(SomF (-P- Hazard_occured_1)))
 ))
 
 

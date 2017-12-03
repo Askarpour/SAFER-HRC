@@ -388,8 +388,8 @@ def draw_layout(base , ee, l1, l2, op_head, op_hand, step, task_id):
 	ax.imshow(layoutA)
 
 	# Turn off tick labels
-	ax.set_yticklabels([])
-	ax.set_xticklabels([])
+	# ax.set_yticklabels([])
+	# ax.set_xticklabels([])
 	#
 	L_head = mpatches.Circle((element_co(op_head,'head')[0],element_co(op_head,'head')[1]),25, color="blue")
 	ax.add_patch(L_head)

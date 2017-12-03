@@ -242,7 +242,7 @@
        )))
 
 
-(defconstant theotherop
+(defconstant Config2
  (alwf(&&
        (SeqAction `(1) 2)
        (mutually_exclusive2 `(1) 2)
