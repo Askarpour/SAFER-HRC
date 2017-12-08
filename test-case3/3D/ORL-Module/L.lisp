@@ -2,7 +2,7 @@
 
 (defvar L_bin 15)
 (defvar L_upperbin 37)
-(defvar L_last 22)
+(defvar L_last 44)
 (defvar L_first 1)
 
 ;;HBP1 --> 16
@@ -169,15 +169,15 @@
     (&& ([=] i 44) (||([=] j 7) ([=] j 29) ([=] j 8)([=] j 30) ([=] j 9)([=] j 31) ([=] j 15) ([=] j 37) ([=] j 22)))
   ))
 
-(defun relative_separation (opID bodypart)
+(defun relative_separation (opID bodypart roId)
   (eval (append `(&&)  
     (loop for robotpart in ro_indexes collect `(&&
     (<->
       (-P- ,(read-from-string (format nil "relativeSeparation_~A_operator_~A_~A_clos" robotpart opId bodypart)))
-      (In_same_L ,(read-from-string (format nil "`~A" robotpart)) ,(read-from-string (format nil "`operator_~A_~A" opID bodypart))))
+      (In_same_L ,(read-from-string (format nil "`~A_~A" robotpart roID)) ,(read-from-string (format nil "`operator_~A_~A" opID bodypart))))
     (<->
       (-P- ,(read-from-string (format nil "relativeSeparation_~A_operator_~A_~A_far" robotpart opId bodypart)))
-      (In_Adj_L ,(read-from-string (format nil "`~A" robotpart)) ,(read-from-string (format nil "`operator_~A_~A" opID bodypart))))
+      (In_Adj_L ,(read-from-string (format nil "`~A_~A" robotpart roId)) ,(read-from-string (format nil "`operator_~A_~A" opID bodypart))))
     (<->  (-P- ,(read-from-string (format nil "relativeSeparation_~A_operator_~A_~A_very_far" robotpart opId bodypart)))
      (&& (!!(-P- ,(read-from-string (format nil "relativeSeparation_~A_operator_~A_~A_clos" robotpart opId bodypart)))) (!!(-P- ,(read-from-string (format nil "relativeSeparation_~A_~A_~A_far" robotpart opId bodypart))))))
 
@@ -240,7 +240,7 @@
 
 (defun relativeProperties_help (opID roID)
  (eval (list `alwf (append `(&&) (loop for i in body_indexes collect `(&&
-    (relative_separation ,(read-from-string (format nil "~A" opId)) ,(read-from-string (format nil "`~A" i)))
+    (relative_separation ,(read-from-string (format nil "~A" opId)) ,(read-from-string (format nil "`~A" i)) ,(read-from-string (format nil "~A" roID)))
     (moving_direction ,(read-from-string (format nil "~A" opId)) ,(read-from-string (format nil "`~A" i))))
     )))))
 

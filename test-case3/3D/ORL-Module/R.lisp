@@ -21,12 +21,10 @@
 	(moving ,(read-from-string (format nil "`EndEff_~A" roID)))
 	(moving ,(read-from-string (format nil "`Base_~A" roID)))
 
-  (robotStill ,(read-from-string (format nil "~A" roID)))
+  ; (robotStill ,(read-from-string (format nil "~A" roID)))
 
 	(move_together ,(read-from-string (format nil "`EndEff_~A" roID)) (setq l '(,(read-from-string (format nil "Link2_~A" roID)) )))
 	(move_together ,(read-from-string (format nil "`Base_~A" roID)) (setq l '(,(read-from-string (format nil "Link1_~A" roID)) ,(read-from-string (format nil "Link2_~A" roID)) ,(read-from-string (format nil "EndEff_~A" roID)))))
-	
-  (occluded (setq l '(,(read-from-string (format nil "`Link1_~A" roID)) ,(read-from-string (format nil "`Link2_~A" roID)) ,(read-from-string (format nil "`EndEff_~A" roID)) ,(read-from-string (format nil "`Base_~A" roID)))))
  
   (!!(-P- Base_1_in_L_15))
 
@@ -38,8 +36,8 @@
   (-> (-P- Base_1_moving) (&& (In_same_L `Base_1 `EndEff_1) (In_same_L `Base_1 `link1_1) (In_same_L `Base_1 `link2_1) ))
   (In_same_L ,(read-from-string (format nil "`Link2_~A" roID)) ,(read-from-string (format nil "`EndEff_~A" roID)))
 
-;;;  (forbiden_for_ro ,(read-from-string (format nil "~A" roID)) (setq l '(`L_1 `L_15)))
-;;; (!! (In_same_L `Base_1 `head_area))
+; ; ;;;  (forbiden_for_ro ,(read-from-string (format nil "~A" roID)) (setq l '(`L_1 `L_15)))
+; ; ;;; (!! (In_same_L `Base_1 `head_area))
 ))))))
 
 
@@ -70,10 +68,18 @@
           (In_Adj_with_L ,(read-from-string (format nil "`~A" i)) ,(read-from-string (format nil "~A" l)))
           )))))))
 
-(defun occluded (l)
-  (eval  (list `alwf `(<-> (-P- occluded)
-    (eval(append `(||) (loop for i in l collect `
-      (IsPallet ,(read-from-string (format nil "~A" i))))))))))
+; (defun occluded (l)
+;   (eval  (list `alwf `(<-> (-P- occluded)
+;     (eval(append `(||) (loop for i in l collect `
+;       (IsPallet ,(read-from-string (format nil "~A" i))))))))))
+
+(defun occluded (i)
+  ; (eval  (list `alwf `(<-> (-P- occluded)
+    ; (eval
+      ; (append `(||) 
+      ; (loop for i in l collect `
+      (IsPallet i))
+; )
 
 ;parts that move together. write like (move_together `Link1 (setq l '(Link1 Link2 EndEff Base)))
 (defun move_together (i l)

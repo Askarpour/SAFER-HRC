@@ -5,35 +5,50 @@
 
 (load "TaskLib/T.lisp")
 
-(defconstant ExeT1
- (&&
-  (load "TaskLib/T1.lisp")
-  (AlwF (!! (-P- hold)))
-  (-P- Base_1_in_L_6)
-   (relativeProperties 1 1)
-   ; (relativeProperties 2 1)
-   (Operator_Body 1)
-  ;  (Operator_Body 2)
-   (Robot_Structure 1)
+(defconstant Hazards
+    (&&
+        ;;Hazards
+        (HazardsInit) 
+        *Hazardslist*
+        ;;risks
+        (Risk_estimation )
+        (RRMProperties 1 1)))
 
+(defconstant ExeT1
+ (&&  
+ (load "TaskLib/T1.lisp")
+  Hazards	
+  (AlwF (!! (-P- hold)))
+  (-P- Base_1_in_L_6) 
   ;;execution
   ConfigT1
   (reset_actions action_indexes  1)
- 
-  ;;Hazards
-  (HazardsInit) 
-  *Hazards*
-  ;;risks
-  (Risk_estimation )
-  (RRMProperties 1 1)
-
   (SomF (-P- Action_State_dn_23_1))
 ))
+
+; (defconstant ExeT2
+;  (&&  
+;  (load "TaskLib/T2.lisp")
+;   Hazards	
+;   (AlwF (!! (-P- hold)))
+;   (-P- Base_1_in_L_14) 
+;   (-P- operator_1_head_area_in_L_5)
+;   ;;execution
+;   Config2
+;   (reset_actions action_indexes  1)
+
+;   (SomF (&&
+;   	(|| (-P- Action_State_exe_2_1) (-P- Action_State_exrm_2_1))
+;   	(|| (-P- Action_State_exe_1_1) (-P- Action_State_exrm_1_1))
+;   	(-P- Hazard_occured_13)
+;   	))
+; ))
 
 
 (defconstant *sys*
  (yesterday(&&
   (Next ExeT1)
+  ; (Next ExeT2)
   )))
 
 
