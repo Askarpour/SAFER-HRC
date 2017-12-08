@@ -4,7 +4,7 @@ import os
 import matplotlib.pyplot as plt
 from shutil import copyfile
 plt.rcParams.update({'figure.figsize': (20,20)})
-plt.matplotlib.rcParams.update({'font.size': 30})
+plt.matplotlib.rcParams.update({'font.size': 20})
 import matplotlib.image as mpimg
 import matplotlib
 import matplotlib.patches as mpatches
@@ -191,15 +191,15 @@ def read_hazards():
         i += 1
         line = file.readline()
         if "hit" in line:
-            hazardname[i] = "Tr on " + line.split("`")[1].split("_area")[0] + " by " + line.split("`")[2].split(" ")[0] + " of robot " + line.split("`")[2].split(" ")[1] + " \n"
+            hazardname[i] = "Tr on " + line.split("`")[1].split("_area")[0] + " by " + line.split("`")[2].split(" ")[0]  #+ " of robot " + line.split("`")[2].split(" ")[1] + " \n"
         if "entg" in line:
-            hazardname[i] = "Qs on " + line.split("`")[1].split("_area")[0] + " by " + line.split("`")[2].split(" ")[0] + " of robot " + line.split("`")[2].split(" ")[1] + " \n"
+            hazardname[i] = "Qs on " + line.split("`")[1].split("_area")[0] + " by " + line.split("`")[2].split(" ")[0] # " of robot " + line.split("`")[2].split(" ")[1] + " \n"
 
     file.close()
     return index, hazardname
 
 def read_actions ():
-    file = open("TaskLib/T1.lisp","r")
+    file = open("TaskLib/T2.lisp","r")
     line = ""
     index = ""
     actions = ""
@@ -388,8 +388,8 @@ def draw_layout(base , ee, l1, l2, op_head, op_hand, step, task_id):
 	ax.imshow(layoutA)
 
 	# Turn off tick labels
-	# ax.set_yticklabels([])
-	# ax.set_xticklabels([])
+	ax.set_yticklabels([])
+	ax.set_xticklabels([])
 	#
 	L_head = mpatches.Circle((element_co(op_head,'head')[0],element_co(op_head,'head')[1]),25, color="blue")
 	ax.add_patch(L_head)

@@ -67,7 +67,7 @@
         ))))) 
 
 
-(defconstant *Hazards*
+(defconstant *Hazardslist*
  (alwf(&&
     ;;*** hits
     (hazard_hit 1 `head_area `EndEff_1 1 `LINK1_1 `LINK2_1)
@@ -82,10 +82,10 @@
     (hazard_hit 10 `chest_area `LINK2_1 1 `LINK1_1 `EndEff_1)
     (hazard_hit 11 `arm_area `LINK2_1 1 `LINK1_1 `EndEff_1)
     (hazard_hit 12 `leg_area `LINK2_1 1 `LINK1_1 `EndEff_1)
-    (hazard_hit 13 `head_area `BASE 1 `LINK1_1 `LINK2_1)
-    (hazard_hit 14 `chest_area `BASE 1 `LINK1_1 `LINK2_1)
-    (hazard_hit 15 `arm_area `BASE 1 `LINK1_1 `LINK2_1)
-    (hazard_hit 16 `leg_area `BASE 1 `LINK1_1 `LINK2_1)
+    (hazard_hit 13 `head_area `BASE_1 1 `LINK1_1 `LINK2_1)
+    (hazard_hit 14 `chest_area `BASE_1 1 `LINK1_1 `LINK2_1)
+    (hazard_hit 15 `arm_area `BASE_1 1 `LINK1_1 `LINK2_1)
+    (hazard_hit 16 `leg_area `BASE_1 1 `LINK1_1 `LINK2_1)
     (hazard_entg 17 `head_area `EndEff_1 1 `LINK1_1 `LINK2_1)
     (hazard_entg 18 `chest_area `EndEff_1 1 `LINK1_1 `LINK2_1)
     (hazard_entg 19 `arm_area `EndEff_1 1 `LINK1_1 `LINK2_1)
@@ -99,3 +99,4 @@
     (hazard_entg 27 `arm_area `LINK2_1 1 `LINK1_1 `EndEff_1)
     (hazard_entg 28 `leg_area `LINK2_1 1 `LINK1_1 `EndEff_1)
 )))
+
