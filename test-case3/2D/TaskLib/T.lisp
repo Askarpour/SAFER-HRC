@@ -3,7 +3,7 @@
   (defvar exetime 1)
   ; things to export
   (defvar Threshold 2)
-  (define-tvar Risk *int*) ;;max risk in the system  
+  (define-item Risk `(0 1 2)) ;;max risk in the system  
 
   
   
@@ -84,7 +84,7 @@
         (!! (-P- ,(read-from-string (format nil "Action_Post_~A_~A" i Tname))))
         ; (-P- no_RRM)
         (!! (-P- hold))
-        ([<] (-V- Risk) Threshold)
+        (!!(Risk= Threshold)) ;([<] (-V- Risk) Threshold)
         (alwp(&&
           (!! (-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" i Tname))))
           (!! (-P- ,(read-from-string (format nil "Action_State_ex_~A_~A" i Tname))))
@@ -109,7 +109,7 @@
         (!! (-P- ,(read-from-string (format nil "Action_Post_~A_~A" i Tname))))
         ; (!! (-P- no_RRM)) 
         (!! (-P- hold))
-        ([=] (-V- Risk) Threshold)
+        (!!(Risk= Threshold)) ;([<] (-V- Risk) Threshold)
         (alwp(&&
           (!! (-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" i Tname))))
           (!! (-P- ,(read-from-string (format nil "Action_State_ex_~A_~A" i Tname))))
@@ -141,7 +141,7 @@
           (!! (-P- ,(read-from-string (format nil "Action_State_ex_~A_~A" i Tname))))
           ))
         (Yesterday (!! (|| (-P- ,(read-from-string (format nil "Action_State_ns_~A_~A" i Tname))) (-P- ,(read-from-string (format nil "Action_State_wt_~A_~A" i Tname))) (-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" i Tname))))))
-        ; ([<] (-V- Risk) 2)
+        ;; ([<] (-V- Risk) 2)
       )
     )
 
@@ -174,7 +174,8 @@
 
     (<->
       (-P- safety-property)
-      (&& ([=] (-V- Risk) Threshold) (Yesterday ([<] (-V- Risk) Threshold))))
+      (&& (Risk= Threshold) (Yesterday (Risk= Threshold))))
+      ; (&& ([=] (-V- Risk) Threshold) (Yesterday ([<] (-V- Risk) Threshold))))
 
     ))))))
 

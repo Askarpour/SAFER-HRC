@@ -3,22 +3,22 @@
 
 (loop for i in hazard_indexes collect
   (progn 
-        (eval `(define-tvar ,(read-from-string (format nil "Hazard_CI_~A" i)) *int*))
-        (eval `(define-tvar ,(read-from-string (format nil "Hazard_Se_~A" i)) *int*))
-        (eval `(define-tvar ,(read-from-string (format nil "Hazard_Risk_~A" i)) *int*))))
+        (eval `(define-item ,(read-from-string (format nil "Hazard_CI_~A" i)) `(9)))
+        (eval `(define-item ,(read-from-string (format nil "Hazard_Se_~A" i)) `(0 1 2 3 4)))
+        (eval `(define-item ,(read-from-string (format nil "Hazard_Risk_~A" i)) `(0 1 2)))))
 
-(defun HazardsInit ()
- (eval (list `alwf (append `(&&) (loop for i in hazard_indexes collect `(&&
-    ;;
-    ([<=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_CI_~A" i))(loop for x = (read in nil nil) while x collect x)))) 16)
-    ([>=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_CI_~A" i))(loop for x = (read in nil nil) while x collect x)))) 1)
-    ([=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_CI_~A" i))(loop for x = (read in nil nil) while x collect x)))) 9) ;temp
-    ;;
-    ([<=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_Se_~A" i))(loop for x = (read in nil nil) while x collect x)))) 4)
-    ([>=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_Se_~A" i))(loop for x = (read in nil nil) while x collect x)))) 1)
-    ;;
-    ([<=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_Risk_~A" i))(loop for x = (read in nil nil) while x collect x)))) 2)
-    ([>=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_Risk_~A" i))(loop for x = (read in nil nil) while x collect x)))) 0)))))))
+; (defun HazardsInit ()
+;  (eval (list `alwf (append `(&&) (loop for i in hazard_indexes collect `(&&
+;     ;;
+;     ([<=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_CI_~A" i))(loop for x = (read in nil nil) while x collect x)))) 16)
+;     ([>=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_CI_~A" i))(loop for x = (read in nil nil) while x collect x)))) 1)
+;     ([=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_CI_~A" i))(loop for x = (read in nil nil) while x collect x)))) 9) ;temp
+;     ;;
+;     ([<=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_Se_~A" i))(loop for x = (read in nil nil) while x collect x)))) 4)
+;     ([>=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_Se_~A" i))(loop for x = (read in nil nil) while x collect x)))) 1)
+;     ;;
+;     ([<=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_Risk_~A" i))(loop for x = (read in nil nil) while x collect x)))) 2)
+;     ([>=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_Risk_~A" i))(loop for x = (read in nil nil) while x collect x)))) 0)))))))
 
 
 (defun hazard_hit ( hazard_id bodypart robotpart  opID other_robotpart_1 other_robotpart_2)
