@@ -5,15 +5,14 @@
 
 (load "TaskLib/T.lisp")
 
-; (defconstant Hazards
-;     (&&
-;         ;;Hazards
-;         ; (HazardsInit) 
-;         *Hazardslist*
-;         ;;risks
-;         (Risk_estimation )
-;         (RRMProperties 1 1)
-;         ))
+(defconstant Hazards
+    (&&
+        ;;Hazards
+        *Hazardslist*
+        ;;risks
+        (Risk_estimation )
+        (RRMProperties 1 1)
+        ))
 
 ; (defconstant ExeT1
 ;  (&&  
@@ -30,13 +29,13 @@
 (defconstant ExeT2
  (&&  
  (load "TaskLib/T2.lisp")
-  ; Hazards	
+  Hazards	
   (AlwF (!! (-P- hold)))
   ;;execution
   Config2
   (reset_actions action_indexes  1)
   (SomF (-P- Action_State_dn_5_1))
-  ; (SomF (-P- Action_State_dn_9_1))
+  (SomF (-P- Action_State_dn_9_1))
 ))
 
 (defconstant *sys*
