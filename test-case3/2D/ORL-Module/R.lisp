@@ -21,12 +21,11 @@
 	(moving ,(read-from-string (format nil "`EndEff_~A" roID)))
 	(moving ,(read-from-string (format nil "`Base_~A" roID)))
 
-  ; (robotStill ,(read-from-string (format nil "~A" roID)))
 
 	(move_together ,(read-from-string (format nil "`EndEff_~A" roID)) (setq l '(,(read-from-string (format nil "Link2_~A" roID)) )))
 	(move_together ,(read-from-string (format nil "`Base_~A" roID)) (setq l '(,(read-from-string (format nil "Link1_~A" roID)) ,(read-from-string (format nil "Link2_~A" roID)) ,(read-from-string (format nil "EndEff_~A" roID)))))
  
-  (!!(-P- Base_1_in_L_15))
+  (!!(-P- Base_1_in_L_6))
 
   (moving_gradually ,(read-from-string (format nil "`Link1_~A" roID)))
   (moving_gradually ,(read-from-string (format nil "`Link2_~A" roID)))
@@ -36,8 +35,6 @@
   (-> (-P- Base_1_moving) (&& (In_same_L `Base_1 `EndEff_1) (In_same_L `Base_1 `link1_1) (In_same_L `Base_1 `link2_1) ))
   (In_same_L ,(read-from-string (format nil "`Link2_~A" roID)) ,(read-from-string (format nil "`EndEff_~A" roID)))
 
-; ; ;;;  (forbiden_for_ro ,(read-from-string (format nil "~A" roID)) (setq l '(`L_1 `L_15)))
-; ; ;;; (!! (In_same_L `Base_1 `head_area))
 ))))))
 
 

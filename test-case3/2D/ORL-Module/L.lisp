@@ -1,23 +1,22 @@
-(defvar L_indexes (loop for i from 1 to 22 collect i))
+(defvar L_indexes (loop for i from 1 to 6 collect i))
 
-(defvar L_bin 15)
-(defvar L_last 22)
+(defvar L_bin 6)
+(defvar L_last 6)
 (defvar L_first 1)
 
-;;HBP1 --> 16
-;;BP1 --> 17
+;;HBP1 --> 2
+;;BP1 --> 1
 
-;;HBP2 --> 18
-;;BP2 --> 19
+;;L_14 --> 3
+;;L_9 --> 4
 
-;;HBP3 --> 20
-;;BP3 --> 21
+;;cbin --> 5
+;;bin --> 6
 
-;;cbin --> 22
 
-(defun IsPallet1 (i) (eval `(-P- ,(read-from-string (format nil "~A_In_L_~A" i 17)))))
-(defun IsPallet2 (i) (eval `(-P- ,(read-from-string (format nil "~A_In_L_~A" i 19)))))
-(defun IsPallet3 (i) (eval `(-P- ,(read-from-string (format nil "~A_In_L_~A" i 21)))))
+(defun IsPallet1 (i) (eval `(-P- ,(read-from-string (format nil "~A_In_L_~A" i 1)))))
+(defun IsPallet2 (i) (eval `(-P- ,(read-from-string (format nil "~A_In_L_~A" i 1)))))
+(defun IsPallet3 (i) (eval `(-P- ,(read-from-string (format nil "~A_In_L_~A" i 1)))))
 (defun IsPallet(i) (eval `(|| (IsPallet1 ,(read-from-string (format nil "`~A" i))) (IsPallet2 ,(read-from-string (format nil "`~A" i))) (IsPallet3 ,(read-from-string (format nil "`~A" i))))))
 
 
@@ -100,47 +99,15 @@
  (||
     (&& ([=] i 1) (||([=] j 2)))
 
-    (&& ([=] i 2) (||([=] j 1) ([=] j 3) ([=] j 7)))
+    (&& ([=] i 2) (||([=] j 1) ([=] j 3) ))
 
-    (&& ([=] i 3) (||([=] j 2) ([=] j 4) ([=] j L_bin)))
+    (&& ([=] i 3) (||([=] j 2) ([=] j 4)))
 
-    (&& ([=] i 4) (||([=] j 3) ([=] j L_bin)))
+    (&& ([=] i 4) (||([=] j 3) ([=] j 5)))
 
-    (&& ([=] i 5) (||([=] j 6) ([=] j 10) ([=] j 11) ([=] j 20) ([=] j 21)))
+    (&& ([=] i 5) (||([=] j 4) ([=] j 6)))
 
-    (&& ([=] i 6) (||([=] j 5) ([=] j 7)  ([=] j 10) ([=] j 11) ([=] j 12) ([=] j 20) ([=] j 21)))
-
-    (&& ([=] i 7) (||([=] j 2) ([=] j 6) ([=] j 8)  ([=] j 13) ([=] j 11) ([=] j 12) ([=] j 22)))
-
-    (&& ([=] i 8) (||([=] j 7) ([=] j 9)  ([=] j 13) ([=] j 14) ([=] j 12) ([=] j L_bin) ([=] j 22)))
-
-    (&& ([=] i 9) (||([=] j 8) ([=] j 13) ([=] j 14)([=] j L_bin) ([=] j 22)))
-
-    (&& ([=] i 10) (||([=] j 6) ([=] j 5) ([=] j 11)))
-
-    (&& ([=] i 11) (||([=] j 5) ([=] j 7)  ([=] j 10) ([=] j 6) ([=] j 12)))
-
-    (&& ([=] i 12) (||([=] j 6) ([=] j 8)  ([=] j 13) ([=] j 11) ([=] j 7) ([=] j 18) ([=] j 19)))
-
-    (&& ([=] i 13) (||([=] j 7) ([=] j 9)  ([=] j 8) ([=] j 14) ([=] j 12) ([=] j 16) ([=] j 17) ([=] j 18) ([=] j 19)))
-
-    (&& ([=] i 14) (||([=] j 8) ([=] j 13) ([=] j 9) ([=] j 16) ([=] j 17)))
-
-    (&& ([=] i 15) (||([=] j 8) ([=] j 3) ([=] j 4) ([=] j 9) ([=] j 22)))
-
-    (&& ([=] i 16) (|| ([=] j 13) ([=] j 14)))
-
-    (&& ([=] i 17) (|| ([=] j 13) ([=] j 14)))
-
-    (&& ([=] i 18) (|| ([=] j 12) ([=] j 13)))
-    
-    (&& ([=] i 19) (|| ([=] j 12) ([=] j 13)))
-
-    (&& ([=] i 20) (||([=] j 6) ([=] j 5)))
-
-    (&& ([=] i 21) (||([=] j 6) ([=] j 5)))
-
-    (&& ([=] i 22) (||([=] j 7) ([=] j 8) ([=] j 9) ([=] j 15)))
+    (&& ([=] i 6) (|| ([=] j 5)))
   ))
 
 (defun relative_separation (opID bodypart roId)

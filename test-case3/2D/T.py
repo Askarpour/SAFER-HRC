@@ -51,77 +51,21 @@ class switch(object):
             return False
 def element_co(strin,element):
 	for case in switch(strin):
-	    if case([1]): #L1
-	        return (500,1000)
-	        break
-	    if case([2]): #L2
-	        return (700,1000)
-	        break
-	    if case([3]): #L3
-	        return (900,1100)
-	        break
-	    if case([4]): #L4
-	        return (1200,1100)
-	        break
-	    if case([5]): #L5
-	        return (200,600)
-	        break
-	    if case([6]): #L6
-	    	return (500,600)
-	    	break
-	        # if element == 'head':
-	        # 	return (1200,700)
-	        # if element == 'hand':
-	        # 	return (1200,600)
-	        # if element == 'ro':
-	        # 	return (1000,620)
-	        break
-	    if case([7]): #L7
-	        return (700,600)
-	        break
-	    if case([8]): #L8
-	        return (900,600)
-	        break
-	    if case([9]): #L9
+	    if case([4]): #L9
 	        return (1200,600)
 	        break
-	    if case([10]): #L10
-	        return (200,400)
-	        break
-	    if case([11]): #L11
-	        return (500,400)
-	        break
-	    if case([12]): #L12
-	        return (700,400)
-	        break
-	    if case([13]): #L13
-	        return (900,400)
-	        break
-	    if case([14]): #L14
+	    if case([3]): #L14
 	        return (1200,400)
 	        break
-	    if case([15]): #L15
+	    if case([6]): #L15
 	        return (1200,900)
 	        break
-	    if case([16]): #L16
+	    if case([2]): #L16
 	        return (1100,400)
 	        break
-        if case([17]): #L17
+        if case([1]): #L17
             return (1100,350)
-            # break
-        if case([18]): #L18
-	        return (850,400)
-	        # break
-        if case([19]): #L19
-	        return (850,350)
-	        # break
-        if case([20]): #L20
-	        return (450,600)
-	        # break
-        if case([21]): #L21
-	        return (450,650)
-	        # break
-        if case([22]): #L22
+        if case([5]): #L22
 	        return (900,600)
 	        # break
         if case():

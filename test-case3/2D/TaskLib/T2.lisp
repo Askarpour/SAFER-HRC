@@ -1,16 +1,21 @@
 (load "TaskLib/ActionList.lisp")
 
-(defvar action_indexes (loop for i from 1 to 2 collect i))
+(defvar action_indexes (loop for i from 1 to 9 collect i))
 (defvar T1 1)
 (defvar T2 2)
 
 
 ;;List of actions
 ;; 
-;; 1.robot base moves to pallet 3
-;; 2.operator crosses 
-
-
+;; 1.robot base moves to bin 1
+;; 2.robot arm is streching out
+;; 3.robot picks a wp
+;; 4.robot arm is rolled back in
+;; 5.robot base moves to pallet 1
+;; 6.robot ee hold wp
+;; 7.robot arm is streching out
+;; 8.robot inserts wp on pallet1
+;; 9.op unscrews wp
 
 (defconstant Config2
  (alwf(&&
@@ -22,12 +27,17 @@
        (Operator_Body 1)
        (Robot_Structure 1)
 
-       (first_base_move 1 1 14 22)
-       (op_moves 2 2 5 9 1)
+       (first_base_move 1 1 3 5)
+       (move 2 1 5 6 1)
+       (pick 3 1 6 1)
+       (move 4 1 6 5 1)
+       (base_move 5 1 5 3)
+       (ee_hold 6 1 5)
+       ;*
+       (move 7 1 3 2 1)
+       (insertp 8 1 1 1)
+       (unscrew 9 1 1 1)
 
-       (In_same_L `Base_1 `EndEff_1)
-       (In_same_L `Base_1 `Link1_1)
-       (In_same_L `Base_1 `Link2_1)
-       (-> (basemoves (setq l '(1)) 1) (!! (-P- Base_1_Moving)))
+       (-> (basemoves (setq l '(1 5)) 1) (!! (-P- Base_1_Moving)))
 )))
 
