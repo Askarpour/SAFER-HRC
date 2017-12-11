@@ -10,10 +10,8 @@
  (load "TaskLib/T2.lisp")
   Config2
   (reset_actions action_indexes  1)
-  ; (SomF (-P- Action_State_dn_3_1))
+  (SomF (-P- Action_State_dn_3_1))
 ))
-
-
 
 (defconstant *sys*
  (yesterday(&&
