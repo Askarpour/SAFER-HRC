@@ -51,22 +51,25 @@ class switch(object):
             return False
 def element_co(strin,element):
 	for case in switch(strin):
-	    if case([1]): #L1
+	    if case([1]) or case([23]): #L1
 	        return (500,1000)
 	        break
-	    if case([2]): #L2
+	    if case([2]) or case([24]): #L2
 	        return (700,1000)
 	        break
-	    if case([3]): #L3
+	    if case([3]) or case([25]): #L3
 	        return (900,1100)
 	        break
-	    if case([4]): #L4
+	    if case([4]) or case([26]): #L4
 	        return (1200,1100)
 	        break
-	    if case([5]): #L5
+	    if case([5]) or case([27]): #L5
 	        return (200,600)
 	        break
-	    if case([6]): #L6
+	    # if case([27]): #L5
+	    #     return (200,600)
+	    #     break
+	    if case([6]) or case([28]): #L6
 	    	return (500,600)
 	    	break
 	        # if element == 'head':
@@ -76,56 +79,56 @@ def element_co(strin,element):
 	        # if element == 'ro':
 	        # 	return (1000,620)
 	        break
-	    if case([7]): #L7
+	    if case([7]) or case([29]): #L7
 	        return (700,600)
 	        break
-	    if case([8]): #L8
+	    if case([8]) or case([30]): #L8
 	        return (900,600)
 	        break
-	    if case([9]): #L9
+	    if case([9]) or case([31]): #L9
 	        return (1200,600)
 	        break
-	    if case([10]): #L10
+	    if case([10] ) or case([32]): #L10
 	        return (200,400)
 	        break
-	    if case([11]): #L11
+	    if case([11] ) or case([33]): #L11
 	        return (500,400)
 	        break
-	    if case([12]): #L12
+	    if case([12] ) or case([34]): #L12
 	        return (700,400)
 	        break
-	    if case([13]): #L13
+	    if case([13] ) or case([35]): #L13
 	        return (900,400)
 	        break
-	    if case([14]): #L14
+	    if case([14] ) or case([36]): #L14
 	        return (1200,400)
 	        break
-	    if case([15]): #L15
+	    if case([15] ) or case([37]): #L15
 	        return (1200,900)
 	        break
-	    if case([16]): #L16
+	    if case([16] ) or case([38]): #L16
 	        return (1100,400)
 	        break
-        if case([17]): #L17
+        if case([17]) or case([39]): #L17
             return (1100,350)
             # break
-        if case([18]): #L18
+        if case([18] ) or case([40]): #L18
 	        return (850,400)
 	        # break
-        if case([19]): #L19
+        if case([19] ) or case([41]): #L19
 	        return (850,350)
 	        # break
-        if case([20]): #L20
+        if case([20] ) or case([42]): #L20
 	        return (450,600)
 	        # break
-        if case([21]): #L21
+        if case([21]) or case([43]): #L21
 	        return (450,650)
 	        # break
-        if case([22]): #L22
+        if case([22]) or case([44]): #L22
 	        return (900,600)
 	        # break
         if case():
-	        print ("something is wrong with coordinates of the object!")
+	        print ("something is wrong with coordinates of the object!"+ str(strin) + str(element))
 def still_moving (strin, strout, j):
     if strin[j] == strin[j-1]: strout[j] = 'still'
     if strin[j] != strin[j-1]: strout[j] = 'moving'
@@ -199,7 +202,7 @@ def read_hazards():
     return index, hazardname
 
 def read_actions ():
-    file = open("TaskLib/T2.lisp","r")
+    file = open("TaskLib/T1.lisp","r")
     line = ""
     index = ""
     actions = ""
@@ -332,14 +335,14 @@ def parse_attributes (step, records, opid):
     operator = "OPERATOR_" + str(opid)
     for t in range (0 , step+1):
         for r in records:
-            for x in ("CRITICAL", "NORMAL","LOW"):
-                if x in r and operator in r and t in records[r]:
-                 if "VELOCITY" in r and velocity[t] != "CRITICAL":
-                     if velocity[t] == "NORMAL" and x == "LOW":
+            for x in ("HIGH", "MID","LOW"):
+                if x in r and t in records[r]:
+                 if "VELOCITY" in r and velocity[t] != "HIGH":
+                     if velocity[t] == "MID" and x == "LOW":
                          break
                      velocity[t] = x
-                 elif  "FORCE" in r and force[t] != "CRITICAL":
-                     if force[t] == "NORMAL" and x == "LOW":
+                 elif  "FORCE" in r and force[t] != "HIGH":
+                     if force[t] == "MID" and x == "LOW":
                          break
                      force[t] = x
             for x in ("CLOS", "FAR","VERY_FAR"):
@@ -413,36 +416,25 @@ def draw_layout(base , ee, l1, l2, op_head, op_hand, step, task_id):
 	return ax.patches,
 
 #############################creating tables#############################
-def safety_analysis_table (tick,task_id,actions_num):
-
-	actions = ''
-	hzs = ''
-	risks = ''
-	severities = ''
-
-	for i in range(1, actions_num+1,1):
-		exec("if tick in actions_EXE_%s_%s: actions += caseAact[i]  " % (i,task_id))
-	for i in range(1, actions_num+1,1):
-		exec("if tick in actions_EXRM_%s_%s: actions += caseAact[i] " % (i,task_id))
-	for i in range(1, actions_num+1,1):
-		exec("if tick in actions_INEX_%s_%s: actions += caseAact[i] " % (i,task_id))
-	#
-	from prettytable import PrettyTable
-	GstateSA = PrettyTable()
-	GstateSA.field_names = ["t","Executing", "Hazards","Se","Risk","force","velocity"]
-	GstateSA.add_row([tick, "actions - V1" ,"","","","",""])
-	GstateSA.add_row(["", actions ,"","","",force[tick],velocity[tick]])
-	for i in range (1, hazards_num+1,1):
-		if tick in hazard_id(i)[0]:
-			exec("hzs = hazard_id(%s)[3]" % (i))
-			exec("risks = hazard_risk_%s[tick]" % (i))
-			exec("severities = hazard_se_%s[tick]" % (i))
-			GstateSA.add_row(["", "",hzs,severities,risks,"",""])
-	return GstateSA
+def safety_analysis_table (step,plt,actions_num,executing_actions,safe_executing_actions,hazards, risks,severities,hazard_names,action_names,separation, velocity, force):
+    legendhz = " "
+    legendrsk = " "
+    legendsvty = " "
+    for h in hazards:
+        legendhz += str(hazard_names[h]) + "\n"
+    for r in risks:
+        legendrsk += str(r) + "\n"
+    for s in severities:
+        legendsvty += str(s) + "\n"
+    from prettytable import PrettyTable
+    GstateSA = PrettyTable()
+    GstateSA.field_names = ["t", "Hazards","Risk","Se","CI","force","velocity","distance"]
+    GstateSA.add_row([step, legendhz ,legendrsk,legendsvty,"9",force,velocity,separation])
+    return GstateSA
 
 # #############################executing zot and processing the output#############################
 if __name__ == '__main__':
-    os.system("zot Main.lisp")
+    # os.system("zot Main.lisp")
     while not os.path.exists('output.hist.txt'):time.sleep(1)
     if os.path.isfile('output.hist.txt'):
         step , records = parse_outPut()
@@ -495,21 +487,19 @@ if __name__ == '__main__':
         attributes_2 =parse_attributes (step, records, 2)
         separation_2 , velocity_2 , force_2 = attributes_2[0] , attributes_2[1], attributes_2[2]
 
-        for i in range (0, step+1):
-            print("ns actons:")
-            print(ns_actions[i])
-            print (" \n wt actons:")
-            print( wt_actions[i])
-            print (" \n executing actons:")
-            print (executing_actions[i])
-            print ("\n safe-executing actons:")
-            print(safe_executing_actions[i])
-            print ("dn actons: ")
-            print( dn_actions[i])
-            print ("______________________________________")
+        # for i in range (0, step+1):
+        #     print("ns actons:")
+        #     print(ns_actions[i])
+        #     print (" \n wt actons:")
+        #     print( wt_actions[i])
+        #     print (" \n executing actons:")
+        #     print (executing_actions[i])
+        #     print ("\n safe-executing actons:")
+        #     print(safe_executing_actions[i])
+        #     print ("dn actons: ")
+        #     print( dn_actions[i])
+        #     print ("______________________________________")
 
-    #
-        # if output_type == 'fig':
         index = 1
         newpath = 'Output'
         while 1:
@@ -529,13 +519,9 @@ if __name__ == '__main__':
             draw_layout(Base[i],EndEff[i], Link1[i], Link2[i], head_1[i], arm_1[i], i, 1)
             create_legend (i,plt, action_num, executing_actions[i], safe_executing_actions[i],hazards[i], risks[i],hazard_names,action_names)
             plt.savefig(folder+"/Time"+str(i)+".png")
-    # #
-    #     # elif output_type == 'table':
-    #     # f = open(folder+'/Table.txt','w')
-    #     # for i in range (0, step+1):
-	# 	# 	table = safety_analysis_table(i, task_id)
-	# 	# 	table_txt = table.get_string()
-	# 	# 	f.write(table_txt)
-    # #
-	# # else:
-	# # 	raise ValueError("output.hist.txt not found!")
+        #
+        f = open(folder+'/Table.txt','w')
+        for i in range (1, step+1):
+			table = safety_analysis_table(i,plt, action_num, executing_actions[i], safe_executing_actions[i],hazards[i], risks[i],severities[i],hazard_names,action_names,separation_1[i], velocity_1[i], force_1[i])
+			table_txt = table.get_string()
+			f.write(table_txt)
