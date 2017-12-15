@@ -416,32 +416,22 @@ def draw_layout(base , ee, l1, l2, op_head, op_hand, step, task_id):
 	return ax.patches,
 
 #############################creating tables#############################
-def safety_analysis_table (tick,task_id,actions_num):
+def safety_analysis_table (step,plt,actions_num,executing_actions,safe_executing_actions,hazards, risks,severities,hazard_names,action_names,separation, velocity, force):
+    legendhz = " "
+    legendrsk = " "
+    legendsvty = " "
+    for h in hazards:
+        legendhz += str(hazard_names[h]) + "\n"
+    for r in risks:
+        legendrsk += str(r) + "\n"
+    for s in severities:
+        legendsvty += str(s) + "\n"
+    from prettytable import PrettyTable
+    GstateSA = PrettyTable()
+    GstateSA.field_names = ["t", "Hazards","Risk","Se","CI","force","velocity","distance"]
+    GstateSA.add_row([step, legendhz ,legendrsk,legendsvty,"9",force,velocity,separation])
+    return GstateSA
 
-	actions = ''
-	hzs = ''
-	risks = ''
-	severities = ''
-
-	for i in range(1, actions_num+1,1):
-		exec("if tick in actions_EXE_%s_%s: actions += caseAact[i]  " % (i,task_id))
-	for i in range(1, actions_num+1,1):
-		exec("if tick in actions_EXRM_%s_%s: actions += caseAact[i] " % (i,task_id))
-	for i in range(1, actions_num+1,1):
-		exec("if tick in actions_INEX_%s_%s: actions += caseAact[i] " % (i,task_id))
-	#
-	from prettytable import PrettyTable
-	GstateSA = PrettyTable()
-	GstateSA.field_names = ["t","Executing", "Hazards","Se","Risk","force","velocity"]
-	GstateSA.add_row([tick, "actions - V1" ,"","","","",""])
-	GstateSA.add_row(["", actions ,"","","",force[tick],velocity[tick]])
-	for i in range (1, hazards_num+1,1):
-		if tick in hazard_id(i)[0]:
-			exec("hzs = hazard_id(%s)[3]" % (i))
-			exec("risks = hazard_risk_%s[tick]" % (i))
-			exec("severities = hazard_se_%s[tick]" % (i))
-			GstateSA.add_row(["", "",hzs,severities,risks,"",""])
-	return GstateSA
 
 # #############################executing zot and processing the output#############################
 if __name__ == '__main__':
@@ -532,13 +522,9 @@ if __name__ == '__main__':
             draw_layout(Base[i],EndEff[i], Link1[i], Link2[i], head_1[i], arm_1[i], i, 1)
             create_legend (i,plt, action_num, executing_actions[i], safe_executing_actions[i],hazards[i], risks[i],hazard_names,action_names)
             plt.savefig(folder+"/Time"+str(i)+".png")
-    # #
-    #     # elif output_type == 'table':
-    #     # f = open(folder+'/Table.txt','w')
-    #     # for i in range (0, step+1):
-	# 	# 	table = safety_analysis_table(i, task_id)
-	# 	# 	table_txt = table.get_string()
-	# 	# 	f.write(table_txt)
-    # #
-	# # else:
-	# # 	raise ValueError("output.hist.txt not found!")
+
+    f = open(folder+'/Table.txt','w')
+    for i in range (1, step+1):
+        table = safety_analysis_table(i,plt, action_num, executing_actions[i], safe_executing_actions[i],hazards[i], risks[i],severities[i],hazard_names,action_names,separation_1[i], velocity_1[i], force_1[i])
+        table_txt = table.get_string()
+        f.write(table_txt)

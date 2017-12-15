@@ -1,5 +1,5 @@
 (defvar L_indexes (loop for i from 1 to 44 collect i))
-
+(defvar L_half 22)
 (defvar L_bin 15)
 (defvar L_upperbin 37)
 (defvar L_last 44)
@@ -83,6 +83,13 @@
    (loop for l_j in L_indexes collect
     `(-> (&&(yesterday (-P- ,(read-from-string (format nil "~A_In_L_~A" j l_j)))) (-P- ,(read-from-string (format nil "~A_In_L_~A" j l_j)))) (Adj ,(read-from-string (format nil "~A" l_i)) ,(read-from-string (format nil "~A" l_j))))
     ))))
+
+(defun above_same_L (i j)
+  (eval (append `(||)  
+  (loop for l in L_indexes collect
+  `(&&
+    (-P- ,(read-from-string (format nil "~A_In_L_~A" i l)))
+    (-P- ,(read-from-string (format nil "~A_In_L_~A" j (+ l L_half)))))))))
 
 ;i and j are in the same L. write (In_same_L `Link1_1 `Link2_1)
 (defun In_same_L (i j)
@@ -179,7 +186,7 @@
       (-P- ,(read-from-string (format nil "relativeSeparation_~A_operator_~A_~A_far" robotpart opId bodypart)))
       (In_Adj_L ,(read-from-string (format nil "`~A_~A" robotpart roId)) ,(read-from-string (format nil "`operator_~A_~A" opID bodypart))))
     (<->  (-P- ,(read-from-string (format nil "relativeSeparation_~A_operator_~A_~A_very_far" robotpart opId bodypart)))
-     (&& (!!(-P- ,(read-from-string (format nil "relativeSeparation_~A_operator_~A_~A_clos" robotpart opId bodypart)))) (!!(-P- ,(read-from-string (format nil "relativeSeparation_~A_~A_~A_far" robotpart opId bodypart))))))
+     (&& (!!(-P- ,(read-from-string (format nil "relativeSeparation_~A_operator_~A_~A_clos" robotpart opId bodypart)))) (!!(-P- ,(read-from-string (format nil "relativeSeparation_~A_operator_~A_~A_far" robotpart opId bodypart))))))
 
 )))))
 

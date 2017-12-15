@@ -25,9 +25,9 @@
        (first_base_move 1 1 14 22)
        (op_moves 2 2 5 9 1)
 
-       (In_same_L `Base_1 `EndEff_1)
-       (In_same_L `Base_1 `Link1_1)
-       (In_same_L `Base_1 `Link2_1)
+       (above_same_L `Base_1 `EndEff_1)
+       (above_same_L `Base_1 `Link1_1)
+       (above_same_L `Base_1 `Link2_1)
        (-> (basemoves (setq l '(1)) 1) (!! (-P- Base_1_Moving)))
 )))
 

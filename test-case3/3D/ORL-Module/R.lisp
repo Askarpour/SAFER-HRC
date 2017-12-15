@@ -27,19 +27,36 @@
 	(move_together ,(read-from-string (format nil "`Base_~A" roID)) (setq l '(,(read-from-string (format nil "Link1_~A" roID)) ,(read-from-string (format nil "Link2_~A" roID)) ,(read-from-string (format nil "EndEff_~A" roID)))))
  
   (!!(-P- Base_1_in_L_15))
+  (3Dconstraints)
 
   (moving_gradually ,(read-from-string (format nil "`Link1_~A" roID)))
   (moving_gradually ,(read-from-string (format nil "`Link2_~A" roID)))
   (moving_gradually ,(read-from-string (format nil "`Base_~A" roID)))
   (moving_gradually ,(read-from-string (format nil "`EndEff_~A" roID)))
 
-  (-> (-P- Base_1_moving) (&& (In_same_L `Base_1 `EndEff_1) (In_same_L `Base_1 `link1_1) (In_same_L `Base_1 `link2_1) ))
+  (-> (-P- Base_1_moving) (&& (above_same_L `Base_1 `EndEff_1) (above_same_L `Base_1 `link1_1) (above_same_L `Base_1 `link2_1) ))
   (In_same_L ,(read-from-string (format nil "`Link2_~A" roID)) ,(read-from-string (format nil "`EndEff_~A" roID)))
 
 ; ; ;;;  (forbiden_for_ro ,(read-from-string (format nil "~A" roID)) (setq l '(`L_1 `L_15)))
 ; ; ;;; (!! (In_same_L `Base_1 `head_area))
 ))))))
 
+
+(defun 3Dconstraints ()
+  (eval (list `alwf (append `(&&)
+    (loop for i from 23 to L_last collect
+    `(!!(-P- ,(read-from-string (format nil "Base_1_in_L_~A" i)))))   
+    
+    (loop for i from L_first to 22 collect
+    `(!!(-P- ,(read-from-string (format nil "EndEff_1_in_L_~A" i)))))   
+
+    (loop for i from L_first to 22 collect
+    `(!!(-P- ,(read-from-string (format nil "Link1_1_in_L_~A" i)))))
+
+    (loop for i from L_first to 22 collect
+    `(!!(-P- ,(read-from-string (format nil "Link2_1_in_L_~A" i)))))        
+
+  ))))
 
 (defun i_is_moving (i)
   (eval (append `(||)  
