@@ -4,7 +4,7 @@
 (loop for i in hazard_indexes collect
   (progn 
         (eval `(define-item ,(read-from-string (format nil "Hazard_CI_~A" i)) `(9)))
-        (eval `(define-item ,(read-from-string (format nil "Hazard_Se_~A" i)) `(0 1 2 3 4)))
+        (eval `(define-item ,(read-from-string (format nil "Hazard_Se_~A" i)) `(1 2 3 4)))
         (eval `(define-item ,(read-from-string (format nil "Hazard_Risk_~A" i)) `(0 1 2)))))
 
 
