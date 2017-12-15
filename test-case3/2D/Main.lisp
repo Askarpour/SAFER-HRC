@@ -30,7 +30,7 @@
   (AlwF (-P- BASE_1_MOVING))
   (SomF (&& (In_same_L `BASE_1 `operator_1_head_area)(-P- BASE_1_MOVING)))
   (AlwF (-> (In_same_L `BASE_1 `operator_1_head_area) (-P- RELATIVEVELOCITY_1_1_LOW)))
-  ;(SomF (Risk= 2))
+  ; (AlwF (!!(Risk= 2)))
 ))
 
 (defconstant *sys*
