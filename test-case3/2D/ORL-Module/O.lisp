@@ -1,4 +1,4 @@
-(defvar operatorNum 2)
+(defvar operatorNum 1)
 
 ; (loop for i in (loop for x from 1 to operatorNum collect x) collect (progn (eval `(define-tvar ,(read-from-string (format nil "Body_Part_pos_~A" i)) *int* *int*))))
 

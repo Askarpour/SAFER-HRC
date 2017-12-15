@@ -1,29 +1,14 @@
-(define-item Risk `(0 1 2))
+; (define-item Risk `(0 1 2))
 
 ;;risk of each hazard
 (defun REs-Hazards (index)
  (eval (list `alwf (append `(&&) (loop for hazard_id in index collect `(&&
-	; (<-> ([=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_Risk_~A" hazard_id)) (loop for x = (read in nil nil) while x collect x)))) 0)
-	; 	(||(!!(-P- ,(read-from-string (format nil "Hazard_occured_~A" hazard_id))))
-	; 		(&&
-	; 			(-P- ,(read-from-string (format nil "Hazard_occured_~A" hazard_id)))
-	; 			(||
-	; 				(&&  ([=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_Se_~A" hazard_id)) (loop for x = (read in nil nil) while x collect x)))) 3)([<=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_CI_~A" hazard_id)) (loop for x = (read in nil nil) while x collect x)))) 4))
-	; 				(&&  ([=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_Se_~A" hazard_id)) (loop for x = (read in nil nil) while x collect x)))) 2)([<=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_CI_~A" hazard_id)) (loop for x = (read in nil nil) while x collect x)))) 7))
-	; 				(&&  ([=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_Se_~A" hazard_id)) (loop for x = (read in nil nil) while x collect x)))) 1)([<=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_CI_~A" hazard_id)) (loop for x = (read in nil nil) while x collect x)))) 10))
-	; 			)
-	; 		)
-	; 	))
 
 	(<-> ,(read-from-string (format nil "(Hazard_Risk_~A= 1)" hazard_id))
 		 (&&(-P- ,(read-from-string (format nil "Hazard_occured_~A" hazard_id)))
 		 	(||
+		 		,(read-from-string (format nil "(Hazard_Se_~A= 1)" hazard_id))
 		 		,(read-from-string (format nil "(Hazard_Se_~A= 2)" hazard_id))
-		 		,(read-from-string (format nil "(Hazard_Se_~A= 3)" hazard_id))
-		 	; 	(&& ([=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_Se_~A" hazard_id))  (loop for x = (read in nil nil) while x collect x)))) 4) ([<=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_CI_~A" hazard_id)) (loop for x = (read in nil nil) while x collect x)))) 4))
-		 	; 	(&& ([=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_Se_~A" hazard_id))  (loop for x = (read in nil nil) while x collect x)))) 3) ([>=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_CI_~A" hazard_id)) (loop for x = (read in nil nil) while x collect x)))) 5)([<=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_CI_~A" hazard_id)) (loop for x = (read in nil nil) while x collect x)))) 7))
-				; (&& ([=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_Se_~A" hazard_id))  (loop for x = (read in nil nil) while x collect x)))) 2) ([>=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_CI_~A" hazard_id)) (loop for x = (read in nil nil) while x collect x)))) 8)([<=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_CI_~A" hazard_id)) (loop for x = (read in nil nil) while x collect x)))) 10))
-				; (&& ([=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_Se_~A" hazard_id))  (loop for x = (read in nil nil) while x collect x)))) 1) ([>=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_CI_~A" hazard_id)) (loop for x = (read in nil nil) while x collect x)))) 11) ([<=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_CI_~A" hazard_id)) (loop for x = (read in nil nil) while x collect x)))) 13))
 			)))
 
 	(<-> ,(read-from-string (format nil "(Hazard_Risk_~A= 2)" hazard_id))
@@ -32,14 +17,8 @@
 		 	(||
 		 		,(read-from-string (format nil "(Hazard_Se_~A= 3)" hazard_id))
 		 		,(read-from-string (format nil "(Hazard_Se_~A= 4)" hazard_id))
-		 	; 	(&& ([=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_Se_~A" hazard_id))  (loop for x = (read in nil nil) while x collect x)))) 4) ([>=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_CI_~A" hazard_id)) (loop for x = (read in nil nil) while x collect x)))) 5))
-		 	; 	(&& ([=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_Se_~A" hazard_id))  (loop for x = (read in nil nil) while x collect x)))) 3) ([>=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_CI_~A" hazard_id)) (loop for x = (read in nil nil) while x collect x)))) 8))
-				; (&& ([=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_Se_~A" hazard_id))  (loop for x = (read in nil nil) while x collect x)))) 2) ([>=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_CI_~A" hazard_id)) (loop for x = (read in nil nil) while x collect x)))) 11))
-				; (&& ([=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_Se_~A" hazard_id))  (loop for x = (read in nil nil) while x collect x)))) 1) ([>=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_CI_~A" hazard_id)) (loop for x = (read in nil nil) while x collect x)))) 13))
 			)))
-	
-	;; ([<=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_Risk_~A" hazard_id))  (loop for x = (read in nil nil) while x collect x)))) (-V- Risk))
-	))))))	
+		))))))	
 
 (defun nothing_comes_close (opID)
   (eval (append `(&&)
@@ -147,24 +126,19 @@
 		; (REs ,(read-from-string (format nil "~A" hazard_indexes)) ,(read-from-string (format nil "~A" i)) ,(read-from-string (format nil "~A" roId)))))))))
 		(REs  hazard_indexes ,(read-from-string (format nil "~A" i)) ,(read-from-string (format nil "~A" roId)))))))))
 
-(defun risk_value_constraints (index)
-	(eval (list `alwf (append `(&&) (loop for hazard_id in index collect `(&& 
+(defun risk_value_constraints (index value)
+	(eval (list `alwf (append `(&&) (loop for hazard_id in index collect `(||
 
-		(->  (Risk= 2) (|| ,(read-from-string (format nil "(Hazard_Risk_~A= 2)" hazard_id)) ,(read-from-string (format nil "(Hazard_Risk_~A= 1)" hazard_id)) ,(read-from-string (format nil "(Hazard_Risk_~A= 0)" hazard_id))))
-
-		; (->  (Risk= 1) (|| ,(read-from-string (format nil "(Hazard_Risk_~A= 1)" hazard_id)) ,(read-from-string (format nil "(Hazard_Risk_~A= 0)" hazard_id))))
-
-		; (->  (Risk= 0) ,(read-from-string (format nil "(Hazard_Risk_~A= 0)" hazard_id)))
+		(|| ,(read-from-string (format nil "(Hazard_Risk_~A= ~A)" hazard_id value)))
 ))))))	
 
 ;;total risk
 (defun Risk_estimation ()
  (alw (&&
- 	(risk_value_constraints hazard_indexes)	
- 	; ([>=](-V- Risk) 0)
- 	; ([<=](-V- Risk) 2)
- 	(REs hazard_indexes 1 1)
- 	(severity_estimation operatorNum hazard_indexes 1)
+ 	; (->  (Risk= 2) (risk_value_constraints hazard_indexes 2))
+ 	; (->  (Risk= 1) (risk_value_constraints hazard_indexes 2))
+ 	; (REs hazard_indexes 1 1)
+ 	; (severity_estimation operatorNum hazard_indexes 1)
  	(REs-Hazards hazard_indexes)
 
   )))	
