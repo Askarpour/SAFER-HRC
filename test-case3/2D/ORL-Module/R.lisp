@@ -1,39 +1,18 @@
 ;;Robot
 (defvar roNum 1)
-(defvar ro_indexes `(Link1 Link2 EndEff Base))
+(defvar ro_indexes `(Base))
 
 
 (defun Robot_Structure (roID)
  (eval (list `alwf (append `(&&)
   (loop for i in `(1) collect `(&&
 
- 	(positioning_rules ,(read-from-string (format nil "`Link1_~A" roID)))
- 	(positioning_rules ,(read-from-string (format nil "`Link2_~A" roID)))
  	(positioning_rules ,(read-from-string (format nil "`Base_~A" roID)))
- 	(positioning_rules ,(read-from-string (format nil "`EndEff_~A" roID)))
-
-	(always_attached ,(read-from-string (format nil "`Link1_~A" roID)) ,(read-from-string (format nil "`Link2_~A" roID)))
-	(always_attached ,(read-from-string (format nil "`EndEff_~A" roID)) ,(read-from-string (format nil "`Link2_~A" roID)))
-	(always_attached ,(read-from-string (format nil "`Link1_~A" roID)) ,(read-from-string (format nil "`Base_~A" roID)))
-
-	(moving ,(read-from-string (format nil "`Link1_~A" roID)))
-	(moving ,(read-from-string (format nil "`Link2_~A" roID)))
-	(moving ,(read-from-string (format nil "`EndEff_~A" roID)))
 	(moving ,(read-from-string (format nil "`Base_~A" roID)))
-
-
-	(move_together ,(read-from-string (format nil "`EndEff_~A" roID)) (setq l '(,(read-from-string (format nil "Link2_~A" roID)) )))
-	(move_together ,(read-from-string (format nil "`Base_~A" roID)) (setq l '(,(read-from-string (format nil "Link1_~A" roID)) ,(read-from-string (format nil "Link2_~A" roID)) ,(read-from-string (format nil "EndEff_~A" roID)))))
- 
-  (!!(-P- Base_1_in_L_6))
-
-  (moving_gradually ,(read-from-string (format nil "`Link1_~A" roID)))
-  (moving_gradually ,(read-from-string (format nil "`Link2_~A" roID)))
+  (robotStill 1)
   (moving_gradually ,(read-from-string (format nil "`Base_~A" roID)))
-  (moving_gradually ,(read-from-string (format nil "`EndEff_~A" roID)))
+  
 
-  (-> (-P- Base_1_moving) (&& (In_same_L `Base_1 `EndEff_1) (In_same_L `Base_1 `link1_1) (In_same_L `Base_1 `link2_1) ))
-  (In_same_L ,(read-from-string (format nil "`Link2_~A" roID)) ,(read-from-string (format nil "`EndEff_~A" roID)))
 
 ))))))
 

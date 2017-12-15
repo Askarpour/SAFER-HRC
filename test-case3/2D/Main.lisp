@@ -3,14 +3,34 @@
 (defvar TSPACE 5)
 
 
-(load "TaskLib/T.lisp")
+(load "ORL-Module/L.lisp")
+(load "ORL-Module/O.lisp")
+(load "ORL-Module/R.lisp")
+
+  (load "Hazards.lisp")
+;   (load "RRM.lisp")
+  (load "REs.lisp")
+  ; (load "REv.lisp")
+
+(defconstant Hazards
+    (&&
+        ;;Hazards 
+        *Hazardslist*
+        ;;risks
+        (Risk_estimation )
+        ; (RRMProperties 1 1)
+        ))
 
 (defconstant ExeT2
  (&&  
- (load "TaskLib/T2.lisp")
-  Config2
-  (reset_actions action_indexes  1)
-  (SomF (-P- Action_State_dn_3_1))
+ Hazards
+ (Robot_Structure 1)
+ (Operator_Body 1)
+ (relativeProperties 1 1)
+  (AlwF (-P- BASE_1_MOVING))
+  (SomF (&& (In_same_L `BASE_1 `operator_1_head_area)(-P- BASE_1_MOVING)))
+  (AlwF (-> (In_same_L `BASE_1 `operator_1_head_area) (-P- RELATIVEVELOCITY_1_1_LOW)))
+  ;(SomF (Risk= 2))
 ))
 
 (defconstant *sys*

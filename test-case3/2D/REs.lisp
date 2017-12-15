@@ -1,3 +1,5 @@
+(define-item Risk `(0 1 2))
+
 ;;risk of each hazard
 (defun REs-Hazards (index)
  (eval (list `alwf (append `(&&) (loop for hazard_id in index collect `(&&
