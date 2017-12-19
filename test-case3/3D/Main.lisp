@@ -1,6 +1,6 @@
 (asdf:operate 'asdf:load-op 'ae2sbvzot)
 (use-package :trio-utils)
-(defvar TSPACE 15)
+(defvar TSPACE 40)
 
 (load "TaskLib/T.lisp")
 
@@ -16,7 +16,7 @@
 
 (defconstant ExeT1
  (&&  
- (load "TaskLib/T1.lisp")
+ (load "TaskLib/T3.lisp")
   Hazards	
   (AlwF (!! (-P- hold)))
   ; (-P- Base_1_in_L_14) 
@@ -24,7 +24,7 @@
   ;;execution
   Config1
   (reset_actions action_indexes  1)
-  (SomF (-P- Action_State_dn_2_1))
+  (SomF (-P- Action_State_dn_10_1))
 ))
 
 ; (defconstant ExeT2

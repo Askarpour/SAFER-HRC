@@ -202,7 +202,7 @@ def read_hazards():
     return index, hazardname
 
 def read_actions ():
-    file = open("TaskLib/T1.lisp","r")
+    file = open("TaskLib/T3.lisp","r")
     line = ""
     index = ""
     actions = ""
