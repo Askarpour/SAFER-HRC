@@ -1,22 +1,20 @@
-(asdf:operate 'asdf:load-op 'ae2sbvzot)
+(asdf:operate 'asdf:load-op 'sbvzot)
 (use-package :trio-utils)
-(defvar TSPACE 15)
+(defvar TSPACE 25)
 
 (load "TaskLib/T.lisp")
 
+
 (defconstant Hazards
     (&&
-        ;;Hazards
-        (HazardsInit) 
         *Hazardslist*
-        ;;risks
         (Risk_estimation )
-        ; (RRMProperties 1 1)
+        (RRMProperties 1 1)
         ))
 
 (defconstant ExeT1
  (&&  
- (load "TaskLib/T1.lisp")
+ (load "TaskLib/T1-copy.lisp")
   Hazards	
   (AlwF (!! (-P- hold)))
   ; (-P- Base_1_in_L_14) 
@@ -24,37 +22,26 @@
   ;;execution
   Config1
   (reset_actions action_indexes  1)
-  (SomF (-P- Action_State_dn_2_1))
+  
+  (SomF (-P- Action_State_dn_15_1))
 ))
 
-; (defconstant ExeT2
-;  (&&  
-;  (load "TaskLib/T2.lisp")
-;   Hazards	
-;   (AlwF (!! (-P- hold)))
-;   (-P- Base_1_in_L_14) 
-;   (-P- operator_1_head_area_in_L_5)
-;   ;;execution
-;   Config2
-;   (reset_actions action_indexes  1)
-;   (SomF (-P- Action_State_dn_2_1))
-;   ; (SomF (&&
-;   ; 	(|| (-P- Action_State_exe_2_1) (-P- Action_State_exrm_2_1))
-;   ; 	(|| (-P- Action_State_exe_1_1) (-P- Action_State_exrm_1_1))
-;   ; 	(-P- Hazard_occured_13)
-;   ; 	))
-; ))
+
+; (loop for i in hazard_indexes collect
+; 	`(<-> (-P- Property)
+; 	(!!(AlwF(!!(-P- ,(read-from-string (format nil "Hazard_occured_~A" hazard_id))) )))))
 
 
 (defconstant *sys*
- (yesterday(&&
-  (Next ExeT1)
- ; (Next ExeT2)
-  )))
+ (&&
+ 	ExeT1
+ 	; (yesterday(reset_actions action_indexes  1))
+ 	(yesterday(init_hazards hazard_indexes))
+  ))
 
 
 (format t "~S" *sys*)
-(ae2sbvzot:zot TSPACE
+(sbvzot:zot TSPACE
  (&&
    *sys*
    )

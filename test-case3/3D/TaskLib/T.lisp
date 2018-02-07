@@ -1,22 +1,17 @@
-
-  (defvar notcall 0)
-  (defvar exetime 1)
-  ; things to export
-  (defvar Threshold 2)
-  (define-tvar Risk *int*) ;;max risk in the system  
-
-  
-  
+(defvar notcall 0)
+(defvar exetime 1)
+; things to export
+(defvar Threshold 2)
 
 (load "ORL-Module/L.lisp")
 (load "ORL-Module/O.lisp")
 (load "ORL-Module/R.lisp")
 
-  (load "Hazards.lisp")
-  (load "RRM.lisp")
-  (load "REs.lisp")
-  (load "REv.lisp")
-  ; (load "TaskLib/fcm.lisp") ;<-************************
+(load "Hazards.lisp")
+(load "RRM.lisp")
+(load "REs.lisp")
+(load "REv.lisp")
+; (load "TaskLib/fcm.lisp") ;<-************************
 
 
 
@@ -32,13 +27,13 @@
         (!! (-P- ,(read-from-string (format nil "~A_~A_~A" str4 i Tname))))
         (!! (-P- ,(read-from-string (format nil "~A_~A_~A" str5 i Tname))))
         (!! (-P- ,(read-from-string (format nil "~A_~A_~A" str6 i Tname))))
-        (!! (-P- ,(read-from-string (format nil "~A_~A_~A" str7 i Tname))))))))))))
+        (!! (-P- ,(read-from-string (format nil "~A_~A_~A" str7 i Tname))))
+        ))))))))
 
 (defun SeqAction (index Tname)
  (eval (list `alwf (append `(&&)
   (loop for i in index collect
    `(&&
-    ; ([=](-V- ,(read-from-string (format nil "Action_Time_~A_~A" i Tname))) 1)
      ;each action is done either by op or ro
     (<->(-P- ,(read-from-string (format nil "Action_Doer_ro_~A_~A" i Tname))) (!!(-P- ,(read-from-string (format nil "Action_Doer_op_~A_~A" i Tname)))))
 
@@ -84,7 +79,7 @@
         (!! (-P- ,(read-from-string (format nil "Action_Post_~A_~A" i Tname))))
         ; (-P- no_RRM)
         (!! (-P- hold))
-        ([<] (-V- Risk) Threshold)
+        (!!(Risk= Threshold))
         (alwp(&&
           (!! (-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" i Tname))))
           (!! (-P- ,(read-from-string (format nil "Action_State_ex_~A_~A" i Tname))))
@@ -109,7 +104,7 @@
         (!! (-P- ,(read-from-string (format nil "Action_Post_~A_~A" i Tname))))
         ; (!! (-P- no_RRM)) 
         (!! (-P- hold))
-        ([=] (-V- Risk) Threshold)
+        (Risk= Threshold)
         (alwp(&&
           (!! (-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" i Tname))))
           (!! (-P- ,(read-from-string (format nil "Action_State_ex_~A_~A" i Tname))))
@@ -141,7 +136,6 @@
           (!! (-P- ,(read-from-string (format nil "Action_State_ex_~A_~A" i Tname))))
           ))
         (Yesterday (!! (|| (-P- ,(read-from-string (format nil "Action_State_ns_~A_~A" i Tname))) (-P- ,(read-from-string (format nil "Action_State_wt_~A_~A" i Tname))) (-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" i Tname))))))
-        ; ([<] (-V- Risk) 2)
       )
     )
 
@@ -174,7 +168,7 @@
 
     (<->
       (-P- safety-property)
-      (&& ([=] (-V- Risk) Threshold) (Yesterday ([<] (-V- Risk) Threshold))))
+      (&& (Risk= Threshold) (Yesterday (Risk= Threshold))))
 
     ))))))
 

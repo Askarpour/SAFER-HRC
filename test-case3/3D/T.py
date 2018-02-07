@@ -202,7 +202,7 @@ def read_hazards():
     return index, hazardname
 
 def read_actions ():
-    file = open("TaskLib/T1.lisp","r")
+    file = open("TaskLib/T1-copy.lisp","r")
     line = ""
     index = ""
     actions = ""
@@ -419,17 +419,17 @@ def draw_layout(base , ee, l1, l2, op_head, op_hand, step, task_id):
 def safety_analysis_table (step,plt,actions_num,executing_actions,safe_executing_actions,hazards, risks,severities,hazard_names,action_names,separation, velocity, force):
     legendhz = " "
     legendrsk = " "
-    legendsvty = " "
+    legendsvty = executing = " "
     for h in hazards:
         legendhz += str(hazard_names[h]) + "\n"
     for r in risks:
         legendrsk += str(r) + "\n"
     for s in severities:
         legendsvty += str(s) + "\n"
-    from prettytable import PrettyTable
-    GstateSA = PrettyTable()
-    GstateSA.field_names = ["t", "Hazards","Risk","Se","CI","force","velocity","distance"]
-    GstateSA.add_row([step, legendhz ,legendrsk,legendsvty,"9",force,velocity,separation])
+    for a in  executing_actions:
+        executing +=  str(action_names[a])
+
+    GstateSA.add_row([step, executing, legendhz ,legendrsk,legendsvty,"9",force,velocity,separation])
     return GstateSA
 
 
@@ -488,7 +488,7 @@ if __name__ == '__main__':
         attributes_2 =parse_attributes (step, records, 2)
         separation_2 , velocity_2 , force_2 = attributes_2[0] , attributes_2[1], attributes_2[2]
 
-        for i in range (0, step+1):
+        for i in range (1, step+1):
             print("ns actons:")
             print(ns_actions[i])
             print (" \n wt actons:")
@@ -514,7 +514,7 @@ if __name__ == '__main__':
 			else:
 				index += 1
         move("output.1.txt", folder+"/output.1.txt")
-        move("output.dict.txt", folder+"/output.dict.txt")
+        # move("output.dict.txt", folder+"/output.dict.txt")
         move("output.hist.txt", folder+"/output.hist.txt")
         move("output.smt.txt", folder+"/output.smt.txt")
 
@@ -524,7 +524,10 @@ if __name__ == '__main__':
             plt.savefig(folder+"/Time"+str(i)+".png")
 
     f = open(folder+'/Table.txt','w')
+    from prettytable import PrettyTable
+    GstateSA = PrettyTable()
+    GstateSA.field_names = ["t", "executing", "hazards","risk","Se","CI","force","velocity","distance"]
     for i in range (1, step+1):
         table = safety_analysis_table(i,plt, action_num, executing_actions[i], safe_executing_actions[i],hazards[i], risks[i],severities[i],hazard_names,action_names,separation_1[i], velocity_1[i], force_1[i])
-        table_txt = table.get_string()
-        f.write(table_txt)
+    table_txt = table.get_string()
+    f.write(table_txt)

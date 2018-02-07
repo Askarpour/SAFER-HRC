@@ -21,7 +21,7 @@
  	(always_attached ,(read-from-string (format nil "`operator_~A_~A" opID `chest_area)) ,(read-from-string (format nil "`operator_~A_~A" opID `leg_area)))
 
 
-	(forbiden_for_human ,(read-from-string (format nil "~A" opID)) (setq l '(`L_15)))
+	(forbiden_for_human ,(read-from-string (format nil "~A" opID)) (setq l '(`L_15 `L_37)))
 
 
  	(moving_gradually ,(read-from-string (format nil "`operator_~A_~A" opID `head_area)))

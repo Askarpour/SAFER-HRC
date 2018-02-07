@@ -1,25 +1,19 @@
 ;;Hazards
+(define-item Risk '(0 1 2))
 (defvar hazard_indexes (loop for i from 1 to 28 collect i))
 
 (loop for i in hazard_indexes collect
   (progn 
-        (eval `(define-tvar ,(read-from-string (format nil "Hazard_CI_~A" i)) *int*))
-        (eval `(define-tvar ,(read-from-string (format nil "Hazard_Se_~A" i)) *int*))
-        (eval `(define-tvar ,(read-from-string (format nil "Hazard_Risk_~A" i)) *int*))))
+        (eval `(define-item ,(read-from-string (format nil "Hazard_CI_~A" i)) `(9)))
+        (eval `(define-item ,(read-from-string (format nil "Hazard_Se_~A" i)) `(0 1 2 3 4)))
+        (eval `(define-item ,(read-from-string (format nil "Hazard_Risk_~A" i)) `(0 1 2)))))
 
-(defun HazardsInit ()
- (eval (list `alwf (append `(&&) (loop for i in hazard_indexes collect `(&&
-    ;;
-    ([<=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_CI_~A" i))(loop for x = (read in nil nil) while x collect x)))) 16)
-    ([>=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_CI_~A" i))(loop for x = (read in nil nil) while x collect x)))) 1)
-    ([=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_CI_~A" i))(loop for x = (read in nil nil) while x collect x)))) 9) ;temp
-    ;;
-    ([<=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_Se_~A" i))(loop for x = (read in nil nil) while x collect x)))) 4)
-    ([>=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_Se_~A" i))(loop for x = (read in nil nil) while x collect x)))) 1)
-    ;;
-    ([<=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_Risk_~A" i))(loop for x = (read in nil nil) while x collect x)))) 2)
-    ([>=] (first(-V- ,(with-input-from-string (in (format nil "Hazard_Risk_~A" i))(loop for x = (read in nil nil) while x collect x)))) 0)))))))
-
+(defun init_hazards (hazard_indexes)
+  (eval (append `(&&) (loop for hazard_id in hazard_indexes collect
+  `(&&
+    (Risk= 0)
+    ,(read-from-string (format nil "(Hazard_Se_~A= 1)" hazard_id))
+    ,(read-from-string (format nil "(Hazard_Risk_~A= 0)" hazard_id)))))))
 
 (defun hazard_hit ( hazard_id bodypart robotpart  opID other_robotpart_1 other_robotpart_2)
  (eval`(&&
@@ -28,14 +22,7 @@
         (&&
             (In_same_L ,(read-from-string (format nil "`operator_~A_~A" opID bodypart)) ,(read-from-string (format nil "`~A" robotpart)))
             (|| (-P- ,(read-from-string (format nil "~D_Moving" robotpart))) (-P- ,(read-from-string (format nil "operator_~A_~A_Moving" opID bodypart))))
-            ; (!!(-P- occluded))
             (!! (occluded ,(read-from-string (format nil "`~A" robotpart))))
-            ; (!!
-            ;     (||
-            ;         (-P- occluded)
-            ;         (In_same_L ,(read-from-string (format nil "`operator_~A_~A" opID bodypart)) ,(read-from-string (format nil "`~A" other_robotpart_1)))
-            ;         (In_same_L ,(read-from-string (format nil "`operator_~A_~A" opID bodypart)) ,(read-from-string (format nil "`~A" other_robotpart_2)))
-            ;     ))
             )))))
 
 (defun hazard_entg (hazard_id bodypart robotpart opId other_robotpart_1 other_robotpart_2)
@@ -45,25 +32,7 @@
         (-P- ,(read-from-string (format nil "Hazard_occured_~A" hazard_id))) 
         (&& 
              (In_same_L ,(read-from-string (format nil "`operator_~A_~A" opID bodypart)) ,(read-from-string (format nil "`~A" robotpart)))
-             ; (-P- occluded)
              (occluded ,(read-from-string (format nil "`~A" robotpart)))
-            ; (||
-            ;     (-P- occluded)
-                
-            ;     (&&
-            ;         (In_same_L ,(read-from-string (format nil "`operator_~A_~A" opID bodypart)) ,(read-from-string (format nil "`~A" other_robotpart_1)))
-            ;         (-P- ,(read-from-string (format nil "~D_Moving" other_robotpart_1))) 
-            ;     )
-
-            ;     (&&
-            ;        (In_same_L ,(read-from-string (format nil "`operator_~A_~A" opID bodypart)) ,(read-from-string (format nil "`~A" other_robotpart_2)))
-            ;         (-P- ,(read-from-string (format nil "~D_Moving" other_robotpart_2))) 
-            ;     )                        
-            ; )
-            ; (||
-            ;     (-P- ,(read-from-string (format nil "~D_Moving" robotpart))) 
-            ;     (!! (-P- ,(read-from-string (format nil "OperatorStill_~A" opId))))
-            ; )
         ))))) 
 
 

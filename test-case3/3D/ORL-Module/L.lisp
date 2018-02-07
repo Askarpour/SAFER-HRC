@@ -62,7 +62,7 @@
 (defun In_Adj_with_L (i j)
   (eval (append `(||)  
    (loop for l_i in L_indexes collect
-    `(&& (-P- ,(read-from-string (format nil "~A_In_L_~A" i l_i))) (Adj ,(read-from-string (format nil "~A" l_i)) ,(read-from-string (format nil "~A" j)))
+    `(&& (-P- ,(read-from-string (format nil "~A_In_L_~A" i l_i))) (eval (Adj ,(read-from-string (format nil "~A" l_i)) ,(read-from-string (format nil "~A" j))))
     )))))
 
 (defun In_Adj_L_with_yesterday (i)
@@ -75,18 +75,20 @@
 (defun In_Adj_L_help(j l_i)
   (eval (append `(||)  
    (loop for l_j in L_indexes collect
-    `(&& (-P- ,(read-from-string (format nil "~A_In_L_~A" j l_j))) (Adj ,(read-from-string (format nil "~A" l_i)) ,(read-from-string (format nil "~A" l_j))))
+    `(&& (-P- ,(read-from-string (format nil "~A_In_L_~A" j l_j))) (eval (Adj ,(read-from-string (format nil "~A" l_i)) ,(read-from-string (format nil "~A" l_j)))))
     ))))
 
 (defun In_Adj_L_with_yesterday_help(j l_i)
   (eval (append `(||)  
    (loop for l_j in L_indexes collect
-    `(-> (&&(yesterday (-P- ,(read-from-string (format nil "~A_In_L_~A" j l_j)))) (-P- ,(read-from-string (format nil "~A_In_L_~A" j l_j)))) (Adj ,(read-from-string (format nil "~A" l_i)) ,(read-from-string (format nil "~A" l_j))))
+    `(-> (&&(yesterday (-P- ,(read-from-string (format nil "~A_In_L_~A" j l_j)))) (-P- ,(read-from-string (format nil "~A_In_L_~A" j l_j)))) (eval (Adj ,(read-from-string (format nil "~A" l_i)) ,(read-from-string (format nil "~A" l_j)))))
     ))))
 
 (defun above_same_L (i j)
   (eval (append `(||)  
-  (loop for l in L_indexes collect
+  (loop for l in L_indexes 
+    when (<= (+ l L_half) L_last)
+    collect
   `(&&
     (-P- ,(read-from-string (format nil "~A_In_L_~A" i l)))
     (-P- ,(read-from-string (format nil "~A_In_L_~A" j (+ l L_half)))))))))
