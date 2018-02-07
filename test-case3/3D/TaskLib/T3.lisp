@@ -28,7 +28,6 @@
  (alwf(&&
        (SeqAction action_indexes 1)
        (mutually_exclusive2 action_indexes 1)
-       ; (limiting_op_actions action_indexes 1)
 
        (relativeProperties 1 1)
        (Operator_Body 1)

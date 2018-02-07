@@ -1,6 +1,6 @@
 (asdf:operate 'asdf:load-op 'sbvzot)
 (use-package :trio-utils)
-(defvar TSPACE 25)
+(defvar TSPACE 40)
 
 (load "TaskLib/T.lisp")
 
