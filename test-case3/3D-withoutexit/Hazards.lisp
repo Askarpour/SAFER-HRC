@@ -42,7 +42,7 @@
 
 (setq formula1 "(SomF_e (&& (-P- hazardous_sit) (SomF_e (-P- hazardous_sit))))")
 (setq formula2 "(SomF_e (&& (-P- hazardous_sit)")
-(setq formula3 "(-P- hazardous_sit)")
+(setq formula3 "(&& (-P- hazardous_sit))")
 (setq formula formula1)
 
 (defun min_hazardous_sit(n)
@@ -54,11 +54,17 @@
       )
    )formula)
 
+(defun max_hazardous_sit()
+      (loop for i from 1 to 1 collect (setq formula (concatenate 'string "(AlwF (!! "formula2 formula ")")))
+      (loop repeat 1 do (setq formula (concatenate 'string formula  ")))")))
+      formula
+   )
+
 (defun hazard_counter(n)
   (&&
     (eval `,(read-from-string (format nil (min_hazardous_sit n))))
-    (Alwf(!!(eval `,(read-from-string (format nil (min_hazardous_sit (+ n 1)))))))
-)) 
+    (eval `,(read-from-string (format nil (max_hazardous_sit ))))
+))
 
 (defconstant *Hazardslist*
  (alwf(&&
