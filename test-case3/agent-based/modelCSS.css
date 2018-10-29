@@ -1,0 +1,114 @@
+Enumeration {
+	fontName:"Segoe UI";
+	fillColor:#ffe6cc;
+	transparency:0.0;
+	gradient:none;
+	lineColor:#000000
+}
+
+InstanceSpecification {
+	fontName:"Segoe UI";
+	fillColor:#b3d9ff;
+	transparency:0.0;
+	gradient:none;
+	lineColor:#000000
+}
+
+Compartment[type=StereotypeCompartment]{
+	visible:true;
+	showTitle:false;
+}
+
+Class {
+	fontName:"Segoe UI";
+	fillColor:#e6f2ff;
+	transparency:0.0;
+	gradient:none;
+	lineColor:#000000
+}
+
+OpaqueAction {
+	fontName:"Segoe UI";
+	fillColor:#CCE6FF;
+	transparency:0.0;
+	gradient:none;
+	lineColor:#000000
+}
+
+Activity {
+	fontName:"Segoe UI";
+	fillColor:#f2f2f2;
+	transparency:0.0;
+	gradient:none;
+	lineColor:#000000
+}
+
+JoinNode {
+	fontName:"Segoe UI";
+	fillColor:#00264d;
+	transparency:0.0;
+	gradient:none;
+	lineColor:#000000
+}
+
+InitialNode {
+	fontColor:#f2f2f2
+}
+
+ActivityFinal {
+	fontColor:#f2f2f2
+}
+
+ForkNode {
+	fontName:"Segoe UI";
+	fillColor:#00264d;
+	transparency:0.0;
+	gradient:none;
+	lineColor:#000000;
+	fontColor:#f2f2f2
+}
+
+ControlFlow {
+	lineWidth:2
+}
+
+
+DecisionNode {
+	fontName:"Segoe UI";
+	fillColor:#151338;
+	transparency:100.0;
+	lineColor:#000000
+}
+
+Comment {
+	fontName:"Segoe UI";
+	fillColor:#FFFFED;
+	transparency:0.0;
+	gradient:none;
+	lineColor:#000000
+}
+
+LoopNode {
+	fontName:"Segoe UI";
+	fillColor:#E2E2E2;
+	transparency:0.0;
+	gradient:none;
+	lineColor:#000000
+}
+
+Component {
+	fontName:".SF NS Text";
+	fillColor:#E2E2E2;
+	transparency:0.0;
+	gradient:none;
+	lineColor:#000000
+}
+
+Property {
+	fontName:"Segoe UI";
+	fillColor:#FFFFFF;
+	transparency:0.0;
+	gradient:none;
+	lineColor:#000000
+}
+

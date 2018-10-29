@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Profile xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_ji06kNvTEeaqGYF1wNkcsg" name="CustomArrow" metaclassReference="_ji2IsNvTEeaqGYF1wNkcsg">
+  <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_ji3W0dvTEeaqGYF1wNkcsg" source="http://www.eclipse.org/uml2/2.0.0/UML">
+    <contents xmi:type="ecore:EPackage" xmi:id="_txzQAdvTEeaqGYF1wNkcsg" name="CustomArrow" nsURI="http:///schemas/CustomArrow/_txzQANvTEeaqGYF1wNkcsg/1" nsPrefix="CustomArrow">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_txzQB9vTEeaqGYF1wNkcsg" source="PapyrusVersion">
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_txzQCNvTEeaqGYF1wNkcsg" key="Version" value="0.0.2"/>
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_txzQCdvTEeaqGYF1wNkcsg" key="Comment" value=""/>
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_txzQCtvTEeaqGYF1wNkcsg" key="Copyright" value=""/>
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_txzQC9vTEeaqGYF1wNkcsg" key="Date" value="2017-01-16"/>
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_txzQDNvTEeaqGYF1wNkcsg" key="Author" value=""/>
+      </eAnnotations>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_txzQAtvTEeaqGYF1wNkcsg" name="loop">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_txzQA9vTEeaqGYF1wNkcsg" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_ji1hoNvTEeaqGYF1wNkcsg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_txzQBNvTEeaqGYF1wNkcsg" name="base_ControlFlow" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ControlFlow"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+    </contents>
+    <contents xmi:type="ecore:EPackage" xmi:id="_ji3W0tvTEeaqGYF1wNkcsg" name="CustomArrow" nsURI="http:///schemas/CustomArrow/_ji3W0NvTEeaqGYF1wNkcsg/0" nsPrefix="CustomArrow">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_ji394dvTEeaqGYF1wNkcsg" source="PapyrusVersion">
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_ji394tvTEeaqGYF1wNkcsg" key="Version" value="0.0.1"/>
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_ji3949vTEeaqGYF1wNkcsg" key="Comment" value=""/>
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_ji395NvTEeaqGYF1wNkcsg" key="Copyright" value=""/>
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_ji395dvTEeaqGYF1wNkcsg" key="Date" value="16/01/17 11.07"/>
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_ji395tvTEeaqGYF1wNkcsg" key="Author" value=""/>
+      </eAnnotations>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_ji3W09vTEeaqGYF1wNkcsg" name="loop">
+        <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_ji3W1NvTEeaqGYF1wNkcsg" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_ji1hoNvTEeaqGYF1wNkcsg"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_ji3W1dvTEeaqGYF1wNkcsg" name="base_ControlFlow" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//ControlFlow"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="_ji3W19vTEeaqGYF1wNkcsg" name="isLoop" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/uml2/5.0.0/Types#//Boolean"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+    </contents>
+  </eAnnotations>
+  <elementImport xmi:type="uml:ElementImport" xmi:id="_ji2IsNvTEeaqGYF1wNkcsg">
+    <importedElement xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#ControlFlow"/>
+  </elementImport>
+  <packagedElement xmi:type="uml:Stereotype" xmi:id="_ji1hoNvTEeaqGYF1wNkcsg" name="loop">
+    <ownedAttribute xmi:type="uml:Property" xmi:id="_ji2vwtvTEeaqGYF1wNkcsg" name="base_ControlFlow" association="_ji2vwNvTEeaqGYF1wNkcsg">
+      <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#ControlFlow"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Extension" xmi:id="_ji2vwNvTEeaqGYF1wNkcsg" name="ControlFlow_loop" memberEnd="_ji2vwdvTEeaqGYF1wNkcsg _ji2vwtvTEeaqGYF1wNkcsg">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_ji2vwdvTEeaqGYF1wNkcsg" name="extension_loop" type="_ji1hoNvTEeaqGYF1wNkcsg" aggregation="composite" association="_ji2vwNvTEeaqGYF1wNkcsg"/>
+  </packagedElement>
+</uml:Profile>
