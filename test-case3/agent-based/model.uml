@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xmi:XMI xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:CustomArrow="http:///schemas/CustomArrow/_txzQANvTEeaqGYF1wNkcsg/1" xmlns:EEActions="http:///schemas/EEActions/_76O54BoGEeexr8fOLPfkfg/13" xmlns:devAction="http:///schemas/devAction/_uyTcEPN_Eea34Zep51KJlg/7" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:logicOperators="http:///schemas/logicOperators/_3ar5EPN9Eeai9cggyJxPkg/4" xmlns:opAction="http:///schemas/opAction/_XoVU8PQxEeaGJLo7P9rnIQ/9" xmlns:robAction="http:///schemas/robAction/_rw1NYBoGEeexr8fOLPfkfg/13" xmlns:tempOperatorCommand="http:///schemas/tempOperatorCommand/__2zCABLzEeemmLfb-9_Cww/8" xmlns:tempOperatorState="http:///schemas/tempOperatorState/_9RznEAi-EeevO9Kxro18GQ/4" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xsi:schemaLocation="http:///schemas/CustomArrow/_txzQANvTEeaqGYF1wNkcsg/1 CustomArrow.profile.uml#_txzQAdvTEeaqGYF1wNkcsg http:///schemas/EEActions/_76O54BoGEeexr8fOLPfkfg/13 EEAction.profile.uml#_76O54RoGEeexr8fOLPfkfg http:///schemas/devAction/_uyTcEPN_Eea34Zep51KJlg/7 devAction.profile.uml#_uyTcEfN_Eea34Zep51KJlg http:///schemas/logicOperators/_3ar5EPN9Eeai9cggyJxPkg/4 logicOperators.profile.uml#_3asgIPN9Eeai9cggyJxPkg http:///schemas/opAction/_XoVU8PQxEeaGJLo7P9rnIQ/9 opAction.profile.uml#_XoXxMPQxEeaGJLo7P9rnIQ http:///schemas/robAction/_rw1NYBoGEeexr8fOLPfkfg/13 robAction.profile.uml#_rw43wBoGEeexr8fOLPfkfg http:///schemas/tempOperatorCommand/__2zCABLzEeemmLfb-9_Cww/8 tempOperatorCommand.profile.uml#__22FUBLzEeemmLfb-9_Cww http:///schemas/tempOperatorState/_9RznEAi-EeevO9Kxro18GQ/4 tempOperatorState.profile.uml#_9R2DUAi-EeevO9Kxro18GQ">
+<xmi:XMI xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:CustomArrow="http:///schemas/CustomArrow/_txzQANvTEeaqGYF1wNkcsg/1" xmlns:EEActions="http:///schemas/EEActions/_76O54BoGEeexr8fOLPfkfg/13" xmlns:devAction="http:///schemas/devAction/_uyTcEPN_Eea34Zep51KJlg/7" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:logicOperators="http:///schemas/logicOperators/_3ar5EPN9Eeai9cggyJxPkg/4" xmlns:opAction="http:///schemas/opAction/_XoVU8PQxEeaGJLo7P9rnIQ/9" xmlns:robAction="http:///schemas/robAction/_aLfxsNwrEeihyeYKHMfJ8A/15" xmlns:tempOperatorCommand="http:///schemas/tempOperatorCommand/__2zCABLzEeemmLfb-9_Cww/8" xmlns:tempOperatorState="http:///schemas/tempOperatorState/_9RznEAi-EeevO9Kxro18GQ/4" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xsi:schemaLocation="http:///schemas/CustomArrow/_txzQANvTEeaqGYF1wNkcsg/1 CustomArrow.profile.uml#_txzQAdvTEeaqGYF1wNkcsg http:///schemas/EEActions/_76O54BoGEeexr8fOLPfkfg/13 EEAction.profile.uml#_76O54RoGEeexr8fOLPfkfg http:///schemas/devAction/_uyTcEPN_Eea34Zep51KJlg/7 devAction.profile.uml#_uyTcEfN_Eea34Zep51KJlg http:///schemas/logicOperators/_3ar5EPN9Eeai9cggyJxPkg/4 logicOperators.profile.uml#_3asgIPN9Eeai9cggyJxPkg http:///schemas/opAction/_XoVU8PQxEeaGJLo7P9rnIQ/9 opAction.profile.uml#_XoXxMPQxEeaGJLo7P9rnIQ http:///schemas/robAction/_aLfxsNwrEeihyeYKHMfJ8A/15 robAction.profile.uml#_aLfxsdwrEeihyeYKHMfJ8A http:///schemas/tempOperatorCommand/__2zCABLzEeemmLfb-9_Cww/8 tempOperatorCommand.profile.uml#__22FUBLzEeemmLfb-9_Cww http:///schemas/tempOperatorState/_9RznEAi-EeevO9Kxro18GQ/4 tempOperatorState.profile.uml#_9R2DUAi-EeevO9Kxro18GQ">
   <uml:Model xmi:id="_sCDAQK_6Eeavzpp-IgnzqA" name="RootElement">
     <packagedElement xmi:type="uml:Package" xmi:id="_KfXiANNgEea7-f0_S8nWig" name="Positions">
       <packagedElement xmi:type="uml:InstanceSpecification" xmi:id="_eYaeINNiEeaWybghKzF3ww" name="approachPick" classifier="_xqtt0M9HEea-g7s1hKMHeA">
@@ -1263,79 +1263,88 @@ isProcessed = 1</body>
         <node xmi:type="uml:InitialNode" xmi:id="_ZnAm0BLrEeemmLfb-9_Cww" name="" outgoing="_pw2iwBLsEeemmLfb-9_Cww"/>
         <node xmi:type="uml:OpaqueAction" xmi:id="_JvGV8BU7Eeetr_qzEYxFVQ" name="ActivityFinal" incoming="_OBYVkBLtEeemmLfb-9_Cww"/>
       </packagedElement>
-      <packagedElement xmi:type="uml:Activity" xmi:id="_9zRKABUiEeetr_qzEYxFVQ" name="FullTask" node="_E8eBUBUjEeetr_qzEYxFVQ _6G00wBXjEeentfMxR4DUhw _uz5vABXjEeentfMxR4DUhw __Gxo8BhGEee5DLCdDP_GIw _a_eOIBhHEee5DLCdDP_GIw _hZiukBhHEee5DLCdDP_GIw" group="_6G00wBXjEeentfMxR4DUhw">
-        <edge xmi:type="uml:ControlFlow" xmi:id="_TWQKUBUjEeetr_qzEYxFVQ" target="_9xV-sBXjEeentfMxR4DUhw" source="_E8eBUBUjEeetr_qzEYxFVQ"/>
-        <edge xmi:type="uml:ControlFlow" xmi:id="_CbPiABXkEeentfMxR4DUhw" target="_6XsVYNvIEeijc_X3V1BswQ" source="_9xV-sBXjEeentfMxR4DUhw"/>
-        <edge xmi:type="uml:ControlFlow" xmi:id="_BYSawBXlEeentfMxR4DUhw" target="_QmoTMNu9EeiyrIQFDSuoYA" source="_9xV-sBXjEeentfMxR4DUhw"/>
-        <edge xmi:type="uml:ControlFlow" xmi:id="_gkeNIBXpEeentfMxR4DUhw" target="_el0vIBXpEeentfMxR4DUhw" source="_6XsVYNvIEeijc_X3V1BswQ"/>
-        <edge xmi:type="uml:ControlFlow" xmi:id="_uD4MoNvDEeijc_X3V1BswQ" target="_Tdp78NvDEeijc_X3V1BswQ" source="_QmoTMNu9EeiyrIQFDSuoYA"/>
+      <packagedElement xmi:type="uml:Activity" xmi:id="_9zRKABUiEeetr_qzEYxFVQ" name="FullTask" node="_E8eBUBUjEeetr_qzEYxFVQ _6G00wBXjEeentfMxR4DUhw _uz5vABXjEeentfMxR4DUhw __Gxo8BhGEee5DLCdDP_GIw _a_eOIBhHEee5DLCdDP_GIw _hZiukBhHEee5DLCdDP_GIw _TmfEcOB8EeiPiez2-mFlrA" group="_6G00wBXjEeentfMxR4DUhw">
+        <edge xmi:type="uml:ControlFlow" xmi:id="_TWQKUBUjEeetr_qzEYxFVQ" target="_TmfEcOB8EeiPiez2-mFlrA" source="_E8eBUBUjEeetr_qzEYxFVQ"/>
+        <edge xmi:type="uml:ControlFlow" xmi:id="_CbPiABXkEeentfMxR4DUhw" target="_T4FIYOBIEeiPiez2-mFlrA" source="_TmfEcOB8EeiPiez2-mFlrA"/>
+        <edge xmi:type="uml:ControlFlow" xmi:id="_BYSawBXlEeentfMxR4DUhw" target="_RViGYN3HEeiwccvuiZZIlA" source="_TmfEcOB8EeiPiez2-mFlrA"/>
+        <edge xmi:type="uml:ControlFlow" xmi:id="_gkeNIBXpEeentfMxR4DUhw" target="_riwf4OBGEeiPiez2-mFlrA" source="_ec8QoOB8EeiPiez2-mFlrA"/>
+        <edge xmi:type="uml:ControlFlow" xmi:id="_uD4MoNvDEeijc_X3V1BswQ" target="_Tdp78NvDEeijc_X3V1BswQ" source="_RViGYN3HEeiwccvuiZZIlA"/>
         <edge xmi:type="uml:ControlFlow" xmi:id="_YGf54NvEEeijc_X3V1BswQ" target="_Cro60NvEEeijc_X3V1BswQ" source="_Tdp78NvDEeijc_X3V1BswQ"/>
         <edge xmi:type="uml:ControlFlow" xmi:id="_oB94ENvEEeijc_X3V1BswQ" target="_eBmmYNvEEeijc_X3V1BswQ" source="_Cro60NvEEeijc_X3V1BswQ"/>
-        <edge xmi:type="uml:ControlFlow" xmi:id="_rfpf4NvEEeijc_X3V1BswQ" target="_9xV-sBXjEeentfMxR4DUhw" source="_eBmmYNvEEeijc_X3V1BswQ"/>
-        <edge xmi:type="uml:ControlFlow" xmi:id="_2b_RoNvEEeijc_X3V1BswQ" target="_vZKIENvEEeijc_X3V1BswQ" source="_el0vIBXpEeentfMxR4DUhw"/>
-        <edge xmi:type="uml:ControlFlow" xmi:id="_Y8LvQNvFEeijc_X3V1BswQ" target="_U3M24NvFEeijc_X3V1BswQ" source="_el0vIBXpEeentfMxR4DUhw"/>
-        <edge xmi:type="uml:ControlFlow" xmi:id="_zYkHcNvFEeijc_X3V1BswQ" target="_uEBrsNvFEeijc_X3V1BswQ" source="_U3M24NvFEeijc_X3V1BswQ"/>
+        <edge xmi:type="uml:ControlFlow" xmi:id="_rfpf4NvEEeijc_X3V1BswQ" target="_T4FIYOBIEeiPiez2-mFlrA" source="_eBmmYNvEEeijc_X3V1BswQ"/>
+        <edge xmi:type="uml:ControlFlow" xmi:id="_2b_RoNvEEeijc_X3V1BswQ" target="_vZKIENvEEeijc_X3V1BswQ" source="_riwf4OBGEeiPiez2-mFlrA"/>
+        <edge xmi:type="uml:ControlFlow" xmi:id="_Y8LvQNvFEeijc_X3V1BswQ" target="_j5jbMN3HEeiwccvuiZZIlA" source="_riwf4OBGEeiPiez2-mFlrA"/>
+        <edge xmi:type="uml:ControlFlow" xmi:id="_zYkHcNvFEeijc_X3V1BswQ" target="_uEBrsNvFEeijc_X3V1BswQ" source="_j5jbMN3HEeiwccvuiZZIlA"/>
         <edge xmi:type="uml:ControlFlow" xmi:id="_9l4akNvGEeijc_X3V1BswQ" target="_H8dewNvFEeijc_X3V1BswQ" source="_j9FbcNvGEeijc_X3V1BswQ"/>
         <edge xmi:type="uml:ControlFlow" xmi:id="_BNeMUNvHEeijc_X3V1BswQ" target="_j9FbcNvGEeijc_X3V1BswQ" source="_H8dewNvFEeijc_X3V1BswQ"/>
         <edge xmi:type="uml:ControlFlow" xmi:id="_DJ6D0NvHEeijc_X3V1BswQ" target="_j9FbcNvGEeijc_X3V1BswQ" source="__qFMgBXkEeentfMxR4DUhw"/>
         <edge xmi:type="uml:ControlFlow" xmi:id="_Q6EoENvHEeijc_X3V1BswQ" target="_KN8uUNvHEeijc_X3V1BswQ" source="_j9FbcNvGEeijc_X3V1BswQ"/>
-        <edge xmi:type="uml:ControlFlow" xmi:id="_U-jKINvHEeijc_X3V1BswQ" target="_TzdQANvHEeijc_X3V1BswQ" source="_KN8uUNvHEeijc_X3V1BswQ"/>
-        <edge xmi:type="uml:ControlFlow" xmi:id="_bf4JINvHEeijc_X3V1BswQ" target="_TzdQANvHEeijc_X3V1BswQ" source="_6XsVYNvIEeijc_X3V1BswQ"/>
-        <edge xmi:type="uml:ControlFlow" xmi:id="_j8yEANvHEeijc_X3V1BswQ" target="_glYqYNvHEeijc_X3V1BswQ" source="_TzdQANvHEeijc_X3V1BswQ"/>
+        <edge xmi:type="uml:ControlFlow" xmi:id="_U-jKINvHEeijc_X3V1BswQ" target="_Fd128OBJEeiPiez2-mFlrA" source="_KN8uUNvHEeijc_X3V1BswQ"/>
+        <edge xmi:type="uml:ControlFlow" xmi:id="_j8yEANvHEeijc_X3V1BswQ" target="___4JENvMEeijc_X3V1BswQ" source="_MeaWsOBJEeiPiez2-mFlrA"/>
         <edge xmi:type="uml:ControlFlow" xmi:id="_YaD80NvJEeijc_X3V1BswQ" target="__qFMgBXkEeentfMxR4DUhw" source="_uEBrsNvFEeijc_X3V1BswQ"/>
         <edge xmi:type="uml:ControlFlow" xmi:id="_Z2p2oNvJEeijc_X3V1BswQ" target="__qFMgBXkEeentfMxR4DUhw" source="_vZKIENvEEeijc_X3V1BswQ"/>
-        <edge xmi:type="uml:ControlFlow" xmi:id="_9Mh3sNvMEeijc_X3V1BswQ" target="_QypYINvMEeijc_X3V1BswQ" source="_glYqYNvHEeijc_X3V1BswQ"/>
-        <edge xmi:type="uml:ControlFlow" xmi:id="_RpV6INvNEeijc_X3V1BswQ" target="___4JENvMEeijc_X3V1BswQ" source="_glYqYNvHEeijc_X3V1BswQ"/>
-        <edge xmi:type="uml:ControlFlow" xmi:id="_d0CVYNvNEeijc_X3V1BswQ" target="_YV6f0NvNEeijc_X3V1BswQ" source="_QypYINvMEeijc_X3V1BswQ"/>
+        <edge xmi:type="uml:ControlFlow" xmi:id="_RpV6INvNEeijc_X3V1BswQ" target="_9VMIEN3HEeiwccvuiZZIlA" source="_MeaWsOBJEeiPiez2-mFlrA"/>
+        <edge xmi:type="uml:ControlFlow" xmi:id="_d0CVYNvNEeijc_X3V1BswQ" target="_YV6f0NvNEeijc_X3V1BswQ" source="_9VMIEN3HEeiwccvuiZZIlA"/>
         <edge xmi:type="uml:ControlFlow" xmi:id="_lGsqsNvNEeijc_X3V1BswQ" target="_hQFlgNvNEeijc_X3V1BswQ" source="_YV6f0NvNEeijc_X3V1BswQ"/>
         <edge xmi:type="uml:ControlFlow" xmi:id="_mABfYNvNEeijc_X3V1BswQ" target="_hQFlgNvNEeijc_X3V1BswQ" source="___4JENvMEeijc_X3V1BswQ"/>
         <edge xmi:type="uml:ControlFlow" xmi:id="_XVxcANvOEeijc_X3V1BswQ" target="_-0MjoNvNEeijc_X3V1BswQ" source="_hQFlgNvNEeijc_X3V1BswQ"/>
         <edge xmi:type="uml:ControlFlow" xmi:id="_BYP_UNvPEeijc_X3V1BswQ" target="_-0MjoNvNEeijc_X3V1BswQ" source="_ZMcpwNvOEeijc_X3V1BswQ"/>
         <edge xmi:type="uml:ControlFlow" xmi:id="_CeICQNvPEeijc_X3V1BswQ" target="_ZMcpwNvOEeijc_X3V1BswQ" source="_-0MjoNvNEeijc_X3V1BswQ"/>
         <edge xmi:type="uml:ControlFlow" xmi:id="_HjTzYNvPEeijc_X3V1BswQ" target="_FxQm8NvPEeijc_X3V1BswQ" source="_-0MjoNvNEeijc_X3V1BswQ"/>
-        <edge xmi:type="uml:ControlFlow" xmi:id="_rNQR4NvQEeijc_X3V1BswQ" target="_zimMMNvQEeijc_X3V1BswQ" source="_FxQm8NvPEeijc_X3V1BswQ"/>
-        <edge xmi:type="uml:ControlFlow" xmi:id="_xqxu8NvQEeijc_X3V1BswQ" target="_zimMMNvQEeijc_X3V1BswQ" source="_TzdQANvHEeijc_X3V1BswQ"/>
-        <edge xmi:type="uml:ControlFlow" xmi:id="_49V9oNvQEeijc_X3V1BswQ" target="_GhQOkNvREeijc_X3V1BswQ" source="_zimMMNvQEeijc_X3V1BswQ"/>
-        <edge xmi:type="uml:ControlFlow" xmi:id="_iw1CsNvREeijc_X3V1BswQ" target="_Z4MDgNvQEeijc_X3V1BswQ" source="_GhQOkNvREeijc_X3V1BswQ"/>
-        <edge xmi:type="uml:ControlFlow" xmi:id="_k3t2sNvREeijc_X3V1BswQ" target="_GhQOkNvREeijc_X3V1BswQ" source="_Z4MDgNvQEeijc_X3V1BswQ"/>
-        <edge xmi:type="uml:ControlFlow" xmi:id="_y6RygNvREeijc_X3V1BswQ" target="_tEhgENvREeijc_X3V1BswQ" source="_Z4MDgNvQEeijc_X3V1BswQ"/>
-        <edge xmi:type="uml:ControlFlow" xmi:id="_3QKNoNvREeijc_X3V1BswQ" target="_9xV-sBXjEeentfMxR4DUhw" source="_tEhgENvREeijc_X3V1BswQ"/>
-        <edge xmi:type="uml:ControlFlow" xmi:id="_4pDTMNvREeijc_X3V1BswQ" target="_uz5vABXjEeentfMxR4DUhw" source="_9xV-sBXjEeentfMxR4DUhw"/>
-        <structuredNode xmi:type="uml:LoopNode" xmi:id="_6G00wBXjEeentfMxR4DUhw" name="1">
-          <node xmi:type="uml:MergeNode" xmi:id="_9xV-sBXjEeentfMxR4DUhw" name="loaded" incoming="_TWQKUBUjEeetr_qzEYxFVQ _rfpf4NvEEeijc_X3V1BswQ _3QKNoNvREeijc_X3V1BswQ" outgoing="_CbPiABXkEeentfMxR4DUhw _BYSawBXlEeentfMxR4DUhw _4pDTMNvREeijc_X3V1BswQ"/>
+        <edge xmi:type="uml:ControlFlow" xmi:id="_rNQR4NvQEeijc_X3V1BswQ" target="_X3iyIOBJEeiPiez2-mFlrA" source="_FxQm8NvPEeijc_X3V1BswQ"/>
+        <edge xmi:type="uml:ControlFlow" xmi:id="_xqxu8NvQEeijc_X3V1BswQ" target="_X3iyIOBJEeiPiez2-mFlrA" source="_pkyHwOB8EeiPiez2-mFlrA"/>
+        <edge xmi:type="uml:ControlFlow" xmi:id="_iw1CsNvREeijc_X3V1BswQ" target="_g6TNEN3NEeiwccvuiZZIlA" source="_GhQOkNvREeijc_X3V1BswQ"/>
+        <edge xmi:type="uml:ControlFlow" xmi:id="_y6RygNvREeijc_X3V1BswQ" target="_XfyJ4OB_EeiPiez2-mFlrA" source="_g6TNEN3NEeiwccvuiZZIlA"/>
+        <edge xmi:type="uml:ControlFlow" xmi:id="_3QKNoNvREeijc_X3V1BswQ" target="_uz5vABXjEeentfMxR4DUhw" source="_tEhgENvREeijc_X3V1BswQ"/>
+        <edge xmi:type="uml:ControlFlow" xmi:id="_raiBwN9mEeiXfaUadY9lRA" target="_pkyHwOB8EeiPiez2-mFlrA" source="_Fd128OBJEeiPiez2-mFlrA"/>
+        <edge xmi:type="uml:ControlFlow" xmi:id="_w-6VcOAYEei_BOu619MkwQ" target="_GhQOkNvREeijc_X3V1BswQ" source="_g6TNEN3NEeiwccvuiZZIlA"/>
+        <edge xmi:type="uml:ControlFlow" xmi:id="_fqxlQOBGEeiPiez2-mFlrA" target="_ec8QoOB8EeiPiez2-mFlrA" source="_6G00wBXjEeentfMxR4DUhw"/>
+        <edge xmi:type="uml:ControlFlow" xmi:id="_PohiQOBJEeiPiez2-mFlrA" target="_MeaWsOBJEeiPiez2-mFlrA" source="_pkyHwOB8EeiPiez2-mFlrA"/>
+        <edge xmi:type="uml:ControlFlow" xmi:id="_bZgdAOBJEeiPiez2-mFlrA" target="_TvLZIOBKEeiPiez2-mFlrA" source="_X3iyIOBJEeiPiez2-mFlrA"/>
+        <edge xmi:type="uml:ControlFlow" xmi:id="_Vmxz8OBKEeiPiez2-mFlrA" target="_L9keAOBKEeiPiez2-mFlrA" source="_TvLZIOBKEeiPiez2-mFlrA"/>
+        <edge xmi:type="uml:ControlFlow" xmi:id="_WLRBEOBKEeiPiez2-mFlrA" target="_GhQOkNvREeijc_X3V1BswQ" source="_TvLZIOBKEeiPiez2-mFlrA"/>
+        <edge xmi:type="uml:ControlFlow" xmi:id="_l4FMgOB8EeiPiez2-mFlrA" target="_6G00wBXjEeentfMxR4DUhw" source="_ec8QoOB8EeiPiez2-mFlrA"/>
+        <edge xmi:type="uml:ControlFlow" xmi:id="_ZJTFYOB_EeiPiez2-mFlrA" target="_XfyJ4OB_EeiPiez2-mFlrA" source="_L9keAOBKEeiPiez2-mFlrA"/>
+        <edge xmi:type="uml:ControlFlow" xmi:id="_ew6OIOB_EeiPiez2-mFlrA" target="_tEhgENvREeijc_X3V1BswQ" source="_XfyJ4OB_EeiPiez2-mFlrA"/>
+        <structuredNode xmi:type="uml:LoopNode" xmi:id="_6G00wBXjEeentfMxR4DUhw" name="1" incoming="_l4FMgOB8EeiPiez2-mFlrA" outgoing="_fqxlQOBGEeiPiez2-mFlrA">
           <node xmi:type="uml:ForkNode" xmi:id="__qFMgBXkEeentfMxR4DUhw" incoming="_YaD80NvJEeijc_X3V1BswQ _Z2p2oNvJEeijc_X3V1BswQ" outgoing="_DJ6D0NvHEeijc_X3V1BswQ"/>
-          <node xmi:type="uml:ForkNode" xmi:id="_el0vIBXpEeentfMxR4DUhw" incoming="_gkeNIBXpEeentfMxR4DUhw" outgoing="_2b_RoNvEEeijc_X3V1BswQ _Y8LvQNvFEeijc_X3V1BswQ"/>
           <node xmi:type="uml:ForkNode" xmi:id="_N9HlkBXrEeentfMxR4DUhw"/>
-          <node xmi:type="uml:OpaqueAction" xmi:id="_QmoTMNu9EeiyrIQFDSuoYA" name="base moves to bin" incoming="_BYSawBXlEeentfMxR4DUhw" outgoing="_uD4MoNvDEeijc_X3V1BswQ"/>
           <node xmi:type="uml:OpaqueAction" xmi:id="_Tdp78NvDEeijc_X3V1BswQ" name="arm opens " incoming="_uD4MoNvDEeijc_X3V1BswQ" outgoing="_YGf54NvEEeijc_X3V1BswQ"/>
           <node xmi:type="uml:OpaqueAction" xmi:id="_Cro60NvEEeijc_X3V1BswQ" name="EE picks a wp" incoming="_YGf54NvEEeijc_X3V1BswQ" outgoing="_oB94ENvEEeijc_X3V1BswQ"/>
           <node xmi:type="uml:OpaqueAction" xmi:id="_eBmmYNvEEeijc_X3V1BswQ" name="arm retreats" incoming="_oB94ENvEEeijc_X3V1BswQ" outgoing="_rfpf4NvEEeijc_X3V1BswQ"/>
           <node xmi:type="uml:OpaqueAction" xmi:id="_vZKIENvEEeijc_X3V1BswQ" name="op moves to pallet_1" incoming="_2b_RoNvEEeijc_X3V1BswQ" outgoing="_Z2p2oNvJEeijc_X3V1BswQ"/>
           <node xmi:type="uml:OpaqueAction" xmi:id="_H8dewNvFEeijc_X3V1BswQ" name="op screw drives a wp" incoming="_9l4akNvGEeijc_X3V1BswQ" outgoing="_BNeMUNvHEeijc_X3V1BswQ"/>
-          <node xmi:type="uml:OpaqueAction" xmi:id="_U3M24NvFEeijc_X3V1BswQ" name="rob moves to pallet_1" incoming="_Y8LvQNvFEeijc_X3V1BswQ" outgoing="_zYkHcNvFEeijc_X3V1BswQ"/>
           <node xmi:type="uml:OpaqueAction" xmi:id="_uEBrsNvFEeijc_X3V1BswQ" name="arm opens" incoming="_zYkHcNvFEeijc_X3V1BswQ" outgoing="_YaD80NvJEeijc_X3V1BswQ"/>
           <node xmi:type="uml:OpaqueAction" xmi:id="_j9FbcNvGEeijc_X3V1BswQ" name="EE insert and holds the wp" incoming="_BNeMUNvHEeijc_X3V1BswQ _DJ6D0NvHEeijc_X3V1BswQ" outgoing="_9l4akNvGEeijc_X3V1BswQ _Q6EoENvHEeijc_X3V1BswQ"/>
           <node xmi:type="uml:OpaqueAction" xmi:id="_KN8uUNvHEeijc_X3V1BswQ" name="arm retreats" incoming="_Q6EoENvHEeijc_X3V1BswQ" outgoing="_U-jKINvHEeijc_X3V1BswQ"/>
-          <node xmi:type="uml:DecisionNode" xmi:id="_TzdQANvHEeijc_X3V1BswQ" name="pallet_2 empty" incoming="_U-jKINvHEeijc_X3V1BswQ _bf4JINvHEeijc_X3V1BswQ" outgoing="_j8yEANvHEeijc_X3V1BswQ _xqxu8NvQEeijc_X3V1BswQ"/>
-          <node xmi:type="uml:JoinNode" xmi:id="_glYqYNvHEeijc_X3V1BswQ" incoming="_j8yEANvHEeijc_X3V1BswQ" outgoing="_9Mh3sNvMEeijc_X3V1BswQ _RpV6INvNEeijc_X3V1BswQ"/>
-          <node xmi:type="uml:MergeNode" xmi:id="_6XsVYNvIEeijc_X3V1BswQ" name="pallet_1 empty" incoming="_CbPiABXkEeentfMxR4DUhw" outgoing="_bf4JINvHEeijc_X3V1BswQ _gkeNIBXpEeentfMxR4DUhw"/>
-          <node xmi:type="uml:OpaqueAction" xmi:id="_QypYINvMEeijc_X3V1BswQ" name="rob moves to pallet_2" incoming="_9Mh3sNvMEeijc_X3V1BswQ" outgoing="_d0CVYNvNEeijc_X3V1BswQ"/>
-          <node xmi:type="uml:OpaqueAction" xmi:id="___4JENvMEeijc_X3V1BswQ" name="op moves to pallet_2" incoming="_RpV6INvNEeijc_X3V1BswQ" outgoing="_mABfYNvNEeijc_X3V1BswQ"/>
+          <node xmi:type="uml:OpaqueAction" xmi:id="___4JENvMEeijc_X3V1BswQ" name="op moves to pallet_2" incoming="_j8yEANvHEeijc_X3V1BswQ" outgoing="_mABfYNvNEeijc_X3V1BswQ"/>
           <node xmi:type="uml:OpaqueAction" xmi:id="_YV6f0NvNEeijc_X3V1BswQ" name="arm opens " incoming="_d0CVYNvNEeijc_X3V1BswQ" outgoing="_lGsqsNvNEeijc_X3V1BswQ"/>
-          <node xmi:type="uml:JoinNode" xmi:id="_hQFlgNvNEeijc_X3V1BswQ" incoming="_lGsqsNvNEeijc_X3V1BswQ _mABfYNvNEeijc_X3V1BswQ" outgoing="_XVxcANvOEeijc_X3V1BswQ"/>
+          <node xmi:type="uml:JoinNode" xmi:id="_hQFlgNvNEeijc_X3V1BswQ" name="" incoming="_lGsqsNvNEeijc_X3V1BswQ _mABfYNvNEeijc_X3V1BswQ" outgoing="_XVxcANvOEeijc_X3V1BswQ"/>
           <node xmi:type="uml:OpaqueAction" xmi:id="_z1_JoNvNEeijc_X3V1BswQ" name="CopyOf_EE insert and holds the wp_1"/>
           <node xmi:type="uml:OpaqueAction" xmi:id="_z1_wsNvNEeijc_X3V1BswQ" name="CopyOf_op screw drives a wp_1"/>
           <node xmi:type="uml:OpaqueAction" xmi:id="_3HfWoNvNEeijc_X3V1BswQ" name="CopyOf_arm retreats_1"/>
           <node xmi:type="uml:OpaqueAction" xmi:id="_-0MjoNvNEeijc_X3V1BswQ" name="EE inserts and holds the wp" incoming="_XVxcANvOEeijc_X3V1BswQ _BYP_UNvPEeijc_X3V1BswQ" outgoing="_CeICQNvPEeijc_X3V1BswQ _HjTzYNvPEeijc_X3V1BswQ"/>
           <node xmi:type="uml:OpaqueAction" xmi:id="_ZMcpwNvOEeijc_X3V1BswQ" name="op screw drives the wp" incoming="_CeICQNvPEeijc_X3V1BswQ" outgoing="_BYP_UNvPEeijc_X3V1BswQ"/>
           <node xmi:type="uml:OpaqueAction" xmi:id="_FxQm8NvPEeijc_X3V1BswQ" name="arm retreats" incoming="_HjTzYNvPEeijc_X3V1BswQ" outgoing="_rNQR4NvQEeijc_X3V1BswQ"/>
-          <node xmi:type="uml:OpaqueAction" xmi:id="_Z4MDgNvQEeijc_X3V1BswQ" name="ro moves to pallet3 with a wp" incoming="_iw1CsNvREeijc_X3V1BswQ" outgoing="_k3t2sNvREeijc_X3V1BswQ _y6RygNvREeijc_X3V1BswQ"/>
-          <node xmi:type="uml:JoinNode" xmi:id="_zimMMNvQEeijc_X3V1BswQ" incoming="_xqxu8NvQEeijc_X3V1BswQ _rNQR4NvQEeijc_X3V1BswQ" outgoing="_49V9oNvQEeijc_X3V1BswQ"/>
-          <node xmi:type="uml:OpaqueAction" xmi:id="_GhQOkNvREeijc_X3V1BswQ" name="ro holds wp" incoming="_49V9oNvQEeijc_X3V1BswQ _k3t2sNvREeijc_X3V1BswQ" outgoing="_iw1CsNvREeijc_X3V1BswQ"/>
-          <node xmi:type="uml:OpaqueAction" xmi:id="_tEhgENvREeijc_X3V1BswQ" name="op inspects" incoming="_y6RygNvREeijc_X3V1BswQ" outgoing="_3QKNoNvREeijc_X3V1BswQ"/>
+          <node xmi:type="uml:OpaqueAction" xmi:id="_GhQOkNvREeijc_X3V1BswQ" name="ro holds wp" incoming="_w-6VcOAYEei_BOu619MkwQ _WLRBEOBKEeiPiez2-mFlrA" outgoing="_iw1CsNvREeijc_X3V1BswQ"/>
+          <node xmi:type="uml:OpaqueAction" xmi:id="_tEhgENvREeijc_X3V1BswQ" name="op inspects" incoming="_ew6OIOB_EeiPiez2-mFlrA" outgoing="_3QKNoNvREeijc_X3V1BswQ"/>
+          <node xmi:type="uml:OpaqueAction" xmi:id="_RViGYN3HEeiwccvuiZZIlA" name="base unit moves to bin" incoming="_BYSawBXlEeentfMxR4DUhw" outgoing="_uD4MoNvDEeijc_X3V1BswQ"/>
+          <node xmi:type="uml:OpaqueAction" xmi:id="_j5jbMN3HEeiwccvuiZZIlA" name="base moves to pallet_1" incoming="_Y8LvQNvFEeijc_X3V1BswQ" outgoing="_zYkHcNvFEeijc_X3V1BswQ"/>
+          <node xmi:type="uml:OpaqueAction" xmi:id="_9VMIEN3HEeiwccvuiZZIlA" name="base moves to pallet_2" incoming="_RpV6INvNEeijc_X3V1BswQ" outgoing="_d0CVYNvNEeijc_X3V1BswQ"/>
+          <node xmi:type="uml:OpaqueAction" xmi:id="_g6TNEN3NEeiwccvuiZZIlA" name="base moves to pallet_3 with a wp" incoming="_iw1CsNvREeijc_X3V1BswQ" outgoing="_y6RygNvREeijc_X3V1BswQ _w-6VcOAYEei_BOu619MkwQ"/>
+          <node xmi:type="uml:JoinNode" xmi:id="_riwf4OBGEeiPiez2-mFlrA" incoming="_gkeNIBXpEeentfMxR4DUhw" outgoing="_Y8LvQNvFEeijc_X3V1BswQ _2b_RoNvEEeijc_X3V1BswQ"/>
+          <node xmi:type="uml:MergeNode" xmi:id="_T4FIYOBIEeiPiez2-mFlrA" incoming="_rfpf4NvEEeijc_X3V1BswQ _CbPiABXkEeentfMxR4DUhw"/>
+          <node xmi:type="uml:MergeNode" xmi:id="_Fd128OBJEeiPiez2-mFlrA" incoming="_U-jKINvHEeijc_X3V1BswQ" outgoing="_raiBwN9mEeiXfaUadY9lRA"/>
+          <node xmi:type="uml:JoinNode" xmi:id="_MeaWsOBJEeiPiez2-mFlrA" name="and1" incoming="_PohiQOBJEeiPiez2-mFlrA" outgoing="_j8yEANvHEeijc_X3V1BswQ _RpV6INvNEeijc_X3V1BswQ"/>
+          <node xmi:type="uml:MergeNode" xmi:id="_X3iyIOBJEeiPiez2-mFlrA" incoming="_xqxu8NvQEeijc_X3V1BswQ _rNQR4NvQEeijc_X3V1BswQ" outgoing="_bZgdAOBJEeiPiez2-mFlrA"/>
+          <node xmi:type="uml:OpaqueAction" xmi:id="_L9keAOBKEeiPiez2-mFlrA" name="op moves to pallet_3" incoming="_Vmxz8OBKEeiPiez2-mFlrA" outgoing="_ZJTFYOB_EeiPiez2-mFlrA"/>
+          <node xmi:type="uml:JoinNode" xmi:id="_TvLZIOBKEeiPiez2-mFlrA" name="and2" incoming="_bZgdAOBJEeiPiez2-mFlrA" outgoing="_Vmxz8OBKEeiPiez2-mFlrA _WLRBEOBKEeiPiez2-mFlrA"/>
+          <node xmi:type="uml:DecisionNode" xmi:id="_ec8QoOB8EeiPiez2-mFlrA" name="pallet_1 empty" incoming="_fqxlQOBGEeiPiez2-mFlrA" outgoing="_gkeNIBXpEeentfMxR4DUhw _l4FMgOB8EeiPiez2-mFlrA"/>
+          <node xmi:type="uml:DecisionNode" xmi:id="_pkyHwOB8EeiPiez2-mFlrA" name="Pallet_2 empty" incoming="_raiBwN9mEeiXfaUadY9lRA" outgoing="_xqxu8NvQEeijc_X3V1BswQ _PohiQOBJEeiPiez2-mFlrA"/>
+          <node xmi:type="uml:JoinNode" xmi:id="_XfyJ4OB_EeiPiez2-mFlrA" name="and3" incoming="_ZJTFYOB_EeiPiez2-mFlrA _y6RygNvREeijc_X3V1BswQ" outgoing="_ew6OIOB_EeiPiez2-mFlrA"/>
         </structuredNode>
         <node xmi:type="uml:InitialNode" xmi:id="_E8eBUBUjEeetr_qzEYxFVQ" name="" outgoing="_TWQKUBUjEeetr_qzEYxFVQ"/>
-        <node xmi:type="uml:OpaqueAction" xmi:id="_uz5vABXjEeentfMxR4DUhw" name="ActivityFinal" incoming="_4pDTMNvREeijc_X3V1BswQ"/>
+        <node xmi:type="uml:OpaqueAction" xmi:id="_uz5vABXjEeentfMxR4DUhw" name="ActivityFinal" incoming="_3QKNoNvREeijc_X3V1BswQ"/>
         <node xmi:type="uml:ActivityParameterNode" xmi:id="__Gxo8BhGEee5DLCdDP_GIw" name="env" type="_jctJINM7EeaNKI1TT7J1_A">
           <upperBound xmi:type="uml:LiteralInteger" xmi:id="__GzeIBhGEee5DLCdDP_GIw" value="1"/>
         </node>
@@ -1344,6 +1353,12 @@ isProcessed = 1</body>
         </node>
         <node xmi:type="uml:ActivityParameterNode" xmi:id="_hZiukBhHEee5DLCdDP_GIw" name="robsys1" type="_cwcVwLFrEeavT_xI9CkM3g">
           <upperBound xmi:type="uml:LiteralInteger" xmi:id="_hZj8sBhHEee5DLCdDP_GIw" value="1"/>
+        </node>
+        <node xmi:type="uml:DecisionNode" xmi:id="_TmfEcOB8EeiPiez2-mFlrA" name="loaded" incoming="_TWQKUBUjEeetr_qzEYxFVQ" outgoing="_CbPiABXkEeentfMxR4DUhw _BYSawBXlEeentfMxR4DUhw"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Activity" xmi:id="_X5CGIN9oEeiXfaUadY9lRA" name="binpick" node="_mttbYN9oEeiXfaUadY9lRA">
+        <node xmi:type="uml:InitialNode" xmi:id="_mttbYN9oEeiXfaUadY9lRA">
+          <name xsi:nil="true"/>
         </node>
       </packagedElement>
       <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_bFovJtfeEeanZMCdVbQs2A">
@@ -1429,15 +1444,15 @@ isProcessed = 1</body>
       <appliedProfile xmi:type="uml:Profile" href="BasicAction.profile.uml#_jsJEQMEcEeazT9YLhh-phg"/>
     </profileApplication>
     <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_gySnRsXHEeaAV_O6u5JrLA">
-      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_uZkKMBoGEeexr8fOLPfkfg" source="PapyrusVersion">
-        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_uZkKMRoGEeexr8fOLPfkfg" key="Version" value="0.0.8"/>
-        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_uZkKMhoGEeexr8fOLPfkfg" key="Comment" value=""/>
-        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_uZkKMxoGEeexr8fOLPfkfg" key="Copyright" value=""/>
-        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_uZkKNBoGEeexr8fOLPfkfg" key="Date" value="2017-04-05"/>
-        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_uZkKNRoGEeexr8fOLPfkfg" key="Author" value=""/>
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_M3tokN0JEeiwccvuiZZIlA" source="PapyrusVersion">
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_M3tokd0JEeiwccvuiZZIlA" key="Version" value="0.0.10"/>
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_M3tokt0JEeiwccvuiZZIlA" key="Comment" value=""/>
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_M3tok90JEeiwccvuiZZIlA" key="Copyright" value=""/>
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_M3tolN0JEeiwccvuiZZIlA" key="Date" value="2018-10-30"/>
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_M3told0JEeiwccvuiZZIlA" key="Author" value=""/>
       </eAnnotations>
       <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_gyW4sMXHEeaAV_O6u5JrLA" source="http://www.eclipse.org/uml2/2.0.0/UML">
-        <references xmi:type="ecore:EPackage" href="robAction.profile.uml#_rw43wBoGEeexr8fOLPfkfg"/>
+        <references xmi:type="ecore:EPackage" href="robAction.profile.uml#_aLfxsdwrEeihyeYKHMfJ8A"/>
       </eAnnotations>
       <appliedProfile xmi:type="uml:Profile" href="robAction.profile.uml#_gx4-oMXHEeaAV_O6u5JrLA"/>
     </profileApplication>
@@ -1749,19 +1764,16 @@ isProcessed = 1</body>
   <EEActions:open xmi:id="_Y7h3IBoNEeexr8fOLPfkfg" base_OpaqueAction="_Y7Mf8BoNEeexr8fOLPfkfg" AGENT="grip1"/>
   <devAction:fist xmi:id="_3A0PUCOHEeeZKPXfQ910MQ" base_OpaqueAction="_28S7sCOHEeeZKPXfQ910MQ" AGENT="op1" DEVICE="armband"/>
   <EEActions:close xmi:id="_N1nTECXIEeeRk4rPpuWWhA" base_OpaqueAction="_KKtHkCXIEeeRk4rPpuWWhA" AGENT="grip1" OBJ="workpiece"/>
-  <robAction:movePTP xmi:id="_QnE_INu9EeiyrIQFDSuoYA" base_OpaqueAction="_QmoTMNu9EeiyrIQFDSuoYA" AGENT="rob1" START="L_18" DESTSEC="L_9"/>
   <robAction:moveREL xmi:id="_TjQNoNvDEeijc_X3V1BswQ" base_OpaqueAction="_Tdp78NvDEeijc_X3V1BswQ" AGENT="rob1" SEC="L_9"/>
   <EEActions:close xmi:id="_Cs2bwNvEEeijc_X3V1BswQ" base_OpaqueAction="_Cro60NvEEeijc_X3V1BswQ" AGENT="grip1" SEC="L_9"/>
   <robAction:moveREL xmi:id="_eCld0NvEEeijc_X3V1BswQ" base_OpaqueAction="_eBmmYNvEEeijc_X3V1BswQ" AGENT="rob1" SEC="L_9"/>
   <opAction:move xmi:id="_vZ69ENvEEeijc_X3V1BswQ" base_OpaqueAction="_vZKIENvEEeijc_X3V1BswQ" AGENT="op1" START="L_17" DESTSEC="L_11"/>
   <opAction:tighten xmi:id="_H9c9QNvFEeijc_X3V1BswQ" base_OpaqueAction="_H8dewNvFEeijc_X3V1BswQ" AGENT="op1" DESTSEC="L_11"/>
-  <robAction:movePTP xmi:id="_U4EZkNvFEeijc_X3V1BswQ" base_OpaqueAction="_U3M24NvFEeijc_X3V1BswQ" AGENT="rob1" START="L_9" DESTSEC="L_11"/>
   <robAction:moveREL xmi:id="_uE-t8NvFEeijc_X3V1BswQ" base_OpaqueAction="_uEBrsNvFEeijc_X3V1BswQ" AGENT="rob1" SEC="L_11"/>
   <EEActions:close xmi:id="_j97I8NvGEeijc_X3V1BswQ" base_OpaqueAction="_j9FbcNvGEeijc_X3V1BswQ" AGENT="grip1" SEC="L_11"/>
   <tempOperatorState:executing xmi:id="_9nVzINvGEeijc_X3V1BswQ" base_ControlFlow="_9l4akNvGEeijc_X3V1BswQ"/>
   <tempOperatorCommand:SOFTstop xmi:id="_BO7k4NvHEeijc_X3V1BswQ" base_ControlFlow="_BNeMUNvHEeijc_X3V1BswQ"/>
   <robAction:moveREL xmi:id="_KO_QINvHEeijc_X3V1BswQ" base_OpaqueAction="_KN8uUNvHEeijc_X3V1BswQ" AGENT="rob1" SEC="L_11"/>
-  <robAction:movePTP xmi:id="_QzwycNvMEeijc_X3V1BswQ" base_OpaqueAction="_QypYINvMEeijc_X3V1BswQ" AGENT="rob1" START="L_11" DESTSEC="L_12"/>
   <opAction:move xmi:id="_ABDNwNvNEeijc_X3V1BswQ" base_OpaqueAction="___4JENvMEeijc_X3V1BswQ" AGENT="op1" START="L_11" DESTSEC="L_12"/>
   <robAction:moveREL xmi:id="_YXAsANvNEeijc_X3V1BswQ" base_OpaqueAction="_YV6f0NvNEeijc_X3V1BswQ" AGENT="rob1" SEC="L_12"/>
   <opAction:tighten xmi:id="_z2C0ANvNEeijc_X3V1BswQ" base_OpaqueAction="_z1_wsNvNEeijc_X3V1BswQ" AGENT="op1" DESTSEC="L_11"/>
@@ -1772,8 +1784,18 @@ isProcessed = 1</body>
   <tempOperatorCommand:SOFTstop xmi:id="_BaSmsNvPEeijc_X3V1BswQ" base_ControlFlow="_BYP_UNvPEeijc_X3V1BswQ"/>
   <tempOperatorState:executing xmi:id="_CgyUsNvPEeijc_X3V1BswQ" base_ControlFlow="_CeICQNvPEeijc_X3V1BswQ"/>
   <robAction:moveREL xmi:id="_FymDsNvPEeijc_X3V1BswQ" base_OpaqueAction="_FxQm8NvPEeijc_X3V1BswQ" AGENT="rob1" SEC="L_12"/>
-  <robAction:movePTP xmi:id="_Z5qDINvQEeijc_X3V1BswQ" base_OpaqueAction="_Z4MDgNvQEeijc_X3V1BswQ" AGENT="rob1" START="L_12" DESTSEC="L_7"/>
   <EEActions:close xmi:id="_Gi6bcNvREeijc_X3V1BswQ" base_OpaqueAction="_GhQOkNvREeijc_X3V1BswQ" AGENT="grip1" SEC="L_7"/>
   <tempOperatorState:executing xmi:id="_izHhsNvREeijc_X3V1BswQ" base_ControlFlow="_iw1CsNvREeijc_X3V1BswQ"/>
   <opAction:tighten xmi:id="_tGGNYNvREeijc_X3V1BswQ" base_OpaqueAction="_tEhgENvREeijc_X3V1BswQ" AGENT="op1" DESTSEC="L_7"/>
+  <robAction:base_move xmi:id="_RaA9wN3HEeiwccvuiZZIlA" base_OpaqueAction="_RViGYN3HEeiwccvuiZZIlA" AGENT="rob1" START="L_18" DESTSEC="L_9"/>
+  <robAction:base_move xmi:id="_j7_rMN3HEeiwccvuiZZIlA" base_OpaqueAction="_j5jbMN3HEeiwccvuiZZIlA" AGENT="rob1" START="L_9" DESTSEC="L_11"/>
+  <robAction:base_move xmi:id="_9XWEMN3HEeiwccvuiZZIlA" base_OpaqueAction="_9VMIEN3HEeiwccvuiZZIlA" AGENT="rob1" START="L_11" DESTSEC="L_12&#xA;"/>
+  <robAction:base_move xmi:id="_g81jsN3NEeiwccvuiZZIlA" base_OpaqueAction="_g6TNEN3NEeiwccvuiZZIlA" AGENT="rob1" START="L_12" DESTSEC="L_7"/>
+  <tempOperatorCommand:SOFTstop xmi:id="_xH-x4OAYEei_BOu619MkwQ" base_ControlFlow="_w-6VcOAYEei_BOu619MkwQ"/>
+  <logicOperators:and xmi:id="_rlMI0OBGEeiPiez2-mFlrA" base_JoinNode="_riwf4OBGEeiPiez2-mFlrA"/>
+  <logicOperators:and xmi:id="_MgezQOBJEeiPiez2-mFlrA" base_JoinNode="_MeaWsOBJEeiPiez2-mFlrA"/>
+  <logicOperators:and xmi:id="_Z2UzAOBJEeiPiez2-mFlrA"/>
+  <opAction:move xmi:id="_L_wPUOBKEeiPiez2-mFlrA" base_OpaqueAction="_L9keAOBKEeiPiez2-mFlrA" AGENT="op1" START="L_11" DESTSEC="L_7"/>
+  <logicOperators:and xmi:id="_TxXxgOBKEeiPiez2-mFlrA" base_JoinNode="_TvLZIOBKEeiPiez2-mFlrA"/>
+  <logicOperators:and xmi:id="_XhYsYOB_EeiPiez2-mFlrA" base_JoinNode="_XfyJ4OB_EeiPiez2-mFlrA"/>
 </xmi:XMI>

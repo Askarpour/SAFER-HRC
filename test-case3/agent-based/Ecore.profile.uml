@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Profile xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_ZJ-E0NU8EeiVz83y_SWqjA" name="Ecore" metaclassReference="_ZJ-E0tU8EeiVz83y_SWqjA">
+  <eAnnotations xmi:id="_ZJ-E19U8EeiVz83y_SWqjA" source="http://www.eclipse.org/uml2/2.0.0/UML">
+    <contents xmi:type="ecore:EPackage" xmi:id="_ZJ-E2NU8EeiVz83y_SWqjA" name="Ecore" nsURI="http:///schemas/Ecore/_ZJ-E1tU8EeiVz83y_SWqjA/0" nsPrefix="Ecore">
+      <eAnnotations xmi:id="_ZKH10dU8EeiVz83y_SWqjA" source="PapyrusVersion">
+        <details xmi:id="_ZKH10tU8EeiVz83y_SWqjA" key="Version" value="0.0.1"/>
+        <details xmi:id="_ZKH109U8EeiVz83y_SWqjA" key="Comment" value=""/>
+        <details xmi:id="_ZKH11NU8EeiVz83y_SWqjA" key="Copyright" value=""/>
+        <details xmi:id="_ZKH11dU8EeiVz83y_SWqjA" key="Date" value="21/10/18 16.19"/>
+        <details xmi:id="_ZKH11tU8EeiVz83y_SWqjA" key="Author" value=""/>
+      </eAnnotations>
+      <eClassifiers xmi:type="ecore:EClass" xmi:id="_ZJ-E2dU8EeiVz83y_SWqjA" name="EPackage">
+        <eAnnotations xmi:id="_ZJ-E2tU8EeiVz83y_SWqjA" source="http://www.eclipse.org/uml2/2.0.0/UML" references="_ZJ-E0dU8EeiVz83y_SWqjA"/>
+        <eStructuralFeatures xmi:type="ecore:EReference" xmi:id="_ZJ-E29U8EeiVz83y_SWqjA" name="base_Model" ordered="false" lowerBound="1">
+          <eType xmi:type="ecore:EClass" href="http://www.eclipse.org/uml2/5.0.0/UML#//Model"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+    </contents>
+  </eAnnotations>
+  <elementImport xmi:id="_ZJ-E0tU8EeiVz83y_SWqjA">
+    <importedElement xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Model"/>
+  </elementImport>
+  <packagedElement xmi:type="uml:Stereotype" xmi:id="_ZJ-E0dU8EeiVz83y_SWqjA" name="EPackage">
+    <ownedAttribute xmi:id="_ZJ-E1dU8EeiVz83y_SWqjA" name="base_Model" association="_ZJ-E09U8EeiVz83y_SWqjA">
+      <type xmi:type="uml:Class" href="pathmap://UML_METAMODELS/UML.metamodel.uml#Model"/>
+    </ownedAttribute>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Extension" xmi:id="_ZJ-E09U8EeiVz83y_SWqjA" name="Model_EPackage" memberEnd="_ZJ-E1NU8EeiVz83y_SWqjA _ZJ-E1dU8EeiVz83y_SWqjA">
+    <ownedEnd xmi:type="uml:ExtensionEnd" xmi:id="_ZJ-E1NU8EeiVz83y_SWqjA" name="extension_EPackage" type="_ZJ-E0dU8EeiVz83y_SWqjA" aggregation="composite" association="_ZJ-E09U8EeiVz83y_SWqjA"/>
+  </packagedElement>
+</uml:Profile>
