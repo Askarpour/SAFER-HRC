@@ -4,7 +4,7 @@ import os
 import matplotlib.pyplot as plt
 from shutil import copyfile
 plt.rcParams.update({'figure.figsize': (20,20)})
-plt.matplotlib.rcParams.update({'font.size': 20})
+plt.matplotlib.rcParams.update({'font.size': 40})
 import matplotlib.image as mpimg
 import matplotlib
 import matplotlib.patches as mpatches
@@ -51,26 +51,23 @@ class switch(object):
             return False
 def element_co(strin,element):
 	for case in switch(strin):
-	    if case([1]) or case([23]): #L1
-	        return (500,1000)
+	    if case([1]) or case([24]): #L1
+	        return (600,1200)
 	        break
-	    if case([2]) or case([24]): #L2
-	        return (700,1000)
+	    if case([2]) or case([25]): #L2
+	        return (600,1050)
 	        break
-	    if case([3]) or case([25]): #L3
-	        return (900,1100)
+	    if case([3]) or case([26]): #L3
+	        return (750,950)
 	        break
-	    if case([4]) or case([26]): #L4
-	        return (1200,1100)
+	    if case([4]) or case([27]): #L4
+	        return (850,1000)
 	        break
-	    if case([5]) or case([27]): #L5
-	        return (200,600)
+	    if case([5]) or case([28]): #L5
+	        return (1200,950)
 	        break
-	    # if case([27]): #L5
-	    #     return (200,600)
-	    #     break
-	    if case([6]) or case([28]): #L6
-	    	return (500,600)
+	    if case([6]) or case([29]): #L6
+	    	return (300,820)
 	    	break
 	        # if element == 'head':
 	        # 	return (1200,700)
@@ -79,54 +76,55 @@ def element_co(strin,element):
 	        # if element == 'ro':
 	        # 	return (1000,620)
 	        break
-	    if case([7]) or case([29]): #L7
-	        return (700,600)
+	    if case([7]) or case([30]): #L7
+	        return (600,830)
 	        break
-	    if case([8]) or case([30]): #L8
-	        return (900,600)
+	    if case([8]) or case([31]): #L8
+	        return (900,820)
 	        break
-	    if case([9]) or case([31]): #L9
-	        return (1200,600)
+	    if case([9]) or case([32]): #L9
+	        return (1300,820)
 	        break
-	    if case([10] ) or case([32]): #L10
-	        return (200,400)
+	    if case([10] ) or case([33]): #L10
+	        return (1500,600)
 	        break
-	    if case([11] ) or case([33]): #L11
-	        return (500,400)
+	    if case([11] ) or case([34]): #L11
+	        return (1300,400)
 	        break
-	    if case([12] ) or case([34]): #L12
-	        return (700,400)
-	        break
-	    if case([13] ) or case([35]): #L13
+	    if case([12] ) or case([35]): #L12
 	        return (900,400)
 	        break
-	    if case([14] ) or case([36]): #L14
-	        return (1200,400)
+	    if case([13] ) or case([36]): #L13
+	        return (600,400)
 	        break
-	    if case([15] ) or case([37]): #L15
-	        return (1200,900)
+	    if case([14] ) or case([37]): #L14
+	        return (300,400)
 	        break
-	    if case([16] ) or case([38]): #L16
-	        return (1100,400)
+	    if case([15] ) or case([38]): #L15
+	        return (100,600)
 	        break
-        if case([17]) or case([39]): #L17
-            return (1100,350)
+	    if case([16] ) or case([39]): #L16
+	        return (300,500)
+	        break
+        if case([17]) or case([40]): #L17
+            return (300,700)
             # break
-        if case([18] ) or case([40]): #L18
-	        return (850,400)
+        if case([18] ) or case([41]): #L18
+	        return (600,500)
 	        # break
-        if case([19] ) or case([41]): #L19
-	        return (850,350)
+        if case([19] ) or case([42]): #L19
+	        return (600,700)
 	        # break
-        if case([20] ) or case([42]): #L20
-	        return (450,600)
+        if case([20] ) or case([43]): #L20
+	        return (950,500)
 	        # break
-        if case([21]) or case([43]): #L21
-	        return (450,650)
+        if case([21]) or case([44]): #L21
+	        return (950,700)
 	        # break
-        if case([22]) or case([44]): #L22
-	        return (900,600)
-	        # break
+        if case([22]) or case([45]): #L22
+	        return (1300,500)
+        if case([23]) or case([46]): #L23
+        	return (1300,700)
         if case():
 	        print ("something is wrong with coordinates of the object!"+ str(strin) + str(element))
 def still_moving (strin, strout, j):
@@ -202,7 +200,7 @@ def read_hazards():
     return index, hazardname
 
 def read_actions ():
-    file = open("TaskLib/T1-copy.lisp","r")
+    file = open("TaskLib/T1.lisp","r")
     line = ""
     index = ""
     actions = ""
@@ -353,20 +351,18 @@ def parse_attributes (step, records, opid):
                      separation[t] = x
     return separation, velocity, force
 
-# def parse_errors (step, records, opid):
-#     errors = defaultdict(list)
-#     for t in range (0 , step+1):
-#         for i in range(1, int(actions_index)+1, 1):
-#             for x in ('REPETITION', 'OMISSION', 'LATE', 'EARLY_START', 'EARLY_END', 'INTRUSION','ERR_F', 'ERR_L' ):
-#                 for r in records:
-#                     if x in r :
-#                         errors[t].append(x)
-#     print errors
-#     return errors
+def parse_errors (step, records, opid,actions_index):
+    errors = defaultdict(list)
+    for t in range (0 , step+1):
+    	for r in records:
+    		for x in ('REPETITION', 'OMISSION', 'LATE', 'EARLY_START', 'EARLY_END', 'INTRUSION','ERR_F', 'ERR_L' ):
+    			if x in r and t in records[r]:
+    				errors[t].append(x)
+    return errors
 
 #############################creating the layout vision#############################
 # create the figure and the axis in one shot
-def create_legend (step,plt,actions_num,executing_actions,safe_executing_actions,hazards, risks,hazard_names,action_names):
+def create_legend (step,plt,actions_num,executing_actions,safe_executing_actions,hazards, risks,hazard_names,action_names,errors,op_head):
     legendexe = legendexrm = "-"
     legendhz = "hazards: "
     for a in  executing_actions:
@@ -381,13 +377,13 @@ def create_legend (step,plt,actions_num,executing_actions,safe_executing_actions
     plt.xlabel(legendhz)
     plt.ylabel("time "+str(step))
     plt.title("executing: " + legendexe + legendexrm)
-
+    plt.annotate(', '.join(errors), xy=(element_co(op_head,'head')[0], element_co(op_head,'head')[1]), xytext=(element_co(op_head,'head')[0]+1, element_co(op_head,'head')[1]+200),arrowprops=dict(facecolor='black', shrink=0.05))
     return plt,
 
 def draw_layout(base , ee, l1, l2, op_head, op_hand, step, task_id):
 
 	fig, ax = plt.subplots()
-	layoutA = mpimg.imread("layoutA.pdf")
+	layoutA = mpimg.imread("layoutA.png")
 	ax.imshow(layoutA)
 
 	# Turn off tick labels
@@ -406,8 +402,11 @@ def draw_layout(base , ee, l1, l2, op_head, op_hand, step, task_id):
 	L_l1 = lines.Line2D([element_co(base,'ro')[0],element_co(l1,'ro')[0]],[element_co(base,'ro')[1], element_co(l1,'ro')[1]], lw=9., color="red",zorder=2)
 	ax.add_line(L_l1)
 	#
+	# L_l2 = lines.Line2D([element_co(l1,'ro')[0], element_co(ee,'ro')[0] ],[element_co(l1,'ro')[1], element_co(ee,'ro')[1]], lw=9., color="red",zorder=2)
+	# ax.add_line(L_l2)
+	#
 	L_l2 = lines.Line2D([element_co(l1,'ro')[0], element_co(ee,'ro')[0] ],[element_co(l1,'ro')[1], element_co(ee,'ro')[1]], lw=9., color="red",zorder=2)
-	ax.add_line(L_l2)
+	ax.add_line(L_l2)	
 	#
 	L_base = mpatches.Rectangle((element_co(base,'ro')[0]-50,element_co(base,'ro')[1]-50),200,100,angle=0.0, color="red",fill=False)
     #
@@ -488,21 +487,9 @@ if __name__ == '__main__':
         attributes_2 =parse_attributes (step, records, 2)
         separation_2 , velocity_2 , force_2 = attributes_2[0] , attributes_2[1], attributes_2[2]
 
-        for i in range (1, step+1):
-            print("ns actons:")
-            print(ns_actions[i])
-            print (" \n wt actons:")
-            print( wt_actions[i])
-            print (" \n executing actons:")
-            print (executing_actions[i])
-            print ("\n safe-executing actons:")
-            print(safe_executing_actions[i])
-            print ("dn actons: ")
-            print( dn_actions[i])
-            print ("______________________________________")
-
-    #
-        # if output_type == 'fig':
+        #parse errors
+        errors = parse_errors (step, records, 1,action_num)
+        
         index = 1
         newpath = 'Output'
         while 1:
@@ -520,7 +507,7 @@ if __name__ == '__main__':
 
         for i in range (1, step+1):
             draw_layout(Base[i],EndEff[i], Link1[i], Link2[i], head_1[i], arm_1[i], i, 1)
-            create_legend (i,plt, action_num, executing_actions[i], safe_executing_actions[i],hazards[i], risks[i],hazard_names,action_names)
+            create_legend (i,plt, action_num, executing_actions[i], safe_executing_actions[i],hazards[i], risks[i],hazard_names,action_names,errors[i],head_1[i])
             plt.savefig(folder+"/Time"+str(i)+".png")
 
     f = open(folder+'/Table.txt','w')
@@ -531,3 +518,18 @@ if __name__ == '__main__':
         table = safety_analysis_table(i,plt, action_num, executing_actions[i], safe_executing_actions[i],hazards[i], risks[i],severities[i],hazard_names,action_names,separation_1[i], velocity_1[i], force_1[i])
     table_txt = table.get_string()
     f.write(table_txt)
+
+    f2 = open(folder+'/Execution_seq.txt','w')
+    #list of executing actions
+    for i in range (1, step+1):
+        print >> f2, "ns actons:"
+        print >>  f2, ns_actions[i]
+        print >>  f2, " \n wt actons:"
+        print >>  f2, wt_actions[i]
+        print >>  f2, " \n executing actons:"
+        print >>  f2, executing_actions[i]
+        print >>  f2, "\n safe-executing actons:"
+        print >>  f2, safe_executing_actions[i]
+        print >>  f2, "dn actons: "
+        print >>  f2, dn_actions[i]
+        print >>  f2, "______________________________________"

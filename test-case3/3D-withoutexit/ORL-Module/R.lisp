@@ -24,7 +24,8 @@
 	(move_together ,(read-from-string (format nil "`EndEff_~A" roID)) (setq l '(,(read-from-string (format nil "Link2_~A" roID)) )))
 	(move_together ,(read-from-string (format nil "`Base_~A" roID)) (setq l '(,(read-from-string (format nil "Link1_~A" roID)) ,(read-from-string (format nil "Link2_~A" roID)) ,(read-from-string (format nil "EndEff_~A" roID)))))
  
-  (!!(-P- Base_1_in_L_15))
+  ; (!!(-P- Base_1_in_L_15))
+  (!!(inside `BASE_1 5))
   (3Dconstraints)
 
   (moving_gradually ,(read-from-string (format nil "`Link1_~A" roID)))
@@ -40,19 +41,19 @@
 
 (defun 3Dconstraints ()
   (eval (list `alwf (append `(&&)
-    (loop for i from 23 to L_last collect
+    (loop for i from (+ 1 L_half) to L_last collect
     `(!!(-P- ,(read-from-string (format nil "Base_1_in_L_~A" i)))))
 
-    (loop for i from 23 to L_last collect
+    (loop for i from (+ 1 L_half) to L_last collect
     `(!!(-P- ,(read-from-string (format nil "OPERATOR_1_LEG_AREA_IN_L_~A" i)))))   
     
-    (loop for i from L_first to 22 collect
+    (loop for i from L_first to L_half collect
     `(!!(-P- ,(read-from-string (format nil "EndEff_1_in_L_~A" i)))))   
 
-    (loop for i from L_first to 22 collect
+    (loop for i from L_first to L_half collect
     `(!!(-P- ,(read-from-string (format nil "Link1_1_in_L_~A" i)))))
 
-    (loop for i from L_first to 22 collect
+    (loop for i from L_first to L_half collect
     `(!!(-P- ,(read-from-string (format nil "Link2_1_in_L_~A" i)))))        
 
   ))))
@@ -85,18 +86,9 @@
           (In_Adj_with_L ,(read-from-string (format nil "`~A" i)) ,(read-from-string (format nil "~A" l)))
           )))))))
 
-; (defun occluded (l)
-;   (eval  (list `alwf `(<-> (-P- occluded)
-;     (eval(append `(||) (loop for i in l collect `
-;       (IsPallet ,(read-from-string (format nil "~A" i))))))))))
-
 (defun occluded (i)
-  ; (eval  (list `alwf `(<-> (-P- occluded)
-    ; (eval
-      ; (append `(||) 
-      ; (loop for i in l collect `
-      (IsPallet i))
-; )
+  (|| (IsWall i)
+      (IsPallet i)))
 
 ;parts that move together. write like (move_together `Link1 (setq l '(Link1 Link2 EndEff Base)))
 (defun move_together (i l)

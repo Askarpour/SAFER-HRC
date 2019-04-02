@@ -1,21 +1,22 @@
 (defvar delta 3)
 
 ;list of inserted actions
-(defconstant Insp
-(ALwF
-   (<-> (-P- inspection)
-     (&&
-       (|| ([=](-V- Body_Part_pos head) L_1_2) ([=](-V- Body_Part_pos head) L_1_3))
-       (|| (&&([=](-V- LINK2_Position) (-V- Body_Part_pos head)))  (&&([=](-V- End_Eff_B_Position) (-V- Body_Part_pos head)))   )
-;       (-P- Link2_Moving)
- )))
-)
+; (defconstant Insp
+; (ALwF
+;    (<-> (-P- inspection)
+;      (&&
+;        (|| ([=](-V- Body_Part_pos head) L_1_2) ([=](-V- Body_Part_pos head) L_1_3))
+;        (|| (&&([=](-V- LINK2_Position) (-V- Body_Part_pos head)))  (&&([=](-V- End_Eff_B_Position) (-V- Body_Part_pos head)))   )
+; ;       (-P- Link2_Moving)
+;  )))
+; )
 
 (defun Seq-errors (index Tname Terror)
  (eval (list `alwf (append `(&&)
   (loop for i in index collect
   `(&&
-    Insp
+    (limiting_erroneous_actions action_indexes ,(read-from-string (format nil "~A" Tname)))
+    ; Insp
     ;error
     (<->(-P- ,(read-from-string (format nil "Action_Err_State_~A_~A" i Tname)))(-P- ,(read-from-string (format nil "err_A_~A_~A" i Tname))))
     
@@ -100,10 +101,17 @@
 
 ))))))
 
-(defun limiting_erroneous_actions (index action_id Tname)
+(defun limiting_erroneous_actions1 (index action_id Tname)
+  (eval (list `alwf (append `(&&)
+   (loop for i in index 
+    when (/= i action_id) 
+    collect
+   `(!!(-P- ,(read-from-string (format nil "Action_Err_State_~A_~A" i Tname)))))))))
+ 
+(defun limiting_erroneous_actions (index Tname)
   (eval (list `alwf (append `(&&)
    (loop for i in index collect
-   `(->
-     (-P- ,(read-from-string (format nil "Action_Err_State_~A_~A" action_id Tname)))
-     (!! (|| (-P- ,(read-from-string (format nil "Action_Err_State_~A_~A" i Tname))) (-P- ,(read-from-string (format nil "Action_Err_State_~A_~A" i Tname)))))))))))  
- 
+   `(limiting_erroneous_actions1 ,(read-from-string (format nil "'~A" index)) ,(read-from-string (format nil "~A" i)) ,(read-from-string (format nil "~A" Tname)))
+   )))))
+
+
