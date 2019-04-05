@@ -50,14 +50,14 @@
     (->(-P- ,(read-from-string (format nil "Action_Doer_ro_~A_~A" i Tname)))(Alwf(!! (-P- ,(read-from-string (format nil "Action_State_wt_~A_~A" i Tname)))) ))
      
      ;ns
-    (->
+    (<->
       (-P- ,(read-from-string (format nil "Action_State_ns_~A_~A" i Tname)))
       (&&
         (alwp (||(-P- ,(read-from-string (format nil "Action_State_ns_~A_~A" i Tname)))(-P- ,(read-from-string (format nil "Action_State_wt_~A_~A" i Tname)))))
         (!! (-P- ,(read-from-string (format nil "Action_Pre_~A_~A" i Tname))))))
 
     ;waiting
-    (->
+    (<->
       (-P- ,(read-from-string (format nil "Action_State_wt_~A_~A" i Tname)))
       (&& 
         (-P- ,(read-from-string (format nil "Action_Doer_op_~A_~A" i Tname))) 
@@ -65,14 +65,14 @@
         (!!(-P- ,(read-from-string (format nil "Op_starts_~A_~A" i Tname))))
         (alwp (||(-P- ,(read-from-string (format nil "Action_State_ns_~A_~A" i Tname)))(-P- ,(read-from-string (format nil "Action_State_wt_~A_~A" i Tname))))) 
         (next (|| 
-          (-P- ,(read-from-string (format nil "Action_State_ns_~A_~A" i Tname)))
+          ; (-P- ,(read-from-string (format nil "Action_State_ns_~A_~A" i Tname)))
           (-P- ,(read-from-string (format nil "Action_State_wt_~A_~A" i Tname)))
           (-P- ,(read-from-string (format nil "Action_State_exe_~A_~A" i Tname))) 
           (-P- ,(read-from-string (format nil "Action_State_exrm_~A_~A" i Tname)))
         ))))
 
     ;exe
-    (->
+    (<->
       (-P- ,(read-from-string (format nil "Action_State_exe_~A_~A" i Tname)))
       (&& 
         (!! (-P- ,(read-from-string (format nil "Action_Post_~A_~A" i Tname))))
@@ -86,20 +86,22 @@
           (!! (-P- ,(read-from-string (format nil "Action_State_wt_~A_~A" i Tname))))
           ))
         (||
-          (&&( Yesterday(-P- ,(read-from-string (format nil "Action_State_wt_~A_~A" i Tname)))) (-P- ,(read-from-string (format nil "Action_Pre_~A_~A" i Tname))) (-P- ,(read-from-string (format nil "Op_starts_~A_~A" i Tname))))
-          (&& (Yesterday(-P- ,(read-from-string (format nil "Action_State_ns_~A_~A" i Tname))) ) (-P- ,(read-from-string (format nil "Action_Pre_~A_~A" i Tname))) (-P- ,(read-from-string (format nil "Action_Doer_op_~A_~A" i Tname)))  (-P- ,(read-from-string (format nil "Op_starts_~A_~A" i Tname))))
+          (Yesterday (&& (-P- ,(read-from-string (format nil "Action_State_wt_~A_~A" i Tname))) (-P- ,(read-from-string (format nil "Action_Pre_~A_~A" i Tname)))))
+           ; (-P- ,(read-from-string (format nil "Action_Pre_~A_~A" i Tname))) (-P- ,(read-from-string (format nil "Action_Doer_op_~A_~A" i Tname))) )
+           ; (-P- ,(read-from-string (format nil "Op_starts_~A_~A" i Tname))))
           (Yesterday(-P- ,(read-from-string (format nil "Action_State_exe_~A_~A" i Tname))))
           (Yesterday(-P- ,(read-from-string (format nil "Action_State_exrm_~A_~A" i Tname))))
           (&&(Yesterday(-P- ,(read-from-string (format nil "Action_State_ns_~A_~A" i Tname)))) (-P- ,(read-from-string (format nil "Action_Pre_~A_~A" i Tname))) (-P- ,(read-from-string (format nil "Action_Doer_ro_~A_~A" i Tname))) )
           (Yesterday(-P- ,(read-from-string (format nil "Action_State_hd_~A_~A" i Tname))))
-        )))
+        )
+        ))
 
     ;exrm
-    (->
+    (<->
       (-P- ,(read-from-string (format nil "Action_State_exrm_~A_~A" i Tname)))
       (&& 
         (!! (-P- ,(read-from-string (format nil "Action_Post_~A_~A" i Tname))))
-        ; (!! (-P- no_RRM)) 
+        (!! (-P- no_RRM)) 
         (!! (-P- hold))
         (alwp(&&
           (!! (-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" i Tname))))
@@ -109,16 +111,18 @@
           (!! (-P- ,(read-from-string (format nil "Action_State_wt_~A_~A" i Tname))))
           ))
         (||
-          (&&( Yesterday(-P- ,(read-from-string (format nil "Action_State_wt_~A_~A" i Tname)))) (-P- ,(read-from-string (format nil "Action_Pre_~A_~A" i Tname))) (-P- ,(read-from-string (format nil "Op_starts_~A_~A" i Tname))))
-          (&& (Yesterday(-P- ,(read-from-string (format nil "Action_State_ns_~A_~A" i Tname))) ) (-P- ,(read-from-string (format nil "Action_Pre_~A_~A" i Tname))) (-P- ,(read-from-string (format nil "Action_Doer_op_~A_~A" i Tname)))  (-P- ,(read-from-string (format nil "Op_starts_~A_~A" i Tname))))
+          (Yesterday (&& (-P- ,(read-from-string (format nil "Action_State_wt_~A_~A" i Tname))) (-P- ,(read-from-string (format nil "Action_Pre_~A_~A" i Tname)))))
+           ; (-P- ,(read-from-string (format nil "Action_Pre_~A_~A" i Tname))) (-P- ,(read-from-string (format nil "Action_Doer_op_~A_~A" i Tname)))  )
+            ; (-P- ,(read-from-string (format nil "Op_starts_~A_~A" i Tname))))
           (Yesterday(-P- ,(read-from-string (format nil "Action_State_exe_~A_~A" i Tname))))
           (Yesterday(-P- ,(read-from-string (format nil "Action_State_exrm_~A_~A" i Tname))))
           (&&(Yesterday(-P- ,(read-from-string (format nil "Action_State_ns_~A_~A" i Tname)))) (-P- ,(read-from-string (format nil "Action_Pre_~A_~A" i Tname))) (-P- ,(read-from-string (format nil "Action_Doer_ro_~A_~A" i Tname))) )
           (Yesterday(-P- ,(read-from-string (format nil "Action_State_hd_~A_~A" i Tname))))
-        )))
+        )
+      ))
 
     ;hold
-    (->
+    (<->
       (-P- ,(read-from-string (format nil "Action_State_hd_~A_~A" i Tname)))
       (&& 
         (alwF(&&
@@ -134,7 +138,7 @@
     )
 
     ; done
-    (->
+    (<->
       (-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" i Tname))) 
       (&& 
         (alwf (-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" i Tname))))

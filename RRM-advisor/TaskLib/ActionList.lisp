@@ -7,7 +7,34 @@
                             (->(-P- ,(read-from-string (format nil "Action_Pre_~A_~A" actionid Traceid))) (&& (-P- opEnters)(-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" (- actionid 1) Traceid)))(inside ,(read-from-string (format nil "`operator_~A_~A" opId `head_area)) ,(read-from-string (format nil "~A" source)))))
                             (->(-P- ,(read-from-string (format nil "Action_Post_~A_~A" actionid Traceid))) (inside ,(read-from-string (format nil "`operator_~A_~A" opId `arm_area)) ,(read-from-string (format nil "~A" dest))))))))))
 ;op holding the wp in dest
-(defun op_hold(actionid Traceid masteraction preaction dest)
+(defun op_hold(actionid Traceid masteraction preaction dest opId)
+ (eval (list `alwf (append `(&&)
+                    (loop for i from actionid to actionid collect
+                     `(&&
+                           (-P- ,(read-from-string (format nil "Action_Doer_op_~A_~A" actionid Traceid)))
+                           (<->(-P- ,(read-from-string (format nil "Action_Pre_~A_~A" actionid Traceid)))  
+                            (&&
+                              (inside `OPERATOR_1_ARM_AREA ,(read-from-string (format nil "~A" dest)))
+                              (!!(Yesterday(-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" preaction Traceid)))))
+                              (-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" preaction Traceid)))
+                              ))
+                           (<->(-P- ,(read-from-string (format nil "Action_Post_~A_~A" actionid Traceid))) (-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" masteraction Traceid))))
+                          ; ;;it is running iff its master is running
+                          ;  (<->
+                          ;   (&& (!!(-P- ,(read-from-string (format nil "Action_State_ns_~A_~A" masteraction Traceid))) )(!! (-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" masteraction Traceid)))))
+
+                          ;     (&& (inside ,(read-from-string (format nil "`operator_~A_~A" opId `arm_area)) ,(read-from-string (format nil "~A" dest)))
+                          ;         (||  (-P- ,(read-from-string (format nil "Action_State_exe_~A_~A" actionid Traceid))) (-P- ,(read-from-string (format nil "Action_State_exrm_~A_~A" actionid Traceid))) )))
+
+                           (->
+                            (||  (-P- ,(read-from-string (format nil "Action_State_exe_~A_~A" actionid Traceid))) (-P- ,(read-from-string (format nil "Action_State_exrm_~A_~A" actionid Traceid))) )
+                            (inside ,(read-from-string (format nil "`operator_~A_~A" opId `arm_area)) ,(read-from-string (format nil "~A" dest)))
+                           )
+
+                           ))))))
+
+;op releases the wp in dest
+(defun op_release(actionid Traceid dest opId)
  (eval (list `alwf (append `(&&)
                     (loop for i from actionid to actionid collect
                      `(&&
@@ -15,11 +42,10 @@
                            (->(-P- ,(read-from-string (format nil "Action_Pre_~A_~A" actionid Traceid)))  
                             (&&
                               (inside `OPERATOR_1_ARM_AREA ,(read-from-string (format nil "~A" dest)))
-                              (!!(Yesterday(-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" preaction Traceid)))))
-                              (-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" preaction Traceid)))
+                              (-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" (- actionid 1) Traceid)))
                               ))
-                          ;;it is running iff its master is running
-                           (<->(|| (-P- ,(read-from-string (format nil "Action_State_exe_~A_~A" actionid Traceid))) (-P- ,(read-from-string (format nil "Action_State_exrm_~A_~A" actionid Traceid))))  (|| (-P- ,(read-from-string (format nil "Action_State_exe_~A_~A" masteraction Traceid))) (-P- ,(read-from-string (format nil "Action_State_exrm_~A_~A" masteraction Traceid)))))))))))
+                          (->(-P- ,(read-from-string (format nil "Action_Post_~A_~A" actionid Traceid))) (!!(inside `OPERATOR_1_ARM_AREA ,(read-from-string (format nil "~A" dest))))))
+                            )))))
 
 ;operator inserts the wp on a pallet
 (defun insertp(actionid Traceid bin opId)
@@ -29,6 +55,23 @@
                           (-P- ,(read-from-string (format nil "Action_Doer_op_~A_~A" actionid Traceid)))
 
                          (->(-P- ,(read-from-string (format nil "Action_Pre_~A_~A" actionid Traceid))) (&&(-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" (- actionid 1) Traceid)))(inside `OPERATOR_1_ARM_AREA ,(read-from-string (format nil "~A" bin)))))
+
+                         (->(-P- ,(read-from-string (format nil "Action_Pre_L_~A_~A" actionid Traceid))) (inside `OPERATOR_1_ARM_AREA ,(read-from-string (format nil "~A" bin))))
+
+                         (->(-P- ,(read-from-string (format nil "Action_Post_~A_~A" actionid Traceid))) (inside `OPERATOR_1_ARM_AREA ,(read-from-string (format nil "~A" bin))))
+
+                         (->(-P- ,(read-from-string (format nil "Action_Post_L_~A_~A" actionid Traceid))) (inside `OPERATOR_1_ARM_AREA ,(read-from-string (format nil "~A" bin))))
+                         (->(|| (-P- ,(read-from-string (format nil "Action_State_exe_~A_~A" actionid Traceid))) (-P- ,(read-from-string (format nil "Action_State_exrm_~A_~A" actionid Traceid)))) (inside `OPERATOR_1_ARM_AREA ,(read-from-string (format nil "~A" bin))))
+                         ))))))
+
+;operator inserts the wp on a pallet
+(defun first_insertp(actionid Traceid bin opId)
+ (eval (list `alwf (append `(&&)
+                    (loop for i from actionid to actionid collect
+                     `(&&
+                          (-P- ,(read-from-string (format nil "Action_Doer_op_~A_~A" actionid Traceid)))
+
+                         (->(-P- ,(read-from-string (format nil "Action_Pre_~A_~A" actionid Traceid)))  (inside `OPERATOR_1_ARM_AREA ,(read-from-string (format nil "~A" bin))))
 
                          (->(-P- ,(read-from-string (format nil "Action_Pre_L_~A_~A" actionid Traceid))) (inside `OPERATOR_1_ARM_AREA ,(read-from-string (format nil "~A" bin))))
 
@@ -183,11 +226,11 @@
 ; (<->(|| (-P- ,(read-from-string (format nil "Action_State_exe_~A_~A" actionid Traceid))) (-P- ,(read-from-string (format nil "Action_State_exrm_~A_~A" actionid Traceid))))  (|| (-P- ,(read-from-string (format nil "Action_State_wt_~A_~A" (+ actionid 1) Traceid))) (-P- ,(read-from-string (format nil "Action_State_ns_~A_~A" (+ actionid 1) Traceid))) ))
 
 ;op send mobe signal
-(defun send_move_signal(actionid Traceid)
+(defun send_move_signal(actionid Traceid preaction)
  (eval (list `alwf (append `(&&)
                     (loop for i from actionid to actionid collect
                      `(&&
-                       (->(-P- ,(read-from-string (format nil "Action_Pre_~A_~A" actionid Traceid))) (|| (-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" (- actionid 1) Traceid)))))
+                       (->(-P- ,(read-from-string (format nil "Action_Pre_~A_~A" actionid Traceid))) (|| (-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" preaction Traceid)))))
                        (-> (|| (-P- ,(read-from-string (format nil "Action_State_exrm_~A_~A" actionid Traceid))) (-P- ,(read-from-string (format nil "Action_State_exe_~A_~A" actionid Traceid))))
                            (&&(operatorStill 1) (next (-P- ,(read-from-string (format nil "Action_State_dn_~A_~A" actionid Traceid))))))
                       (-P- ,(read-from-string (format nil "Action_Doer_op_~A_~A" actionid Traceid)))))))))
