@@ -15,6 +15,14 @@ import time
 # import prettytable
 from collections import defaultdict
 from shutil import move
+
+Rev = [
+"",
+"(defconstant *RRMcall* (&&(eval (list `alwf (append `(&&)(loop for i in hazard_indexes collect`(<->  ,(read-from-string (format nil \"(Hazard_Risk_~A= 2) \" i))(UNTIL_EE (-P- RRM_1)  ,(read-from-string (format nil \"(Hazard_Risk_~A= 2)\" i))))))))(ALWF(<-> (-P- RRM_1)(hazardous_sit)))(ALWF (&& (!! (-P- RRM_2)) (!! (-P- RRM_3)) (!! (-P- RRM_4))))(Alwf(!! (-P- hold)))))",
+"(defconstant *RRMcall* (&& (eval (list `alwf (append `(&&) (loop for i in hazard_indexes collect `(<->  ,(read-from-string (format nil \"(Hazard_Risk_~A= 2)\" i)) (UNTIL_EE (-P- RRM_2)  ,(read-from-string (format nil \"(Hazard_Risk_~A= 2)\" i))))))))(ALWF(-> (-P- RRM_2)(hazardous_sit)))(ALWF (&& (!! (-P- RRM_1)) (!! (-P- RRM_3)) (!! (-P- RRM_4))))(Alwf(!! (-P- hold)))))",
+"(defconstant *RRMcall*  (&&(eval (list `alwf (append `(&&) (loop for i in hazard_indexes collect `(<->  ,(read-from-string (format nil \"(Hazard_Risk_~A= 2)\" i)) (UNTIL_EE (-P- RRM_3)  ,(read-from-string (format nil \"(Hazard_Risk_~A= 2)\" i))))))))(ALWF(-> (-P- RRM_3)(hazardous_sit)))(ALWF (&& (!! (-P- RRM_2)) (!! (-P- RRM_1)) (!! (-P- RRM_4))))))",
+"(defconstant *RRMcall* (&&(eval (list `alwf (append `(&&) (loop for i in hazard_indexes collect  `(<->  ,(read-from-string (format nil \"(Hazard_Risk_~A= 2)\" i)) (UNTIL_EE (-P- RRM_4)  ,(read-from-string (format nil \"(Hazard_Risk_~A= 2)\" i))))))))(ALWF(-> (-P- RRM_4)(hazardous_sit)))(ALWF (&& (!! (-P- RRM_2)) (!! (-P- RRM_3)) (!! (-P- RRM_1))))))"
+]
 #############################parsing the output file#############################
 
 class switch(object):
@@ -72,10 +80,6 @@ def element_co(strin,element):
 	        return (200,200)
         if case():
 	        print ("something is wrong with coordinates of the object!"+ str(strin) + str(element))
-def still_moving (strin, strout, j):
-    if strin[j] == strin[j-1]: strout[j] = 'still'
-    if strin[j] != strin[j-1]: strout[j] = 'moving'
-    return
 
 def read_Layout(filename):
     file = open(filename,"r")
@@ -259,6 +263,7 @@ def parse_actions (actions_index,taskid,step,records):
     ns_actions = defaultdict(list)
     wt_actions = defaultdict(list)
     dn_actions = defaultdict(list)
+    hd_actions = defaultdict(list)
     for t in range (0 , step+1):
         for i in range(1, int(actions_index)+1, 1):
             exe = "ACTION_STATE_EXE_"+ str(i) + "_"+ str(taskid)
@@ -266,10 +271,14 @@ def parse_actions (actions_index,taskid,step,records):
             ns = "ACTION_STATE_NS_" + str(i) + "_"+ str(taskid)
             wt = "ACTION_STATE_WT_" + str(i) + "_"+ str(taskid)
             dn = "ACTION_STATE_DN_" + str(i) + "_"+ str(taskid)
+            hd = "ACTION_STATE_HD_" + str(i) + "_"+ str(taskid)
             for r in records:
                 if exe in r:
                     if t in records[r]:
                         executing_actions[t].append(i)
+                elif hd in r:
+                    if t in records[r]:
+                        hd_actions[t].append(i)
                 elif exrm in r:
                     if t in records[r]:
                         safe_executing_actions[t].append(i)
@@ -282,7 +291,7 @@ def parse_actions (actions_index,taskid,step,records):
                 elif dn in r:
                     if t in records[r]:
                         dn_actions[t].append(i)
-    return  ns_actions, wt_actions, executing_actions, safe_executing_actions, dn_actions
+    return  ns_actions, wt_actions, executing_actions, safe_executing_actions, dn_actions, hd_actions
 
 def parse_attributes (step, records, opid):
     velocity = defaultdict(list)
@@ -335,7 +344,10 @@ def parse_rrms (step, records,rrm_names):
                 rrms[t].append(rrm_names[int(r.split("_",1)[1])])
     return rrms
 
-
+def action_end(dn_actions,action_num):
+    for d in dn_actions:
+        if (int(action_num) in dn_actions[d]):
+            return d
 #############################creating the layout vision#############################
 # create the figure and the axis in one shot
 def create_legend (step,plt,actions_num,executing_actions,safe_executing_actions,hazards, risks,hazard_names,action_names,errors,op_head,force,velocity,rrms):
@@ -411,102 +423,106 @@ def safety_analysis_table (step,plt,actions_num,executing_actions,safe_executing
 
 # #############################executing zot and processing the output#############################
 if __name__ == '__main__':
-    # start = datetime.datetime.now()
-    os.system("zot Main.lisp")
-    while not os.path.exists('output.hist.txt'):time.sleep(1)
-    if os.path.isfile('output.hist.txt'):
-        step , records = parse_outPut()
-        hazard_num, hazard_names = read_hazards()
-        action_num,action_names, task_id =read_actions()
-        rrm_names = read_RRM("RRM.lisp")
-        roPart_indexes,ro_segments, ro_num = read_agents("ORL-Module/R.lisp")
-        body_indexes,op_segments, op_num = read_agents("ORL-Module/O.lisp")
-        l_indexes = read_Layout("ORL-Module/L.lisp")
-        # parse hazards
-        # use as: if hazard_x is in  hazards[time], risks[time]
-        hazards = parse_hazards(hazard_num, records, step)
-        hazards, risks, severities = hazards[0], hazards[1], hazards[2]
-        rrms = parse_rrms (step, records,rrm_names)
-        #
-        # parse ro positions
-        # use as:  EndEff[time]
-        ro_positions = parse_positions (ro_segments, records, step, 1, l_indexes, 'ro')
-        EndEff, Base, Link1, Link2 = ro_positions['EndEff'], ro_positions['Base'], ro_positions['Link1'], ro_positions['Link2']
-        # parse human positions
-        # use as:  head[opId][time]
-        leg= defaultdict(list)
-        chest = defaultdict(list)
-        arm = defaultdict(list)
-        head = defaultdict(list)
-        # for i in range (1 , int(op_num)+1):
-        op_positions = parse_positions (op_segments, records, step, 1, l_indexes, 'op')
-        leg_1, chest_1, arm_1, head_1 = op_positions['leg_area'], op_positions['chest_area'], op_positions['arm_area'], op_positions['head_area']
+    chosen_rrm = 1
+    done_end = [0,0,0,0,0]
+    number_of_holds = [0,0,0,0,0]
+    while (chosen_rrm < 5):
+        with open("Rev.lisp",'w') as file:
+            file.seek(0)
+            file.write(Rev[chosen_rrm])
+        os.system("zot Main.lisp")
+        while not os.path.exists('output.hist.txt'):time.sleep(1)
+        if os.path.isfile('output.hist.txt'):
+            step , records = parse_outPut()
+            hazard_num, hazard_names = read_hazards()
+            action_num,action_names, task_id =read_actions()
+            rrm_names = read_RRM("RRM.lisp")
+            roPart_indexes,ro_segments, ro_num = read_agents("ORL-Module/R.lisp")
+            body_indexes,op_segments, op_num = read_agents("ORL-Module/O.lisp")
+            l_indexes = read_Layout("ORL-Module/L.lisp")
+            # parse hazards
+            # use as: if hazard_x is in  hazards[time], risks[time]
+            hazards = parse_hazards(hazard_num, records, step)
+            hazards, risks, severities = hazards[0], hazards[1], hazards[2]
+            rrms = parse_rrms (step, records,rrm_names)
+            #
+            # parse ro positions
+            # use as:  EndEff[time]
+            ro_positions = parse_positions (ro_segments, records, step, 1, l_indexes, 'ro')
+            EndEff, Base, Link1, Link2 = ro_positions['EndEff'], ro_positions['Base'], ro_positions['Link1'], ro_positions['Link2']
+            # parse human positions
+            # use as:  head[opId][time]
+            leg= defaultdict(list)
+            chest = defaultdict(list)
+            arm = defaultdict(list)
+            head = defaultdict(list)
+            # for i in range (1 , int(op_num)+1):
+            op_positions = parse_positions (op_segments, records, step, 1, l_indexes, 'op')
+            leg_1, chest_1, arm_1, head_1 = op_positions['leg_area'], op_positions['chest_area'], op_positions['arm_area'], op_positions['head_area']
 
-        op_positions = parse_positions (op_segments, records, step, 2, l_indexes, 'op')
-        leg_2, chest_2, arm_2, head_2 = op_positions['leg_area'], op_positions['chest_area'], op_positions['arm_area'], op_positions['head_area']
-        # parse actions
-        # use executing_actions[time] to have list of exe actions at time
-        executing_actions= defaultdict(list)
-        safe_executing_actions = defaultdict(list)
-        ns_actions = defaultdict(list)
-        wt_actions = defaultdict(list)
-        dn_actions = defaultdict(list)
-        # for task one
-        ns_actions, wt_actions, executing_actions, safe_executing_actions, dn_actions = parse_actions (action_num,1,step,records)
-        #parse relative attributes
-        # use as : velocity[t]
-        # for i in range (1 , int(op_num)+1):
-        attributes_1 =parse_attributes (step, records, 1)
-        separation_1 , velocity_1 , force_1 = attributes_1[0] , attributes_1[1], attributes_1[2]
+            op_positions = parse_positions (op_segments, records, step, 2, l_indexes, 'op')
+            leg_2, chest_2, arm_2, head_2 = op_positions['leg_area'], op_positions['chest_area'], op_positions['arm_area'], op_positions['head_area']
+            # parse actions
+            # use executing_actions[time] to have list of exe actions at time
+            executing_actions= defaultdict(list)
+            safe_executing_actions = defaultdict(list)
+            ns_actions = defaultdict(list)
+            wt_actions = defaultdict(list)
+            dn_actions = defaultdict(list)
+            hd_actions = defaultdict(list)
+            # for task one
+            ns_actions, wt_actions, executing_actions, safe_executing_actions, dn_actions, hd_actions = parse_actions (action_num,1,step,records)
+            #parse relative attributes
+            # use as : velocity[t]
+            # for i in range (1 , int(op_num)+1):
+            attributes_1 =parse_attributes (step, records, 1)
+            separation_1 , velocity_1 , force_1 = attributes_1[0] , attributes_1[1], attributes_1[2]
 
-        attributes_2 =parse_attributes (step, records, 2)
-        separation_2 , velocity_2 , force_2 = attributes_2[0] , attributes_2[1], attributes_2[2]
-        # #parse errors
-        # errors = parse_errors (step, records, 1,action_num,action_names)
+            attributes_2 =parse_attributes (step, records, 2)
+            separation_2 , velocity_2 , force_2 = attributes_2[0] , attributes_2[1], attributes_2[2]
+            # #parse errors
+            # errors = parse_errors (step, records, 1,action_num,action_names)
+            index = 1
+            newpath = 'Output'
+            while 1:
+                name = str(index)
+                if not os.path.exists(newpath+name):
+                    os.makedirs(newpath+name)
+                    folder = newpath+name
+                    break
+                else:
+                    index += 1
+            move("output.1.txt", folder+"/output.1.txt")
+            move("output.hist.txt", folder+"/output.hist.txt")
+            move("output.smt.txt", folder+"/output.smt.txt")
+            move("REv.lisp", folder+"/REv.lisp")
+            for i in range (1, step+1):
+                draw_layout(Base[i],EndEff[i], Link1[i], Link2[i], head_1[i], arm_1[i], i, 1)
+                create_legend (i,plt, action_num, executing_actions[i], safe_executing_actions[i],hazards[i], risks[i],hazard_names,action_names,'',head_1[i],force_1[i],velocity_1[i],rrms[i])
+                plt.savefig(folder+"/Time"+str(i)+".png")
 
-        index = 1
-        newpath = 'Output'
-        while 1:
-            name = str(index)
-            if not os.path.exists(newpath+name):
-                os.makedirs(newpath+name)
-                folder = newpath+name
-                break
-            else:
-                index += 1
-        copyfile("output.1.txt", folder+"/output.1.txt")
-        # move("output.dict.txt", folder+"/output.dict.txt")
-        copyfile("output.hist.txt", folder+"/output.hist.txt")
-        copyfile("output.smt.txt", folder+"/output.smt.txt")
-        for i in range (1, step+1):
-            draw_layout(Base[i],EndEff[i], Link1[i], Link2[i], head_1[i], arm_1[i], i, 1)
-            # create_legend (i,plt, action_num, executing_actions[i], safe_executing_actions[i],hazards[i], risks[i],hazard_names,action_names,errors[i],head_1[i],force_1[i],velocity_1[i],rrms[i])
-            create_legend (i,plt, action_num, executing_actions[i], safe_executing_actions[i],hazards[i], risks[i],hazard_names,action_names,'',head_1[i],force_1[i],velocity_1[i],rrms[i])
-            plt.savefig(folder+"/Time"+str(i)+".png")
-
-    # f = open(folder+'/Table.txt','w')
-    # from prettytable import PrettyTable
-    # GstateSA = PrettyTable()
-    # GstateSA.field_names = ["t", "executing", "hazards","risk","Se","CI","force","velocity","distance"]
-    # for i in range (1, step+1):
-    #     table = safety_analysis_table(i,plt, action_num, executing_actions[i], safe_executing_actions[i],hazards[i], risks[i],severities[i],hazard_names,action_names,separation_1[i], velocity_1[i], force_1[i])
-    # table_txt = table.get_string()
-    # f.write(table_txt)
-    #
-    f2 = open(folder+'/Execution_seq.txt','w')
-    #list of executing actions
-    for i in range (0, step+1):
-        f2.write( "\n ns actons:")
-        f2.write(str(ns_actions[i]))
-        f2.write(" \n wt actons:")
-        f2.write( str(wt_actions[i]))
-        f2.write( " \n executing actons:")
-        f2.write( str(executing_actions[i]))
-        f2.write("\n safe-executing actons:")
-        f2.write(str(safe_executing_actions[i]))
-        f2.write("\n dn actons: ")
-        f2.write(str(dn_actions[i]))
-        f2.write("\n______________________________________")
-
-    # # end = datetime.datetime.now()
-    # # print(end-start)
+        f2 = open(folder+'/Execution_seq.txt','w')
+        #list of executing actions
+        for i in range (0, step+1):
+            f2.write( "\n ns actons:")
+            f2.write(str(ns_actions[i]))
+            f2.write(" \n wt actons:")
+            f2.write( str(wt_actions[i]))
+            f2.write( " \n executing actons:")
+            f2.write( str(executing_actions[i]))
+            f2.write("\n safe-executing actons:")
+            f2.write(str(safe_executing_actions[i]))
+            f2.write("\n dn actons: ")
+            f2.write(str(dn_actions[i]))
+            f2.write("\n______________________________________")
+        done_end[chosen_rrm] = action_end(dn_actions,action_num)
+        number_of_holds[chosen_rrm] = len(hd_actions)
+        chosen_rrm += 1
+    print(done_end)
+    print(number_of_holds)
+    for chosen_rrm in [1,2,3,4]:
+        print("-----------RRM_%s tried------------"%chosen_rrm + "\n")
+        print("Task was done in " + str(done_end[chosen_rrm]) + "\n")
+        print("task was hold " + str(number_of_holds[chosen_rrm]) + " times\n")
+    print("RRM with fewer holds is " + str(number_of_holds.index(max(number_of_holds))))
+    print("RRM with better performance is " + str(done_end.index(max(done_end))))
