@@ -29,7 +29,7 @@
    (send_move_signal 5 1 4)
    (move 6 1 4 6 1)
    (Alwf(!! (-P- Base_1_Moving)))
-   (Alwf(!! (-P- hold)))
+   ; (Alwf(!! (-P- hold)))
    (Alwf (-P- BASE_1_IN_L_3))
    (-> (basemoves (setq l '(4 6)) 1)(no_part_moving 1))
 

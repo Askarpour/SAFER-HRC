@@ -1,8 +1,6 @@
 (asdf:operate 'asdf:load-op 'sbvzot)
 (use-package :trio-utils)
-
-(defvar TSPACE 25)
-
+(defvar TSPACE 20)
 (load "TaskLib/T.lisp")
 
 (defconstant Hazards
@@ -16,17 +14,16 @@
 (defconstant ExeT1
  (&&  
   (load "TaskLib/T1.lisp")
-  ; Hazards
+  Hazards
   Config1
   (reset_actions action_indexes  1)
   (SomF (-P- Action_State_dn_6_1))
-  ; (SomF(-P- Action_Pre_2_1))
   (-P- EndEff_1_IN_L_6)
   (-P- OPERATOR_1_HEAD_AREA_IN_L_5)
   (-P- RELATIVEVELOCITY_1_1_none)
   (-P- RELATIVEFORCE_1_1_NONE)
-  (SomF (-P- RELATIVEFORCE_1_1_mid))
-  (SomF (-P- RELATIVEvelocity_1_1_high))
+  (SomF (Risk= 1))
+  ; (SomF (-P- RRM_2))
   (ALWF(!!(-P- OPERATOR_1_HEAD_AREA_IN_L_6)))
  ))
 
@@ -36,7 +33,6 @@
   (yesterday(&&
   (reset_actions action_indexes  1)
   (init_hazards hazard_indexes)))))
-
 
 (format t "~S" *sys*)
 (sbvzot:zot TSPACE
