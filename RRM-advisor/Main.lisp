@@ -23,7 +23,6 @@
   (-P- RELATIVEVELOCITY_1_1_none)
   (-P- RELATIVEFORCE_1_1_NONE)
   (SomF (Risk= 1))
-  ; (SomF (-P- RRM_2))
   (ALWF(!!(-P- OPERATOR_1_HEAD_AREA_IN_L_6)))
  ))
 

@@ -17,7 +17,7 @@ from collections import defaultdict
 from shutil import move
 
 Rev = [
-"",
+"(defconstant *RRMcall* (-P- no_RRM))",
 "(defconstant *RRMcall* (&&(eval (list `alwf (append `(&&)(loop for i in hazard_indexes collect`(<->  ,(read-from-string (format nil \"(Hazard_Risk_~A= 2) \" i))(UNTIL_EE (-P- RRM_1)  ,(read-from-string (format nil \"(Hazard_Risk_~A= 2)\" i))))))))(ALWF(<-> (-P- RRM_1)(hazardous_sit)))(ALWF (&& (!! (-P- RRM_2)) (!! (-P- RRM_3)) (!! (-P- RRM_4))))(Alwf(!! (-P- hold)))))",
 "(defconstant *RRMcall* (&& (eval (list `alwf (append `(&&) (loop for i in hazard_indexes collect `(<->  ,(read-from-string (format nil \"(Hazard_Risk_~A= 2)\" i)) (UNTIL_EE (-P- RRM_2)  ,(read-from-string (format nil \"(Hazard_Risk_~A= 2)\" i))))))))(ALWF(-> (-P- RRM_2)(hazardous_sit)))(ALWF (&& (!! (-P- RRM_1)) (!! (-P- RRM_3)) (!! (-P- RRM_4))))(Alwf(!! (-P- hold)))))",
 "(defconstant *RRMcall*  (&&(eval (list `alwf (append `(&&) (loop for i in hazard_indexes collect `(<->  ,(read-from-string (format nil \"(Hazard_Risk_~A= 2)\" i)) (UNTIL_EE (-P- RRM_3)  ,(read-from-string (format nil \"(Hazard_Risk_~A= 2)\" i))))))))(ALWF(-> (-P- RRM_3)(hazardous_sit)))(ALWF (&& (!! (-P- RRM_2)) (!! (-P- RRM_1)) (!! (-P- RRM_4))))))",
@@ -423,7 +423,7 @@ def safety_analysis_table (step,plt,actions_num,executing_actions,safe_executing
 
 # #############################executing zot and processing the output#############################
 if __name__ == '__main__':
-    chosen_rrm = 1
+    chosen_rrm = 0
     done_end = [0,0,0,0,0]
     number_of_holds = [0,0,0,0,0]
     while (chosen_rrm < 5):
@@ -518,11 +518,11 @@ if __name__ == '__main__':
         done_end[chosen_rrm] = action_end(dn_actions,action_num)
         number_of_holds[chosen_rrm] = len(hd_actions)
         chosen_rrm += 1
-    print(done_end)
-    print(number_of_holds)
+    # print(done_end)
+    # print(number_of_holds)
     for chosen_rrm in [1,2,3,4]:
         print("-----------RRM_%s tried------------"%chosen_rrm + "\n")
-        print("Task was done in " + str(done_end[chosen_rrm]) + "\n")
+        print("Task was done in " + str(done_end[chosen_rrm]) + " time instants\n")
         print("task was hold " + str(number_of_holds[chosen_rrm]) + " times\n")
-    print("RRM with fewer holds is " + str(number_of_holds.index(max(number_of_holds))))
-    print("RRM with better performance is " + str(done_end.index(max(done_end))))
+    print("RRM with fewer holds is " + str(number_of_holds.index(min(number_of_holds[1:]))))
+    print("RRM with better performance is " + str(done_end.index(min(done_end[1:]))))
