@@ -80,12 +80,14 @@
 
 (defun above_same_L_upper (i j)
   (eval (append `(||)  
-  (loop for l in L_indexes 
-    when (<= (+ l L_last) L_last_up)
+  (loop for l in '(4 5 6)
+    ; L_indexes 
+    ; when (<= (+ l L_last) L_last_up)
+    ;      when(>= l L_last)
     collect
   `(&&
-    (-P- ,(read-from-string (format nil "~A_In_L_~A" i (+ l L_last))))
-    (-P- ,(read-from-string (format nil "~A_In_L_~A" j (+ l L_last_up)))))))))
+    (-P- ,(read-from-string (format nil "~A_In_L_~A" i  l)))
+    (-P- ,(read-from-string (format nil "~A_In_L_~A" j (+ l 3)))))))))
 
 ;i and j are in the same L. write (In_same_L `Link1_1 `Link2_1)
 (defun In_same_L (i j)
@@ -233,29 +235,31 @@
     )
   ))))))
 
+(defun not_close ()
+  (eval (list `alwf (append `(&&) 
+  (loop for i in body_indexes append 
+    (loop for j in ro_indexes  collect 
+      `(!! (-P- ,(read-from-string (format nil "RELATIVESEPARATION_~A_OPERATOR_1_~A_CLOS" j j))))
+      
+))))))
+
 (defun relativeProperties_help (opID roID)
  (eval (list `alwf (append `(&&) (loop for i in body_indexes collect `(&&
     (relative_separation ,(read-from-string (format nil "~A" opId)) ,(read-from-string (format nil "`~A" i)) ,(read-from-string (format nil "~A" roID)))
     (moving_direction ,(read-from-string (format nil "~A" opId)) ,(read-from-string (format nil "`~A" i))))
     )))))
 
-;;locations where human cannot reach
+;locations where human cannot reach
 (defun forbiden_for_human (opId l)
-  (eval (append `(&&)  
-    (loop for i in l collect `(&&
-      (forbiden_for_human_help ,(read-from-string (format nil "~A" opId)) ,(read-from-string (format nil "~A" i))))))))
+  (eval (list `alwf (append `(&&) 
+    (loop for i in l append
+      (loop for b in body_indexes collect 
+      `(!! (-P- ,(read-from-string (format nil "operator_~A_~A_In_L_~A" opId b i))))))))))
 
-(defun forbiden_for_human_help (opId i)
-  (eval 
-    (append `(&&) (loop for b in body_indexes collect 
-      `(!! (-P- ,(read-from-string (format nil "operator_~A_~A_In_~A" opId b i))))))))
 
 (defun forbiden_for_ro (roId l)
-  (eval (append `(&&)  
-    (loop for i in l collect `(&&
-      (forbiden_for_ro_help ,(read-from-string (format nil "~A" roId)) ,(read-from-string (format nil "~A" i))))))))
+  (eval (list `alwf (append `(&&) 
+    (loop for i in l append
+      (loop for b in ro_indexes collect 
+      `(!! (-P- ,(read-from-string (format nil "~A_~A_In_L_~A" b roId  i))))))))))
 
-(defun forbiden_for_ro_help (roId i)
-  (eval 
-    (append `(&&) (loop for b in ro_indexes collect 
-      `(!! (-P- ,(read-from-string (format nil "~A_~A_In_~A" b roId  i))))))))

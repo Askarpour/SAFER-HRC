@@ -67,7 +67,8 @@
 (defun moving (i)
   (eval `(alwf (<->
       (-P- ,(read-from-string (format nil "~A_Moving" i)))
-      (i_is_moving ,(read-from-string (format nil "`~A" i)))))))
+      (i_is_moving ,(read-from-string (format nil "`~A" i)))
+      ))))
 
 (defun always_attached (i j)
   (eval `(alwf 
@@ -83,7 +84,7 @@
   (loop for l in L_indexes collect
   `(->
     (-P- ,(read-from-string (format nil "~A_In_L_~A" i l))) 
-    (yesterday(||
+    (next(||
           (-P- ,(read-from-string (format nil "~A_In_L_~A" i l)))
           (In_Adj_with_L ,(read-from-string (format nil "`~A" i)) ,(read-from-string (format nil "~A" l)))
           )))))))

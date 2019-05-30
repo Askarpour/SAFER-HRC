@@ -65,7 +65,6 @@
         (!!(-P- ,(read-from-string (format nil "Op_starts_~A_~A" i Tname))))
         (alwp (||(-P- ,(read-from-string (format nil "Action_State_ns_~A_~A" i Tname)))(-P- ,(read-from-string (format nil "Action_State_wt_~A_~A" i Tname))))) 
         (next (|| 
-          ; (-P- ,(read-from-string (format nil "Action_State_ns_~A_~A" i Tname)))
           (-P- ,(read-from-string (format nil "Action_State_wt_~A_~A" i Tname)))
           (-P- ,(read-from-string (format nil "Action_State_exe_~A_~A" i Tname))) 
           (-P- ,(read-from-string (format nil "Action_State_exrm_~A_~A" i Tname)))
@@ -87,8 +86,6 @@
           ))
         (||
           (Yesterday (&& (-P- ,(read-from-string (format nil "Action_State_wt_~A_~A" i Tname))) (-P- ,(read-from-string (format nil "Action_Pre_~A_~A" i Tname)))))
-           ; (-P- ,(read-from-string (format nil "Action_Pre_~A_~A" i Tname))) (-P- ,(read-from-string (format nil "Action_Doer_op_~A_~A" i Tname))) )
-           ; (-P- ,(read-from-string (format nil "Op_starts_~A_~A" i Tname))))
           (Yesterday(-P- ,(read-from-string (format nil "Action_State_exe_~A_~A" i Tname))))
           (Yesterday(-P- ,(read-from-string (format nil "Action_State_exrm_~A_~A" i Tname))))
           (&&(Yesterday(-P- ,(read-from-string (format nil "Action_State_ns_~A_~A" i Tname)))) (-P- ,(read-from-string (format nil "Action_Pre_~A_~A" i Tname))) (-P- ,(read-from-string (format nil "Action_Doer_ro_~A_~A" i Tname))) )
@@ -112,8 +109,6 @@
           ))
         (||
           (Yesterday (&& (-P- ,(read-from-string (format nil "Action_State_wt_~A_~A" i Tname))) (-P- ,(read-from-string (format nil "Action_Pre_~A_~A" i Tname)))))
-           ; (-P- ,(read-from-string (format nil "Action_Pre_~A_~A" i Tname))) (-P- ,(read-from-string (format nil "Action_Doer_op_~A_~A" i Tname)))  )
-            ; (-P- ,(read-from-string (format nil "Op_starts_~A_~A" i Tname))))
           (Yesterday(-P- ,(read-from-string (format nil "Action_State_exe_~A_~A" i Tname))))
           (Yesterday(-P- ,(read-from-string (format nil "Action_State_exrm_~A_~A" i Tname))))
           (&&(Yesterday(-P- ,(read-from-string (format nil "Action_State_ns_~A_~A" i Tname)))) (-P- ,(read-from-string (format nil "Action_Pre_~A_~A" i Tname))) (-P- ,(read-from-string (format nil "Action_Doer_ro_~A_~A" i Tname))) )
@@ -160,60 +155,8 @@
 
     ))))))
 
-(defun op_limit_helper (action_id1 action_id2 index Tname)
-  (eval (list `alwf (append `(&&)
-    (loop for i in index collect
-      `(->
-          (&&
-             (|| (-P- ,(read-from-string (format nil "Op_starts_~A_~A" action_id1 Tname))) (-P- ,(read-from-string (format nil "Op_stops_~A_~A" action_id1 Tname))))
-             (|| (-P- ,(read-from-string (format nil "Op_starts_~A_~A" action_id2 Tname))) (-P- ,(read-from-string (format nil "Op_stops_~A_~A" action_id2 Tname))))
-             ; (-P- ,(read-from-string (format nil "Op_starts_~A_~A" action_id1 Tname)))
-             ; (-P- ,(read-from-string (format nil "Op_starts_~A_~A" action_id2 Tname)))
-             (!! ([=] ,(read-from-string (format nil "~A" action_id1)) ,(read-from-string (format nil "~A" action_id2)))))
-          (||
-             ([=] ,(read-from-string (format nil "~A" i)) ,(read-from-string (format nil "~A" action_id1)))
-             ([=] ,(read-from-string (format nil "~A" i)) ,(read-from-string (format nil "~A" action_id2)))
-             (!! (-P- ,(read-from-string (format nil "Action_Doer_op_~A_~A" i Tname))))
-             (!!(|| (-P- ,(read-from-string (format nil "Op_starts_~A_~A" action_id1 Tname))) (-P- ,(read-from-string (format nil "Op_stops_~A_~A" action_id1 Tname))))))
-  ))))))
-
-(defun op_limit_helper2 (action_id1 index  Tname)
- (eval (list `alwf (append `(&&)
-    (loop for i in index collect
-      `(&&
-        (op_limit_helper ,(read-from-string (format nil "~A" action_id1)) ,(read-from-string (format nil "~A" i)) ,(read-from-string (format nil "'~A" index)) ,(read-from-string (format nil "~A" Tname)))))))))
-
-(defun limiting_op_actions (index  Tname)
- ;only two operator actions concurrently execute
- (eval (list `alwf (append `(&&)
-    (loop for i in index collect
-        `(op_limit_helper2 ,(read-from-string (format nil "~A" i)) ,(read-from-string (format nil "'~A" index)) ,(read-from-string (format nil "~A" Tname))))))))
-
-(defun ro_limit_helper (action_id1 index Tname)
-  (eval (append `(&&)
-    (loop for i in index collect
-      `(->
-         (&& (-P- ,(read-from-string (format nil "Action_Doer_ro_~A_~A" action_id1 Tname))) (|| (-P- ,(read-from-string (format nil "Action_State_exe_~A_~A" action_id1 Tname))) (-P- ,(read-from-string (format nil "Action_State_exrm_~A_~A" action_id1 Tname)))))
-         (|| (!! (|| (-P- ,(read-from-string (format nil "Action_State_exe_~A_~A" i Tname))) (-P- ,(read-from-string (format nil "Action_State_exrm_~A_~A" i Tname))))) 
-          ([=] ,(read-from-string (format nil "~A" i)) ,(read-from-string (format nil "~A" action_id1))))
-         ; (|| ([=] ,(read-from-string (format nil "~A" i)) ,(read-from-string (format nil "~A" action_id1))) 
-         ;  (!! (|| (-P- ,(read-from-string (format nil "Op_starts_~A_~A" action_id1 Tname))) (-P- ,(read-from-string (format nil "Op_stops_~A_~A" action_id1 Tname))))) )
-  )))))
-
-(defun limiting_ro_actions (index Tname)
-  ;;only one ro action at a time
-  (eval (list `alwf (append `(&&)
-    (loop for i in index collect
-         `(ro_limit_helper ,(read-from-string (format nil "~A" i)) ,(read-from-string (format nil "'~A" index)) ,(read-from-string (format nil "~A" Tname))))))))
-
 (defun reset_actions (index Tname)
  (eval (append `(&&)
    (loop for i in index collect `(&&
     (-P- ,(read-from-string (format nil "Action_State_ns_~A_~A" i Tname))))))))
    
-(defun op_idle (index Tname)
-  (eval (append `(&&)
-   (loop for i in index collect `(&&
-    (!! (-P- ,(read-from-string (format nil "Op_starts_~A_~A" i Tname))))
-    (!! (-P- ,(read-from-string (format nil "Op_stops_~A_~A" i Tname))))
-    )))))

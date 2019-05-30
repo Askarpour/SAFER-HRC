@@ -18,7 +18,7 @@
  (alwf (&&
    (SeqAction action_indexes 1)
    (mutually_exclusive2 action_indexes 1)
-   (alwf(relativeProperties 1 1))
+   ; (alwf(relativeProperties 1 1))
    (alwf(Operator_Body 1))
    (alwf(Robot_Structure 1))
    ;;List of actions 

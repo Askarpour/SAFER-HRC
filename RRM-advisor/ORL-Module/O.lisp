@@ -20,24 +20,8 @@
  	(always_attached ,(read-from-string (format nil "`operator_~A_~A" opID `chest_area)) ,(read-from-string (format nil "`operator_~A_~A" opID `arm_area)))
  	(always_attached ,(read-from-string (format nil "`operator_~A_~A" opID `chest_area)) ,(read-from-string (format nil "`operator_~A_~A" opID `leg_area)))
  	
- 	(In_same_L ,(read-from-string (format nil "`operator_~A_~A" opID `head_area)) ,(read-from-string (format nil "`operator_~A_~A" opID `chest_area)))
+ 	(above_same_L_upper  ,(read-from-string (format nil "`operator_~A_~A" opID `chest_area)) ,(read-from-string (format nil "`operator_~A_~A" opID `head_area)))
 	(above_same_L ,(read-from-string (format nil "`operator_~A_~A" opID `leg_area)) ,(read-from-string (format nil "`operator_~A_~A" opID `chest_area)))
-	(above_same_L ,(read-from-string (format nil "`operator_~A_~A" opID `leg_area)) ,(read-from-string (format nil "`operator_~A_~A" opID `head_area)))
-	
-    (Alwf (<-> (Yesterday (|| 
-             (|| (-P- ,(read-from-string (format nil "Action_State_exe_~A_~A" 4 1))) (-P- ,(read-from-string (format nil "Action_State_exrm_~A_~A" 4 1))))
-             (|| (-P- ,(read-from-string (format nil "Action_State_exe_~A_~A" 9 1))) (-P- ,(read-from-string (format nil "Action_State_exrm_~A_~A" 9 1))))))
-		     (-P- ,(read-from-string (format nil "operator_~A_leg_area_Moving" opID)))))
-	
-	(Alwf (<-> (|| 
-             (|| (-P- ,(read-from-string (format nil "Action_State_exe_~A_~A" 5 1))) (-P- ,(read-from-string (format nil "Action_State_exrm_~A_~A" 5 1))))
-             (|| (-P- ,(read-from-string (format nil "Action_State_exe_~A_~A" 12 1))) (-P- ,(read-from-string (format nil "Action_State_exrm_~A_~A" 12 1))))
-             (|| (-P- ,(read-from-string (format nil "Action_State_exe_~A_~A" 15 1))) (-P- ,(read-from-string (format nil "Action_State_exrm_~A_~A" 15 1))))
-             (|| (-P- ,(read-from-string (format nil "Action_State_exe_~A_~A" 18 1))) (-P- ,(read-from-string (format nil "Action_State_exrm_~A_~A" 18 1)))))
-		     (-P- ,(read-from-string (format nil "Operator_~A_MovingWithinSec" opID)))))
-
-
-	; (forbiden_for_human ,(read-from-string (format nil "~A" opID)) (setq l '(Pallet_1 Storage pallet2 Pallet_3 Bin )))
 
 
  	(moving_gradually ,(read-from-string (format nil "`operator_~A_~A" opID `head_area)))
